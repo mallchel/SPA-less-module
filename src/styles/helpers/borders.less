@@ -1,0 +1,25 @@
+.border-block {
+  &-top {
+    border-top: 1px solid @BORDER_BLOCK;
+  }
+  &-right {
+    border-right: 1px solid @BORDER_BLOCK;
+  }
+  &-bottom {
+    border-bottom: 1px solid @BORDER_BLOCK;
+  }
+  &-left {
+    border-left: 1px solid @BORDER_BLOCK;
+  }
+}
+
+.border-element {
+  border: 1px solid @BORDER_ELEMENT;
+  &_disabled {
+    border: 1px solid fade(@BORDER_ELEMENT, 60%);
+  }
+}
+
+.border-modal {
+  border: 1px solid @BORDER_MODAL;
+}

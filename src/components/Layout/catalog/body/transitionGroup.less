@@ -1,0 +1,31 @@
+.rightEnter {
+  margin-right: -100%;
+}
+.rightEnterActive {
+  margin-right: 0;
+  /*transition: margin-right 2s cubic-bezier(0,1,.5,1);*/
+  transition: margin-right 2s linear;
+}
+.rightLeave {
+  margin-right: 0;
+}
+.rightLeaveActive {
+  margin-right: -100%;
+  /*transition: margin-right 2s cubic-bezier(.5,0,1,0);*/
+  transition: margin-right 2s linear;
+}
+
+.leftEnter {
+  margin-left: -300px;
+}
+.leftEnterActive {
+  margin-left: 0;
+  transition: margin-left 2s ease-in-out;
+}
+.leftLeave {
+  margin-left: 0;
+}
+.leftLeaveActive {
+  margin-left: -300px;
+  transition: margin-left 2s ease-in-out;
+}

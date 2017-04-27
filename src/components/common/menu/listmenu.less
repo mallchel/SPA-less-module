@@ -1,0 +1,37 @@
+.horizontalMenu {
+  overflow: hidden;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: nowrap;
+  background: transparent;
+  line-height: 46px;
+}
+
+.classItemVertical {
+  padding: 0 16px;
+  line-height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected > a,
+.menuItem > a:hover,
+.classItemVertical > a:hover {
+  color: black !important;
+}
+
+.menuItem > a,
+.classItemVertical > a {
+  display: block;
+  color: var(text-sub);
+}
+
+.menuItem > a > i,
+.classItemVertical > a > i {
+  margin-right: 8px;
+  color: rgb(125, 127, 128);
+}
+
+.menuItem {
+  padding: 0 10px;
+}

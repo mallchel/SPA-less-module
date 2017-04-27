@@ -1,0 +1,78 @@
+@import '../../../node_modules/antd/dist/antd.less';
+@import './theme.less';
+.ant-tabs-bar {
+  border-bottom: none;
+}
+
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-horizontal {
+  border: none;
+}
+
+// .ant-menu-horizontal > .ant-menu-item > a:hover,
+.ant-menu-horizontal > .ant-menu-item-selected > a,
+// .ant-dropdown-menu-item > a:hover,
+.ant-dropdown-menu-item-selected > a {
+  color: rgb(117, 173, 157);
+}
+
+.ant-menu {
+  display: flex;
+  flex-flow: nowrap;
+  margin-bottom: -1px;
+  background: transparent;
+  line-height: 42px;
+  padding-top: 4px;
+
+  &--transparent {
+    background: transparent;
+  }
+}
+
+.ant-dropdown-menu {
+  padding-bottom: @PADDING_BASE;
+}
+
+.ant-modal-body,
+.ant-modal-footer {
+  padding: 15px 20px 20px 20px;
+}
+
+.ant-modal-footer {
+  background: #f3f3f3;
+  text-align: left;
+}
+
+.ant-row-flex {
+  flex-wrap: nowrap;
+}
+
+.ant-menu-item {
+  padding: 0 @PADDING_BASE;
+}
+
+.ant-menu-inline .ant-menu-item {
+  border-left: 3px solid transparent;
+  border-right: none;
+  line-height: 32px;
+  height: 32px;
+  padding: 0 @PADDING_BASE;
+}
+
+.ant-menu-inline .ant-menu-item-selected,
+.ant-menu-inline .ant-menu-item:hover {
+  border-left-color: #75ad9d;
+}
+
+.ant-menu-horizontal > .ant-menu-item {
+  top: 0px;
+  border-bottom: 3px solid transparent;
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: 3px solid #75ad9d;
+}
+
+.ant-btn-clicked:after {
+  border: none;
+}

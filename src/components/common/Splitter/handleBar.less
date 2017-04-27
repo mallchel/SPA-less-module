@@ -1,0 +1,37 @@
+.handleBar {
+  width: 5px;
+  height: 100%;
+  min-width: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+  background-color: #eeeff0;
+  cursor: col-resize;
+  font-size: 14px;
+  user-select: none;
+}
+
+.handleBar .handleBar_drag {
+  width: 3px;
+  height: 20px;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.handleBar:active, .handleBar:hover {
+  background-color: #ccc;
+}
+
+.handleBar.resize-not-allowed {
+  cursor: auto;
+}
+
+.handleBar.resize-not-allowed:hover {
+  background-color: #eeeff0;
+}
+
+.handleBar.resize-not-allowed .handleBar_drag {
+  display: none;
+}
