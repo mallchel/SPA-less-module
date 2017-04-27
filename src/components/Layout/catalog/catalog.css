@@ -31,22 +31,8 @@
 .input-search:focus {
   outline: none;
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  border-right: 1px solid #dddfe0;
-}
-.header {
+.catalog {
   composes: container--padding-horizontal;
-  composes: header-base;
-  border-bottom: 1px solid #dddfe0;
-  background-color: #ffffff;
-}
-.catalogName {
-  font-weight: normal;
-}
-.body {
-  composes: container--padding-horizontal;
-  background-color: #f1f2f4;
+  background-color: #e9ebef;
+  height: 100%;
 }

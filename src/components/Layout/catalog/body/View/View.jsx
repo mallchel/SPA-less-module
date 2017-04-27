@@ -21,7 +21,7 @@ const menu = (
 class View extends Component {
   render() {
     return (
-      <div className={`border-block-right ${styles.container}`}>
+      <div className={styles.container}>
         <Col>
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
             <h2 className={styles.catalogName}>Клиенты</h2>

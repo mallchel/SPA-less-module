@@ -31,22 +31,35 @@
 .input-search:focus {
   outline: none;
 }
-.container {
+.horizontalMenu {
+  overflow: hidden;
+  max-width: 80vw;
   display: flex;
-  flex-direction: column;
-  width: 300px;
-  border-right: 1px solid #dddfe0;
+  flex-flow: nowrap;
+  background: transparent;
+  line-height: 46px;
 }
-.header {
-  composes: container--padding-horizontal;
-  composes: header-base;
-  border-bottom: 1px solid #dddfe0;
-  background-color: #ffffff;
+.menuItemVertical {
+  padding: 0 20px;
+  line-height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.catalogName {
-  font-weight: normal;
+.selected > a,
+.menuItem > a:hover,
+.menuItemVertical > a:hover {
+  color: black;
 }
-.body {
-  composes: container--padding-horizontal;
-  background-color: #f1f2f4;
+.menuItem > a,
+.menuItemVertical > a {
+  display: block;
+  color: var(text-sub);
+}
+.menuItem > a > i,
+.menuItemVertical > a > i {
+  margin-right: 8px;
+  color: #7d7f80;
+}
+.menuItem {
+  padding: 0 10px;
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Menu as AntMenu, Dropdown, Icon, Button } from 'antd';
-import NavLink from '../router/Link'
+import { Menu as AntMenu, Dropdown, Icon } from 'antd';
+import NavLink from '../../router/Link'
 import { Link } from 'react-router-dom'
-import style from './overlayVisible.less'
+import styles from './overlayVisible.less'
 
 class OverlayVisible extends Component {
   state = {
@@ -32,14 +32,14 @@ class OverlayVisible extends Component {
   render() {
     const menu = (
       <AntMenu
-        className={`ant-menu-inline ${style.verticalMenu}`}
+        className={`ant-menu-inline ${styles.verticalMenu}`}
       >
         <AntMenu.Item
           style={{padding: '0', backgroundColor: 'white'}}
         >
           <input
             type="search"
-            className={`input-search ${style.input}`}
+            className={styles.input}
             placeholder='поиск'
             onChange={this.search}
             onClick={e => e.stopPropagation()}

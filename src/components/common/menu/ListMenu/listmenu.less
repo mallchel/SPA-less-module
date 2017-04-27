@@ -1,3 +1,5 @@
+@import '../../../../styles/helpers/index.less';
+
 .horizontalMenu {
   overflow: hidden;
   max-width: 80vw;
@@ -7,8 +9,8 @@
   line-height: 46px;
 }
 
-.classItemVertical {
-  padding: 0 16px;
+.menuItemVertical {
+  padding: 0 @PADDING_BASE*2;
   line-height: 42px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -16,18 +18,18 @@
 
 .selected > a,
 .menuItem > a:hover,
-.classItemVertical > a:hover {
-  color: black !important;
+.menuItemVertical > a:hover {
+  color: black;
 }
 
 .menuItem > a,
-.classItemVertical > a {
+.menuItemVertical > a {
   display: block;
   color: var(text-sub);
 }
 
 .menuItem > a > i,
-.classItemVertical > a > i {
+.menuItemVertical > a > i {
   margin-right: 8px;
   color: rgb(125, 127, 128);
 }

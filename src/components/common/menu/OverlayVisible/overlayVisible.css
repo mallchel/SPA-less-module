@@ -31,22 +31,12 @@
 .input-search:focus {
   outline: none;
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  border-right: 1px solid #dddfe0;
+.input {
+  composes: input-search;
+  width: auto;
 }
-.header {
-  composes: container--padding-horizontal;
-  composes: header-base;
-  border-bottom: 1px solid #dddfe0;
-  background-color: #ffffff;
-}
-.catalogName {
-  font-weight: normal;
-}
-.body {
-  composes: container--padding-horizontal;
-  background-color: #f1f2f4;
+.verticalMenu {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 80vh;
 }
