@@ -13,10 +13,9 @@
   padding-left: 20px;
   padding-right: 20px;
 }
-.header {
-  composes: container--padding-horizontal;
-  overflow: visible;
-}
-.img {
-  width: 25px;
+.body {
+  background: #ffffff;
+  border: 1px solid #dddfe0;
+  border-bottom: none;
+  height: 100%;
 }

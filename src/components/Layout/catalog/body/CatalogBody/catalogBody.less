@@ -1,3 +1,5 @@
+@import '../../../../../styles/helpers/index.less';
+
 .container {
   max-width: 100%;
   min-width: 400px;
@@ -9,9 +11,15 @@
 }
 
 .header {
-  border-bottom: 1px solid #dedcdc;
+  composes: container--padding-horizontal;
+  border-bottom: 1px solid @BORDER_BLOCK;
 }
 
 .input {
+  composes: input-search;
   width: 245px;
+}
+
+.body {
+  composes: container--padding-horizontal;  
 }

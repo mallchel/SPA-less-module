@@ -1,0 +1,53 @@
+/* Text colors */
+/* Background colors */
+/* Border colors */
+/* Standart padding */
+/* Danger colors */
+.shiftLeft {
+  margin-left: -10px;
+}
+.shiftRight {
+  margin-right: -10px;
+}
+.container--padding-horizontal {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.header-base {
+  height: 48px;
+}
+.input-search {
+  background-color: #f1f2f4;
+  padding: 4px 7px;
+  cursor: text;
+  border-radius: 4px;
+  border: transparent;
+  margin: 10px;
+  color: rgba(0, 0, 0, 0.65);
+}
+.input-search::-webkit-input-placeholder {
+  color: #b9bbbd;
+}
+.input-search:focus {
+  outline: none;
+}
+.container {
+  max-width: 100%;
+  min-width: 400px;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+.header {
+  composes: container--padding-horizontal;
+  border-bottom: 1px solid #dddfe0;
+}
+.input {
+  composes: input-search;
+  width: 245px;
+}
+.body {
+  composes: container--padding-horizontal;
+}

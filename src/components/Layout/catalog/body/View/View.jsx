@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
 import ButtonTransparent from '../../../../common/elements/ButtonTransparent'
-import style from './view.less'
+import styles from './view.less'
 
 const menu = (
   <AntMenu>
@@ -21,10 +21,10 @@ const menu = (
 class View extends Component {
   render() {
     return (
-      <div className={`border-block-right ${style.container}`}>
+      <div className={`border-block-right ${styles.container}`}>
         <Col>
-          <Row type="flex" justify="space-between" align="middle" className={`container--padding-horizontal ${style.header}`}>
-            <h2 className={style.catalogName}>Клиенты</h2>
+          <Row type="flex" justify="space-between" align="middle" className={styles.header}>
+            <h2 className={styles.catalogName}>Клиенты</h2>
             <Dropdown
               overlay={menu}
               trigger={['click']}
@@ -36,7 +36,7 @@ class View extends Component {
         </Col>
 
         <Col>
-          <Row type="flex" className="container--padding-horizontal">
+          <Row type="flex" className={styles.body}>
             asdasasd
             asdasasdasas
             asdas

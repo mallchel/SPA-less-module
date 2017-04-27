@@ -3,3 +3,13 @@
 /* Border colors */
 /* Standart padding */
 /* Danger colors */
+.shiftLeft {
+  margin-left: -10px;
+}
+.shiftRight {
+  margin-right: -10px;
+}
+.container--padding-horizontal {
+  padding-left: 20px;
+  padding-right: 20px;
+}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Icon, Dropdown, Row, Col, Input } from 'antd'
-import routes from '../../../routes'
-import TabsMenu from '../../common/menu/TabsMenu'
-import ButtonTransparent from '../../common/elements/ButtonTransparent'
+import routes from '../../../../routes'
+import TabsMenu from '../../../common/menu/TabsMenu'
+import ButtonTransparent from '../../../common/elements/ButtonTransparent'
 import styles from './headerSection.less'
 
 const Search = Input.Search;
@@ -138,7 +138,7 @@ class HeaderSection extends Component {
 
         <Col>
           <Row type="flex" justify="space-around" align="middle">
-              <img src="favicon.ico" alt="profile" style={{width: '25px'}}/>
+              <img src="favicon.ico" alt="profile" className={styles.img}/>
               <ButtonTransparent className="shiftRight"><Icon type="interface-13" /></ButtonTransparent>
           </Row>
         </Col>

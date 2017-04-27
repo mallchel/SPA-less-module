@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import HeaderSection from './HeaderSection'
 import Catalog from '../catalog/Catalog'
-import style from './style.less'
+import styles from './section.less'
 
 class Section extends Component {
   render() {
     return (
-      <div className={style.section}>
-        <HeaderSection {...this.props} />
-        <Catalog {...this.props} />
+      <div className={styles.section}>
+        <HeaderSection { ...this.props } />
+        <Catalog { ...this.props } />
       </div>
     )
   }

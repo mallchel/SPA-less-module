@@ -3,7 +3,7 @@ import { Menu as AntMenu, Dropdown, Icon, Row, Col } from 'antd'
 import routes from '../../../../routes'
 import ListMenu from '../../../common/menu/ListMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
-import styles from './headerCatalog.less'
+// import styles from './headerCatalog.less'
 
 const menu = (
   <AntMenu>

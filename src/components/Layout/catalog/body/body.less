@@ -1,6 +1,13 @@
+@import '../../../../styles/helpers/index.less';
+
 .body {
-  background: white;
-  border: 1px solid #dedcdc;
+  background: @BG_CONTENT;
+  border: 1px solid @BORDER_BLOCK;
   border-bottom: none;
   height: 100%;
+}
+
+.childTransitionGroup {
+  flex-grow: 1;
+  flex-basis: 0;
 }

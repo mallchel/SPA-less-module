@@ -161,7 +161,7 @@ module.exports = {
       {
         test: /\.less$/,
         include: paths.stylesModules,
-        loader: 'style!css?sourceMap=true&module&localIdentName=[name]__[local]_[hash:base64:5]!less?sourceMap=true'
+        loader: 'style!css?sourceMap=true&module&localIdentName=[name]__[local]_[hash:base64:5]!postcss!less?sourceMap=true'
       },
       {
         test: /\.less$/,

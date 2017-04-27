@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu as AntMenu, Row, Col, Dropdown, Icon, Button } from 'antd'
 import routes from '../../../../../routes'
 import TabsMenu from '../../../../common/menu/TabsMenu'
-import style from './catalogBody.less'
+import styles from './catalogBody.less'
 
 const menu = (
   <AntMenu>
@@ -38,9 +38,9 @@ class CatalogBody extends Component {
   render() {
     console.log(this.props)
     return (
-      <div className={style.container}>
+      <div className={styles.container}>
         <Col>
-          <Row type="flex" justify="space-between" align="middle" className={`container--padding-horizontal ${style.header}`}>
+          <Row type="flex" justify="space-between" align="middle" className={styles.header}>
             <Col>
               <TabsMenu
                 params='tabId'
@@ -51,7 +51,7 @@ class CatalogBody extends Component {
             </Col>
 
             <Col>
-              <input placeholder="быстрый поиск" className={`input-search ${style.input}`} />
+              <input placeholder="быстрый поиск" className={styles.input} />
             </Col>
 
             <Col>
@@ -72,8 +72,10 @@ class CatalogBody extends Component {
             </Col>
           </Row>
         </Col>
-        <Col style={{padding: '0 15px'}}>
-          sadasdasdasd
+        <Col>
+          <Row className={styles.body}>
+            sadasdasdasd
+        </Row>
         </Col>
       </div>
     )

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect, Prompt } from 'react-router-dom'
-import { Row, Col, Button, Icon } from 'antd'
-import styles from './body.less'
+import { Row, Button, Icon } from 'antd'
 import routes from '../../../../routes'
 import NavRoute from '../../../common/router/Route'
 import Record from './Record'
@@ -10,24 +9,25 @@ import View from './View'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Splitter from '../../../common/Splitter'
 import styleAnimation from './transitionGroup.less'
+import styles from './body.less'
 
 const ANIMATION_DELAY = 2000;
 
-function ViewCol(props) {
+/*function ViewCol(props) {
   return (
     <Col style={{ width: '300px' }}>
       <View key={props.match.params.catalogId} />
     </Col>
   )
-}
+}*/
 
-function CatalogCol(props) {
+/*function CatalogCol(props) {
   return (
     <Col style={{ maxWidth: '100%', overflow: "hidden", flexGrow: '1', flexBasis: '0', minWidth: '400px' }}>
       <CatalogBody {...props} />
     </Col>
   )
-}
+}*/
 
 function RowParent(props) {
   return (
@@ -39,7 +39,7 @@ function RowParent(props) {
 
 function ROW(props) {
   return (
-    <Row type="flex" style={{ flexGrow: '1', flexBasis: '0' }}>
+    <Row type="flex" className={styles.childTransitionGroup}>
       {props.children}
     </Row>
   )
@@ -96,7 +96,7 @@ class Body extends Component {
                 {!props.match && (
                   <NavRoute
                     route={routes.tab}
-                    component={ViewCol}
+                    component={View}
                   />
                 )}
                 <ReactCSSTransitionGroup component={ROW}

@@ -13,10 +13,19 @@
   padding-left: 20px;
   padding-right: 20px;
 }
-.header {
-  composes: container--padding-horizontal;
-  overflow: visible;
+.header-base {
+  height: 48px;
 }
-.img {
-  width: 25px;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+.header {
+  composes: header-base;
+  border-bottom: 1px solid #dddfe0;
+  background: #ffffff;
+}
+.catalogName {
+  font-weight: normal;
 }

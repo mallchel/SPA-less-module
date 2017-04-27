@@ -1,11 +1,16 @@
+@import '../../../../../styles/helpers/index.less';
+
 .container {
   display: flex;
   flex-direction: column;
+  width: 300px;
 }
 
 .header {
-  border-bottom: 1px solid #dedcdc;
-  height: 48px;
+  composes: container--padding-horizontal;
+  composes: header-base;
+  border-bottom: 1px solid @BORDER_BLOCK;
+  background-color: @BG_CONTENT;
 }
 
   .catalogName {
@@ -13,4 +18,6 @@
   }
 
 .body {
+  composes: container--padding-horizontal;
+  background-color: @BG_PANELS;
 }
