@@ -109,37 +109,32 @@ const sections = [
 class HeaderSection extends Component {
   render() {
     return (
-      <Row type="flex" justify="space-between" align="middle" className={`${styles.header}`}>
+      <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <Col>
-          <Row type="flex" align="middle">
+          <Row type="flex" align="middle" className={styles.logo}>
               <Dropdown
                 overlay={menu}
                 trigger={['click']}
               >
-                <ButtonTransparent className="shiftLeft" {...this.props}><Icon type="content-43" /></ButtonTransparent>
+                <ButtonTransparent {...this.props}><Icon type="content-43" /></ButtonTransparent>
                 </Dropdown>
-              {/*<Dropdown
-                overlay={menu}
-                trigger={['click']}
-              >
-                <Button type="dashed" icon="content-43" size={'small'}/>
-              </Dropdown>*/}
               <img src="logo.png" alt="favicon" />
           </Row>
         </Col>
 
-        <Col>
+        <Col className={styles.tabsMenu}>
           <TabsMenu
             params='sectionId'
             route={routes.section}
             items={sections}
+            className={styles.shiftLeft}
           />
         </Col>
 
         <Col>
-          <Row type="flex" justify="space-around" align="middle">
+          <Row type="flex" justify="space-around" align="middle" className={styles.profile}>
               <img src="favicon.ico" alt="profile" className={styles.img}/>
-              <ButtonTransparent className="shiftRight"><Icon type="interface-13" /></ButtonTransparent>
+              <ButtonTransparent><Icon type="interface-13" /></ButtonTransparent>
           </Row>
         </Col>
       </Row>

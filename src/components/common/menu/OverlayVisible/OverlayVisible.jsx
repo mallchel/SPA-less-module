@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Menu as AntMenu, Dropdown, Icon } from 'antd';
 import NavLink from '../../router/Link'
 import { Link } from 'react-router-dom'
+import ButtonTransparent from '../../elements/ButtonTransparent'
+import cn from 'classnames'
 import styles from './overlayVisible.less'
 
 class OverlayVisible extends Component {
@@ -32,10 +34,10 @@ class OverlayVisible extends Component {
   render() {
     const menu = (
       <AntMenu
-        className={`ant-menu-inline ${styles.verticalMenu}`}
+        className={cn(this.props.classMenuVertival, styles.verticalMenu)}
       >
         <AntMenu.Item
-          style={{padding: '0', backgroundColor: 'white'}}
+          className={styles.menuItemSearch}
         >
           <input
             type="search"
@@ -51,15 +53,8 @@ class OverlayVisible extends Component {
               <NavLink key={item.id} route={this.props.route} params={{ [this.props.params]: item.id }} component={(props) => {
                 return (
                   <li
-                    className={this.props.classItemVertical
-                      ? (props.isActive
-                        ? `${this.props.classItemVertical} ${this.props.classSelected}`
-                        : this.props.classItemVertical)
-                      : (props.isActive
-                        ? `${this.props.classItem} ${this.props.classSelected}`
-                        : this.props.classItem)
-                    }>
-                    <Link to={props.link}>
+                    className={cn(this.props.classItemVertical, {[this.props.classSelected]:props.isActive})}>
+                    <Link to={props.link} className={cn(styles.link, this.props.classLinkVertical)}>
                       {
                         this.props.icon ? <Icon type={item.icon} /> : null
                       }
@@ -73,15 +68,15 @@ class OverlayVisible extends Component {
         }
       </AntMenu>
     );
+        {/*onVisibleChange={this.handleVisibleChange}*/}
+        {/*visible={this.state.visible}*/}
     return (
       <Dropdown
         overlay={menu}
-        onVisibleChange={this.handleVisibleChange}
-        visible={this.state.visible}
         placement="bottomRight"
         trigger={['click']}
       >
-        <a href="">...</a>
+        <ButtonTransparent>...</ButtonTransparent>
       </Dropdown>
     );
   }

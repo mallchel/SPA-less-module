@@ -46,7 +46,7 @@ class CatalogBody extends Component {
                 params='tabId'
                 route={routes.tab}
                 items={tabs}
-                className="shiftLeft"
+                className={styles.tabsMenu}
               />
             </Col>
 

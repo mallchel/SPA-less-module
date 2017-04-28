@@ -1,3 +1,6 @@
+// styles for fast compile
+import '../styles/App.less'
+
 import React, { Component } from 'react'
 import { HashRouter } from 'react-router-dom'
 import { LocaleProvider } from 'antd'
@@ -7,38 +10,26 @@ import Section from './Layout/section/Section'
 import NavRoute from './common/router/Route'
 import routes from '../routes'
 import ReactDOM from 'react-dom'
-import { Confirm } from './common/Modal'
+import { confirm } from './common/Modal'
 
-//styles
-import '../styles/App.less'
 
 const getConfirmation = (message, callback, state) => {
-  let div = document.createElement('div');
-
   function onOk() {
     callback(true);
-    ReactDOM.unmountComponentAtNode(div);
-    document.body.removeChild(div);
   }
 
   function onCancel() {
     callback(false);
-    ReactDOM.unmountComponentAtNode(div);
-    document.body.removeChild(div);
   }
 
-  document.body.appendChild(div);
-  ReactDOM.render(
-    <Confirm
-      visible
-      confirmation
-      onOk={onOk}
-      onCancel={onCancel}
-      title={'Удалить каталог?'}
-      contentText={`У вас каталог не сохранится`}
-      okText={'Уйти отсюда'}
-      cancelText={'Отменить'} />, div
-  )
+  confirm({
+    onOk, onCancel,
+    title: 'Удалить каталог?',
+    contentText: `У вас каталог не сохранится`,
+    okText: 'Уйти отсюда',
+    cancelText: 'Отменить',
+    confirmation: 'aaa',
+  })
 }
 
 class App extends Component {

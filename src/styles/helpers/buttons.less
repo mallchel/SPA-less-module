@@ -6,31 +6,21 @@
     background: transparent;
     color: @TEXT_SUB_HOVER;
   }
-  & a {
-    color: @TEXT_SUB;
-    text-decoration: underline;
-    &:hover {
-      color: @TEXT_SUB_HOVER;        
-    }
+  &:active {
+    background: transparent;
+    color: @TEXT_SUB_HOVER;
   }
-
+  &:focus {
+    background: transparent;
+    color: @TEXT_SUB_HOVER;
+  }
   &_disabled {
     color: @TEXT_DISABLED;
-    & a {
-      color: @TEXT_DISABLED;
-    }
   }
-
   &_muted {
     color: @TEXT_MUTED;
     &:hover {
       color: @TEXT_MUTED_HOVER;
-    }
-    & a {
-      color: @TEXT_MUTED;
-      &:hover {
-        color: @TEXT_MUTED_HOVER;
-      }
     }
   }
 }

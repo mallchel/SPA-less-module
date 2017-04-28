@@ -21,7 +21,7 @@ class Confirm extends Component {
           </Row>
           <Row className={style.content}>
             <p>{this.props.contentText}</p>
-            {this.props.confirmation && <Input type="text" ref={node => this.input = node}/>}
+            {this.props.confirmation && <Input type="text"/>}
           </Row>
         </div>
       </Modal>

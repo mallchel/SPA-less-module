@@ -6,7 +6,7 @@ import styles from './catalog.less'
 class Catalog extends Component {
   render() {
     return (
-      <div className={styles.catalog}>
+      <div className={styles.container}>
         <HeaderCatalog { ...this.props } />
         <Body { ...this.props } />
         {/*<NavRoute route={routes.catalog} component={Body} />*/}

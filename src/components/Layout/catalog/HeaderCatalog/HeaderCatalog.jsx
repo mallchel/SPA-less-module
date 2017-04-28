@@ -3,7 +3,7 @@ import { Menu as AntMenu, Dropdown, Icon, Row, Col } from 'antd'
 import routes from '../../../../routes'
 import ListMenu from '../../../common/menu/ListMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
-// import styles from './headerCatalog.less'
+import styles from './headerCatalog.less'
 
 const menu = (
   <AntMenu>
@@ -46,16 +46,16 @@ const catalogs = [
 class HeaderCatalog extends Component {
   render() {
     return (
-      <Row type="flex" justify="space-between" align="middle">
+      <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <Col>
           <ListMenu
             params='catalogId'
             route={routes.catalog}
             items={catalogs}
-            className="shiftLeft"
+            className={styles.shiftLeft}
           />
         </Col>
-        <Col className="shiftRight">
+        <Col className={styles.shiftRight}>
           Продажи
           <Dropdown
             overlay={menu}
@@ -64,7 +64,7 @@ class HeaderCatalog extends Component {
             <ButtonTransparent><Icon type="setting-10" /></ButtonTransparent>
           </Dropdown>
         </Col>
-      </Row >
+      </Row>
     )
   }
 }

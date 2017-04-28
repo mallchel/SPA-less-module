@@ -1,0 +1,16 @@
+@import '../../../../../styles/helpers/index.less';
+
+.container {
+  width: 100%;
+}
+
+.header {
+  composes: header-base;
+  composes: container--padding-horizontal;
+  background-color: @BG_CONTENT;
+}
+
+.body {
+  composes: container--padding-horizontal;
+  background-color: @BG_PANELS;
+}

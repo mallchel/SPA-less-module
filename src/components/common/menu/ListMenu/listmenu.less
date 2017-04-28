@@ -1,5 +1,4 @@
 @import '../../../../styles/helpers/index.less';
-
 .horizontalMenu {
   overflow: hidden;
   max-width: 80vw;
@@ -9,31 +8,39 @@
   line-height: 46px;
 }
 
+.menuItem {
+  padding: 0 @PADDING_BASE;
+  color: @TEXT_MENU;
+}
+
+.link {
+  display: block;
+  &:hover {
+    color: @TEXT_MENU_HOVER;
+    transform: translateY(-2px);
+    transition: transform 0.3s;
+  }
+}
+
 .menuItemVertical {
   padding: 0 @PADDING_BASE*2;
   line-height: 42px;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: @TEXT_MENU;
 }
 
-.selected > a,
-.menuItem > a:hover,
-.menuItemVertical > a:hover {
-  color: black;
-}
-
-.menuItem > a,
-.menuItemVertical > a {
+.linkVertical {
   display: block;
-  color: var(text-sub);
+  &:hover {
+    color: @TEXT_MENU_HOVER;
+  }
 }
 
-.menuItem > a > i,
-.menuItemVertical > a > i {
-  margin-right: 8px;
-  color: rgb(125, 127, 128);
+.selected {
+  color: @TEXT;
 }
 
-.menuItem {
-  padding: 0 10px;
+.icon {
+  opacity: 0.8;
 }

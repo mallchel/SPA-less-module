@@ -3,10 +3,10 @@
 /* Border colors */
 /* Standart padding */
 /* Danger colors */
-.shiftLeft {
+.shift-left {
   margin-left: -10px;
 }
-.shiftRight {
+.shift-right {
   margin-right: -10px;
 }
 .container--padding-horizontal {
@@ -31,12 +31,12 @@
 .input-search:focus {
   outline: none;
 }
-.input {
-  composes: input-search;
-  width: auto;
+.shiftLeft {
+  composes: shift-left;
 }
-.verticalMenu {
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 80vh;
+.shiftRight {
+  composes: shift-right;
+}
+.container {
+  composes: header-base;
 }

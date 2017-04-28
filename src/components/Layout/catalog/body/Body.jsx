@@ -3,9 +3,9 @@ import { Link, Redirect, Prompt } from 'react-router-dom'
 import { Row, Button, Icon } from 'antd'
 import routes from '../../../../routes'
 import NavRoute from '../../../common/router/Route'
-import Record from './Record'
+import RightPanel from './RightPanel'
 import CatalogBody from './CatalogBody'
-import View from './View'
+import LeftPanel from './LeftPanel'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Splitter from '../../../common/Splitter'
 import styleAnimation from './transitionGroup.less'
@@ -96,7 +96,7 @@ class Body extends Component {
                 {!props.match && (
                   <NavRoute
                     route={routes.tab}
-                    component={View}
+                    component={LeftPanel}
                   />
                 )}
                 <ReactCSSTransitionGroup component={ROW}
@@ -112,23 +112,17 @@ class Body extends Component {
                     route={routes.view}
                     component={CatalogBody}
                   />
-                  {props.match && <Splitter><Record {...props} /></Splitter>}
+                  {props.match && <Splitter><RightPanel {...props} /></Splitter>}
                 </ReactCSSTransitionGroup>
               </ReactCSSTransitionGroup>
             )
           }
         </NavRoute>
-        <img src="img.png" alt=""/>
+        {/*<img src="img.png" alt=""/>*/}
 
         <Link to={'/section/1/catalog/1/view/1/1'} onClick={e => this.setState({ record: false })}>View</Link>&nbsp;
         <Link to={'/section/1/catalog/1/view/1/1/record/1'} onClick={e => this.setState({ record: true })}>Record</Link>
 
-        <br />
-
-        <Button type="dashed" icon="content-43"/>
-        <button>
-          <Icon type="content-43" />
-        </button>
       </div>
     )
   }

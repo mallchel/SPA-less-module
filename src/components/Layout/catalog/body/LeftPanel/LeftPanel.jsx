@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
 import ButtonTransparent from '../../../../common/elements/ButtonTransparent'
-import styles from './view.less'
+import styles from './leftPanel.less'
 
 const menu = (
   <AntMenu>
@@ -24,13 +24,13 @@ class View extends Component {
       <div className={styles.container}>
         <Col>
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
-            <h2 className={styles.catalogName}>Клиенты</h2>
+            <h2>Клиенты</h2>
             <Dropdown
               overlay={menu}
               trigger={['click']}
               placement="bottomRight"
             >
-              <ButtonTransparent className="shiftRight"><Icon type="setting-10" /></ButtonTransparent>
+              <ButtonTransparent className={styles.icon}><Icon type="setting-10" /></ButtonTransparent>
             </Dropdown>
           </Row>
         </Col>

@@ -8,14 +8,13 @@
 }
 
 .header {
-  composes: container--padding-horizontal;
   composes: header-base;
+  composes: container--padding-horizontal;
   border-bottom: 1px solid @BORDER_BLOCK;
   background-color: @BG_CONTENT;
 }
-
-  .catalogName {
-    font-weight: normal;
+  .icon {
+    composes: shift-right;
   }
 
 .body {

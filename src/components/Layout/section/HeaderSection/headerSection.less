@@ -1,10 +1,32 @@
 @import '../../../../styles/helpers/index.less';
 
-.header {
-  composes: container--padding-horizontal;
+.shiftLeft {
+  composes: shift-left;
+}
+
+.shiftRight {
+  composes: shift-right;
+}
+
+.container {
+  composes: header-base;
+  border-bottom: 1px solid @BORDER_BLOCK;
   overflow: visible;
 }
 
-.img {
-  width: 25px;
-}
+  .logo {
+    padding-left: @PADDING_BASE;
+  }
+
+  .profile {
+    padding-right: @PADDING_BASE;
+  }
+
+  .tabsMenu {
+    composes: container--padding-horizontal;
+  }
+
+  .img {
+    width: 25px;
+  }
+

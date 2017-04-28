@@ -1,8 +1,0 @@
-.menu--horizontal {
-  overflow: hidden;
-  max-width: 80vw;
-  display: flex;
-  flex-flow: nowrap;
-  background: transparent;
-  line-height: 46px;
-}
