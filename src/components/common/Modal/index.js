@@ -7,7 +7,6 @@ import Alert from './Alert';
 import Prompt from './Prompt';
 
 export default Base;
-export { Alert, Confirm, Prompt };
 
 function renderComponentToBody(Component, props) {
   const div = document.createElement('div');
@@ -48,10 +47,12 @@ function renderModaltoBody(Component, props) {
 }
 
 
-function getRenderCompnentToBodyFn(Component) {
+function getRenderComponentToBodyFn(Component) {
   return function (props) {
     renderModaltoBody(Component, props)
   }
 }
 
-export const confirm = getRenderCompnentToBodyFn(Confirm)
+export const confirm = getRenderComponentToBodyFn(Confirm);
+export const alert = getRenderComponentToBodyFn(Alert);
+export const prompt = getRenderComponentToBodyFn(Prompt);

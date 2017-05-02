@@ -16,9 +16,12 @@
 .link {
   display: block;
   &:hover {
-    color: @TEXT_MENU_HOVER;
+    color: @TEXT_MENU_HOVER !important;
     transform: translateY(-2px);
     transition: transform 0.3s;
+  }
+  &:focus {
+    text-decoration: none;
   }
 }
 
@@ -35,6 +38,9 @@
   &:hover {
     color: @TEXT_MENU_HOVER;
   }
+   &:focus {
+    text-decoration: none;
+  }
 }
 
 .selected {
@@ -43,4 +49,5 @@
 
 .icon {
   opacity: 0.8;
+  margin-right: @PADDING_BASE;
 }

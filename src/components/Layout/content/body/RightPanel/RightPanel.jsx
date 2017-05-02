@@ -3,7 +3,7 @@ import { Row, Col } from 'antd'
 import { Prompt } from 'react-router-dom'
 import styles from './rightPanel.less'
 
-class Record extends Component {
+class RightPanel extends Component {
   render() {
     return (
       <div className={styles.container}>
@@ -27,4 +27,4 @@ class Record extends Component {
   }
 }
 
-export default Record;
+export default RightPanel;

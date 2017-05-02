@@ -166,7 +166,7 @@ module.exports = {
       {
         test: /\.less$/,
         include: paths.styles,
-        loader: 'style!css?sourceMap=true!postcss!less?sourceMap=true'
+        loader: 'style?sourceMap&convertToAbsoluteUrls!css?sourceMap!postcss!less?sourceMap'
       }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.

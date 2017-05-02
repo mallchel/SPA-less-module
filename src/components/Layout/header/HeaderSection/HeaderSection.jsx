@@ -112,13 +112,13 @@ class HeaderSection extends Component {
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <Col>
           <Row type="flex" align="middle" className={styles.logo}>
-              <Dropdown
-                overlay={menu}
-                trigger={['click']}
-              >
-                <ButtonTransparent {...this.props}><Icon type="content-43" /></ButtonTransparent>
-                </Dropdown>
-              <img src="logo.png" alt="favicon" />
+            <Dropdown
+              overlay={menu}
+              trigger={['click']}
+            >
+              <ButtonTransparent {...this.props}><Icon type="content-43" /></ButtonTransparent>
+            </Dropdown>
+            <img src="logo.png" alt="favicon" />
           </Row>
         </Col>
 
@@ -133,8 +133,8 @@ class HeaderSection extends Component {
 
         <Col>
           <Row type="flex" justify="space-around" align="middle" className={styles.profile}>
-              <img src="favicon.ico" alt="profile" className={styles.img}/>
-              <ButtonTransparent><Icon type="interface-13" /></ButtonTransparent>
+            <img src="favicon.ico" alt="profile" className={styles.img} />
+            <ButtonTransparent><Icon type="interface-13" /></ButtonTransparent>
           </Row>
         </Col>
       </Row>

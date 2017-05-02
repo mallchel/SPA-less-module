@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Button, Icon, Row, Input } from 'antd'
-import ReactDOM from 'react-dom'
-import style from './modal.less'
+import ButtonTransparent from '../elements/ButtonTransparent'
+import styles from './modal.less'
 
 class Confirm extends Component {
   render() {
@@ -16,12 +16,15 @@ class Confirm extends Component {
         ]}
       >
         <div>
-          <Row type="flex" justify="space-between" align="middle" className={style.header}>
-            <h1>{this.props.title}</h1><Icon onClick={this.props.onCancel} className={style.close} type="interface-74"></Icon>
+          <Row type="flex" justify="space-between" align="middle" className={styles.header}>
+            <h1>{this.props.title}</h1>
+            <ButtonTransparent>
+              <Icon onClick={this.props.onCancel} className={styles.close} type="interface-74"></Icon>
+            </ButtonTransparent>
           </Row>
-          <Row className={style.content}>
+          <Row className={styles.content}>
             <p>{this.props.contentText}</p>
-            {this.props.confirmation && <Input type="text"/>}
+            {this.props.confirmation && <Input type="text" />}
           </Row>
         </div>
       </Modal>

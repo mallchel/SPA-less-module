@@ -34,14 +34,18 @@
   padding-bottom: @PADDING_BASE;
 }
 
-.ant-modal-body,
-.ant-modal-footer {
-  padding: 15px 20px 20px 20px;
+.ant-modal-body {
+  padding: @PADDING_BASE @PADDING_BASE*2 @PADDING_BASE*2 @PADDING_BASE*2;
 }
 
 .ant-modal-footer {
-  background: #f3f3f3;
+  background: @BG_PANELS;
   text-align: left;
+  padding: @PADDING_BASE*2;
+}
+
+.ant-modal-footer button + button {
+  margin-left: @PADDING_BASE;
 }
 
 .ant-row-flex {
@@ -102,4 +106,13 @@
 .ant-btn-danger:hover, .ant-btn-danger:focus {
   opacity: 0.8;
   background-color: @DANGER_BUTTON;
+}
+
+.ant-dropdown-button.ant-btn-group > .ant-btn:last-child:not(:first-child) {
+  padding-left: @PADDING_BASE/2;
+  padding-right: @PADDING_BASE/2;
+  background-color: transparent;
+  color: @TEXT_MENU;
+  border-color: @BORDER_ELEMENT;
+  opacity: 0.8;
 }

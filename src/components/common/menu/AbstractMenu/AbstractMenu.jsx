@@ -35,6 +35,7 @@ const Menu = ({ classMenu, classItem, classSelected, items, route, params, class
           classItemVertical={classItemVertical}
           classMenuVertival={classMenuVertival}
           classLinkVertical={classLinkVertical}
+          classIcon={classIcon}
         />
       </div>
     </Row>

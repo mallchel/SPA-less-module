@@ -1,20 +1,21 @@
+@import '../../../styles/helpers/index.less';
+
 .header {
-  margin-bottom: 10px;
+  margin-bottom: @PADDING_BASE;
 }
 
 .close {
-  color: #c1c1c1;
-  font-size: 32px;
-  margin: -15px -20px 0px 0px;
-  cursor: pointer;
-  padding: 10px;
+  composes: shift-right;
+  margin-top: -@PADDING_BASE;
+  color: @BORDER_ELEMENT;
+  font-size: 26px;
 }
 
 .content {
-  padding-bottom: 10px;
+  padding-bottom: @PADDING_BASE;
 }
 
 .content input {
-  margin-top: 15px;
+  margin-top: @PADDING_BASE;
   width: 60%;
 }

@@ -18,7 +18,7 @@ const menu = (
   </AntMenu>
 );
 
-class View extends Component {
+class LeftPanel extends Component {
   render() {
     return (
       <div className={styles.container}>
@@ -47,4 +47,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default LeftPanel;

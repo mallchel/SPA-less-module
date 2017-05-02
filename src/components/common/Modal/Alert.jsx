@@ -1,37 +1,27 @@
 import React, { Component } from 'react'
 import { Modal, Button, Icon, Row } from 'antd'
-import ReactDOM from 'react-dom'
-import style from './modal.less'
+import ButtonTransparent from '../elements/ButtonTransparent'
+import styles from './modal.less'
 
 class Alert extends Component {
-  state = {
-    visible: this.props.visible
-  }
-  handleOk = () => {
-    this.setState({
-      visible: false
-    })
-  }
-  handleCancel = () => {
-    this.setState({
-      visible: false
-    })
-  }
   render() {
     return (
       <Modal
-        visible={this.state.visible}
+        visible={true}
         maskClosable={false}
         closable={false}
         footer={[
-          <Button key="submit" type="default" size="large" onClick={this.handleOk}>ОК</Button>,
+          <Button key="submit" type="default" size="large" onClick={this.props.onOk}>ОК</Button>,
         ]}
       >
         <div>
-          <Row type="flex" justify="space-between" align="middle" className={style.header}>
-            <h1>Внимание, это Alert</h1><Icon className={style.close} onClick={this.handleCancel} type="interface-74"></Icon>
+          <Row type="flex" justify="space-between" align="middle" className={styles.header}>
+            <h1>Внимание, это Alert</h1>
+            <ButtonTransparent>
+              <Icon onClick={this.props.onCancel} className={styles.close} type="interface-74"></Icon>
+            </ButtonTransparent>
           </Row>
-          <Row className={style.content}>
+          <Row className={styles.content}>
             <p>{this.props.text}</p>
           </Row>
         </div>

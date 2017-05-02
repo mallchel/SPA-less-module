@@ -53,10 +53,10 @@ class OverlayVisible extends Component {
               <NavLink key={item.id} route={this.props.route} params={{ [this.props.params]: item.id }} component={(props) => {
                 return (
                   <li
-                    className={cn(this.props.classItemVertical, {[this.props.classSelected]:props.isActive})}>
+                    className={cn(this.props.classItemVertical, { [this.props.classSelected]: props.isActive })}>
                     <Link to={props.link} className={cn(styles.link, this.props.classLinkVertical)}>
                       {
-                        this.props.icon ? <Icon type={item.icon} /> : null
+                        item.icon ? <Icon type={item.icon} className={cn(this.props.classIcon)} /> : null
                       }
                       {item.name}
                     </Link>
@@ -68,8 +68,7 @@ class OverlayVisible extends Component {
         }
       </AntMenu>
     );
-        {/*onVisibleChange={this.handleVisibleChange}*/}
-        {/*visible={this.state.visible}*/}
+
     return (
       <Dropdown
         overlay={menu}

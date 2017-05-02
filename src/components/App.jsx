@@ -5,11 +5,9 @@ import React, { Component } from 'react'
 import { HashRouter } from 'react-router-dom'
 import { LocaleProvider } from 'antd'
 import ruRu from 'antd/lib/locale-provider/ru_RU'
-// import GetConfirmation from './common/router/GetConfirmation'
-import Section from './Layout/section/Section'
+import Layout from './Layout/Layout'
 import NavRoute from './common/router/Route'
 import routes from '../routes'
-import ReactDOM from 'react-dom'
 import { confirm } from './common/Modal'
 
 
@@ -37,7 +35,7 @@ class App extends Component {
     return (
       <LocaleProvider locale={ruRu}>
         <HashRouter getUserConfirmation={getConfirmation}>
-          <NavRoute route={routes.section} component={Section} />
+          <NavRoute route={routes.section} component={Layout} />
         </HashRouter>
       </LocaleProvider>
     )
