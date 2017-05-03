@@ -6,7 +6,7 @@ import NavRoute from '../../../common/router/Route'
 import RightPanel from './RightPanel'
 import CatalogBody from './MiddlePanel'
 import LeftPanel from './LeftPanel'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import Splitter from '../../../common/Splitter'
 import styleAnimation from './transitionGroup.less'
 import Modal from '../../../common/Modal'
@@ -51,7 +51,7 @@ class Body extends Component {
         <NavRoute route={routes.record}>
           {
             props => (
-              <ReactCSSTransitionGroup component={RowParent}
+              <CSSTransitionGroup component={RowParent}
                 transitionName={{
                   enter: styleAnimation.leftEnter,
                   enterActive: styleAnimation.leftEnterActive,
@@ -66,7 +66,7 @@ class Body extends Component {
                     component={LeftPanel}
                   />
                 )}
-                <ReactCSSTransitionGroup component={ROW}
+                <CSSTransitionGroup component={ROW}
                   transitionName={{
                     enter: styleAnimation.rightEnter,
                     enterActive: styleAnimation.rightEnterActive,
@@ -80,8 +80,8 @@ class Body extends Component {
                     component={CatalogBody}
                   />
                   {props.match && <Splitter><RightPanel {...props} /></Splitter>}
-                </ReactCSSTransitionGroup>
-              </ReactCSSTransitionGroup>
+                </CSSTransitionGroup>
+              </CSSTransitionGroup>
             )
           }
         </NavRoute>

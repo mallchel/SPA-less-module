@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Menu as AntMenu, Icon, Dropdown, Row, Col, Input } from 'antd'
+import { Menu as AntMenu, Icon, Dropdown, Row, Col } from 'antd'
 import routes from '../../../../routes'
 import TabsMenu from '../../../common/menu/TabsMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
 import styles from './headerSection.less'
 
-const Search = Input.Search;
 const menu = (
   <AntMenu>
     <AntMenu.Item>
