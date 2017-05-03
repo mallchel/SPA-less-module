@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import cn from 'classnames'
 import styles from './abstractMenu.less'
 
-const Menu = ({ classMenu, classItem, classSelected, items, route, params, className, classIcon, classLink, classItemVertical, classMenuVertival, classLinkVertical }) => {
+const Menu = ({ classMenu, classItem, classSelected, items, route, params, className, classIcon, classLink, classItemVertical, classMenuVertival, classLinkVertical, classText }) => {
   return (
     <Row type="flex" justify="space-between" align="middle">
       <ul className={className ? `${classMenu} ${className}` : classMenu}>
@@ -19,7 +19,8 @@ const Menu = ({ classMenu, classItem, classSelected, items, route, params, class
                     {
                       item.icon ? <Icon type={item.icon} className={cn(classIcon)} /> : null
                     }
-                    {item.name}</Link>
+                    <span className={classText}>{item.name}</span>
+                  </Link>
                 </li>
               )
             }} />
@@ -36,6 +37,7 @@ const Menu = ({ classMenu, classItem, classSelected, items, route, params, class
           classMenuVertival={classMenuVertival}
           classLinkVertical={classLinkVertical}
           classIcon={classIcon}
+          classText={classText}
         />
       </div>
     </Row>

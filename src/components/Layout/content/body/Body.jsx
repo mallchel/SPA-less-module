@@ -13,7 +13,7 @@ import styles from './body.less'
 
 const ANIMATION_DELAY = 2000;
 
-function RowParent(props) {
+/*function RowParent(props) {
   return (
     <Row type="flex">
       {props.children}
@@ -24,6 +24,14 @@ function RowParent(props) {
 function ROW(props) {
   return (
     <Row type="flex" className={styles.childTransitionGroup}>
+      {props.children}
+    </Row>
+  )
+}*/
+
+function ROW(props) {
+  return (
+    <Row type="flex" className={props.className}>
       {props.children}
     </Row>
   )
@@ -50,7 +58,7 @@ class Body extends Component {
         <NavRoute route={routes.record}>
           {
             props => (
-              <CSSTransitionGroup component={RowParent}
+              <CSSTransitionGroup component={ROW}
                 transitionName={{
                   enter: styleAnimation.leftEnter,
                   enterActive: styleAnimation.leftEnterActive,
@@ -66,6 +74,7 @@ class Body extends Component {
                   />
                 )}
                 <CSSTransitionGroup component={ROW}
+                  className={styles.childTransitionGroup}
                   transitionName={{
                     enter: styleAnimation.rightEnter,
                     enterActive: styleAnimation.rightEnterActive,

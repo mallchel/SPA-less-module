@@ -10,6 +10,7 @@ const ListMenu = ({ ...props }) => {
     classItemVertical={styles.menuItemVertical}
     classLink={styles.link}
     classIcon={styles.icon}
+    classText={styles.text}
     classLinkVertical={styles.linkVertical}
     {...props}
   />
