@@ -1,28 +1,10 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-
 import Base from './Base';
 import Confirm from './Confirm';
 import Alert from './Alert';
 import Prompt from './Prompt';
+import renderComponentToBody from '../../../helpers/renderComponentToBody'
 
 export default Base;
-
-function renderComponentToBody(Component, props) {
-  const div = document.createElement('div');
-
-  document.body.appendChild(div);
-
-  ReactDOM.render(
-    <Component
-      {...props} />, div
-  )
-
-  return function destroy() {
-    ReactDOM.unmountComponentAtNode(div);
-    document.body.removeChild(div);
-  }
-}
 
 function renderModaltoBody(Component, props) {
   function afterClose() {

@@ -9,7 +9,6 @@ import LeftPanel from './LeftPanel'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import Splitter from '../../../common/Splitter'
 import styleAnimation from './transitionGroup.less'
-import Modal from '../../../common/Modal'
 import styles from './body.less'
 
 const ANIMATION_DELAY = 2000;
@@ -47,7 +46,7 @@ class Body extends Component {
             return null;
           }}
         </NavRoute>
-        {/*<Modal {...this.props} component={RightPanel}/>*/}
+
         <NavRoute route={routes.record}>
           {
             props => (
