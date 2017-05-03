@@ -1,32 +1,14 @@
 @import '../../../../styles/helpers/index.less';
-.horizontalMenu {
-  overflow: hidden;
-  max-width: 80vw;
-  display: flex;
-  flex-flow: nowrap;
-  background: transparent;
-  line-height: 46px;
-  display: table;
+
+.selected {
+  color: @TEXT;
 }
 
-.menuItem {
-  padding: 0 @PADDING_BASE;
-  color: @TEXT_SUB;
-  display: table-cell;
-  width: 1px;
-}
-
-.link {
-  display: block;
-  padding-left: 30px;
-  &:hover {
-    color: @TEXT_MENU_HOVER !important;
-    transform: translateY(-2px);
-    transition: transform 0.3s;
-  }
-  &:focus {
-    text-decoration: none;
-  }
+.icon {
+  opacity: 0.8;
+  margin-right: @PADDING_BASE;
+  vertical-align: middle;
+  font-size: 1.25em;
 }
 
 .text {
@@ -42,32 +24,51 @@
   max-height: 3.3em;
 }
 
+.horizontalMenu {
+  overflow: hidden;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: nowrap;
+  background: transparent;
+  line-height: 46px;
+  display: table; 
+  .menuItem {
+    padding: 0 @PADDING_BASE;
+    color: @TEXT_SUB;
+    display: table-cell;
+    width: 1px;
+  }  
+  .link {
+    display: block;
+    padding-left: 30px;
+    &:hover {
+      color: @TEXT_MENU_HOVER !important;
+      transform: translateY(-2px);
+      transition: transform 0.2s;
+    }
+    &:focus {
+      text-decoration: none;
+    }
+  }
+  .icon {
+    margin-left: -30px;
+  }
+}
+
+
 .menuItemVertical {
   padding: 0 @PADDING_BASE*2;
   line-height: 42px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   color: @TEXT_SUB;
-}
-
-.linkVertical {
-  display: block;
-  &:hover {
-    color: @TEXT_MENU_HOVER;
+  .linkVertical {
+    display: block;
+    &:hover {
+      color: @TEXT_MENU_HOVER;
+    }
+    &:focus {
+      text-decoration: none;
+    }
   }
-  &:focus {
-    text-decoration: none;
-  }
 }
 
-.selected {
-  color: @TEXT;
-}
 
-.icon {
-  opacity: 0.8;
-  margin-right: @PADDING_BASE;
-  vertical-align: middle;
-  font-size: 1.25em;
-  margin-left: -30px;
-}
