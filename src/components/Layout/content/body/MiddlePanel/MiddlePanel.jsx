@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu as AntMenu, Row, Col, Dropdown, Icon, Button } from 'antd'
+import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
 import routes from '../../../../../routes'
 import TabsMenu from '../../../../common/menu/TabsMenu'
 import styles from './middlePanel.less'
@@ -36,7 +36,6 @@ const tabs = [
 
 class MiddlePanel extends Component {
   render() {
-    console.log(this.props)
     return (
       <div className={styles.container}>
         <Col>
@@ -56,21 +55,10 @@ class MiddlePanel extends Component {
 
             <Col>
               <Row type="flex" justify="space-between" align="middle">
-                <Icon type="content-42" style={{ cursor: 'pointer' }} />
+                {/*<Icon type="content-42" />*/}
                 <Dropdown.Button type="primary" overlay={menu}>
                   <Icon type="interface-72" />Создать
                 </Dropdown.Button>
-                {/*<div className="ant-btn-group ant-dropdown-button" style={{ display: 'flex' }}>
-                  <Button type="primary" style={{ display: 'flex', alignItems: 'center' }}><Icon type="interface-72"></Icon>Создать</Button>
-                  <Button style={{ display: 'flex', alignItems: 'center' }}>
-                    <Dropdown
-                      overlay={menu}
-                      trigger={['click']}
-                    >
-                      <Icon type="arrows-chevron-medium-thin-4-01" />
-                    </Dropdown>
-                  </Button>
-                </div>*/}
               </Row>
             </Col>
           </Row>

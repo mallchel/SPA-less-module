@@ -9,7 +9,6 @@ class Content extends Component {
       <div className={styles.container}>
         <HeaderCatalog { ...this.props } />
         <Body { ...this.props } />
-        {/*<NavRoute route={routes.catalog} component={Body} />*/}
       </div>
     )
   }

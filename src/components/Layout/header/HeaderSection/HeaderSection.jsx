@@ -8,19 +8,6 @@ import styles from './headerSection.less'
 const Search = Input.Search;
 const menu = (
   <AntMenu>
-    <AntMenu.Item
-    >
-      <Search
-        placeholder="input search text"
-        onSearch={value => console.log('search', value)}
-        onChange={e => console.log('change', e.target.value)}
-        onClick={e => {
-          console.log('click', e)
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      />
-    </AntMenu.Item>
     <AntMenu.Item>
       <a target="_blank" rel="noopener noreferrer" href="">1st menu item</a>
     </AntMenu.Item>

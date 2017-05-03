@@ -15,11 +15,11 @@ class Confirm extends Component {
           <Button key="back" type="default" size="large" onClick={this.props.onCancel}>{this.props.cancelText}</Button>,
         ]}
       >
-        <div>
+        <div className={styles.container}>
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
             <h1>{this.props.title}</h1>
-            <ButtonTransparent>
-              <Icon onClick={this.props.onCancel} className={styles.close} type="interface-74"></Icon>
+            <ButtonTransparent className={styles.close}>
+              <Icon onClick={this.props.onCancel} className={styles.closeIcon} type="interface-74"></Icon>
             </ButtonTransparent>
           </Row>
           <Row className={styles.content}>

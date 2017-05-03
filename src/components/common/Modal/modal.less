@@ -1,5 +1,9 @@
 @import '../../../styles/helpers/index.less';
 
+.container {
+  padding: @PADDING_BASE @PADDING_BASE*2 @PADDING_BASE*2 @PADDING_BASE*2;
+}
+
 .header {
   margin-bottom: @PADDING_BASE;
 }
@@ -7,8 +11,10 @@
 .close {
   composes: shift-right;
   margin-top: -@PADDING_BASE;
-  color: @BORDER_ELEMENT;
-  font-size: 26px;
+  &Icon {
+    color: @BORDER_ELEMENT;
+    font-size: 26px;
+  }
 }
 
 .content {

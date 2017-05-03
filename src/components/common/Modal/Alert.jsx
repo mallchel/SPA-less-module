@@ -14,11 +14,11 @@ class Alert extends Component {
           <Button key="submit" type="default" size="large" onClick={this.props.onOk}>ОК</Button>,
         ]}
       >
-        <div>
+        <div className={styles.container}>
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
             <h1>Внимание, это Alert</h1>
-            <ButtonTransparent>
-              <Icon onClick={this.props.onCancel} className={styles.close} type="interface-74"></Icon>
+            <ButtonTransparent className={styles.close}>
+              <Icon onClick={this.props.onCancel} className={styles.closeIcon} type="interface-74"></Icon>
             </ButtonTransparent>
           </Row>
           <Row className={styles.content}>

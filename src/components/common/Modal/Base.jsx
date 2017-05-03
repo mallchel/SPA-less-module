@@ -1,19 +1,16 @@
 import React from 'react'
-import { Modal, Icon, Row } from 'antd'
-import ButtonTransparent from '../elements/ButtonTransparent'
-import styles from './modal.less'
+import { Modal } from 'antd'
 
-const Base = ({ visible, onOk, onCancel, footer }) => {
+const Base = ({ component: Component, ...props }) => {
   return (
     <Modal
       visible={true}
       maskClosable={false}
       closable={false}
       footer=''
+      width='60%'
     >
-      <div>
-
-      </div>
+      <Component {...props} />
     </Modal>
   )
 }

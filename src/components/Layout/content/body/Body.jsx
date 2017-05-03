@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect, Prompt } from 'react-router-dom'
-import { Row, Button, Icon } from 'antd'
+import { Row } from 'antd'
 import routes from '../../../../routes'
 import NavRoute from '../../../common/router/Route'
 import RightPanel from './RightPanel'
@@ -9,25 +9,10 @@ import LeftPanel from './LeftPanel'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Splitter from '../../../common/Splitter'
 import styleAnimation from './transitionGroup.less'
+import Modal from '../../../common/Modal'
 import styles from './body.less'
 
 const ANIMATION_DELAY = 2000;
-
-/*function ViewCol(props) {
-  return (
-    <Col style={{ width: '300px' }}>
-      <View key={props.match.params.catalogId} />
-    </Col>
-  )
-}*/
-
-/*function CatalogCol(props) {
-  return (
-    <Col style={{ maxWidth: '100%', overflow: "hidden", flexGrow: '1', flexBasis: '0', minWidth: '400px' }}>
-      <CatalogBody {...props} />
-    </Col>
-  )
-}*/
 
 function RowParent(props) {
   return (
@@ -46,24 +31,6 @@ function ROW(props) {
 }
 
 class Body extends Component {
-  state = {
-    visible: false
-  }
-  show = () => {
-    this.setState({ visible: true });
-  }
-  handleOk = () => {
-    console.log('ok')
-    this.setState({ visible: false });
-  }
-  handleCancel = () => {
-    console.log('cancel', this.state.visible)
-    this.setState({ visible: false });
-  }
-  handleButtonClick = (e) => {
-    console.log('click left button', e);
-  }
-
   render() {
     return (
       <div className={styles.body}>
@@ -80,7 +47,7 @@ class Body extends Component {
             return null;
           }}
         </NavRoute>
-
+        {/*<Modal {...this.props} component={RightPanel}/>*/}
         <NavRoute route={routes.record}>
           {
             props => (
@@ -120,8 +87,8 @@ class Body extends Component {
         </NavRoute>
         {/*<img src="img.png" alt=""/>*/}
 
-        <Link to={'/section/1/catalog/1/view/1/1'} onClick={e => this.setState({ record: false })}>View</Link>&nbsp;
-        <Link to={'/section/1/catalog/1/view/1/1/record/1'} onClick={e => this.setState({ record: true })}>Record</Link>
+        <Link to={'/section/1/catalog/1/view/1/1'}>View</Link>&nbsp;
+        <Link to={'/section/1/catalog/1/view/1/1/record/1'}>Record</Link>
 
       </div>
     )
