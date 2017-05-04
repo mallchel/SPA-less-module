@@ -32,9 +32,10 @@ class OverlayVisible extends Component {
     this.setState({ visible: false });
   }
   render() {
+    let { props: { vertical } } = this;
     const menu = (
       <AntMenu
-        className={cn(this.props.classMenuVertival, styles.verticalMenu)}
+        className={cn(this.props.vertical.menu, styles.verticalMenu)}
       >
         <AntMenu.Item
           className={styles.menuItemSearch}
@@ -53,12 +54,12 @@ class OverlayVisible extends Component {
               <NavLink key={item.id} route={this.props.route} params={{ [this.props.params]: item.id }} component={(props) => {
                 return (
                   <li
-                    className={cn(this.props.classItemVertical, { [this.props.classSelected]: props.isActive })}>
-                    <Link to={props.link} className={cn(styles.link, this.props.classLinkVertical)}>
+                    className={cn(vertical.item, { [vertical.selected]: props.isActive })}>
+                    <Link to={props.link} className={cn(styles.link, vertical.link)}>
                       {
-                        item.icon ? <Icon type={item.icon} className={cn(this.props.classIcon)} /> : null
+                        item.icon ? <Icon type={item.icon} className={cn(vertical.icon)} /> : null
                       }
-                      <span className={this.props.classText}>{item.name}</span>
+                      <span className={vertical.text}>{item.name}</span>
                     </Link>
                   </li>
                 )

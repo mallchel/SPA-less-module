@@ -1,6 +1,5 @@
 @import "~antd/dist/antd.less";
 @import './theme.less';
-
 .ant-tabs-bar {
   border-bottom: none;
 }
@@ -42,7 +41,7 @@
   padding: @PADDING_BASE*2;
 }
 
-.ant-modal-footer button + button {
+.ant-modal-footer button+button {
   margin-left: @PADDING_BASE;
 }
 
@@ -61,29 +60,20 @@
   padding: 0 @PADDING_BASE*2;
 }
 
-.ant-menu-inline .ant-menu-item:hover:after {
-  content: "";
-  position: absolute;
-  right: auto;
-  left: 0px;
-  top: 0;
-  bottom: 0;
-  border-right: 3px solid #6dad9d;
-  // transform: scaleY(1.0001);
-  // transition: all .2s;
+.ant-menu-inline .ant-menu-item {
+  &:hover:after {
+    transform: none;
+    transition: none;
+
+  }
+  &:after {
+    right: auto;
+    left: 0px;
+    transition: 0s;
+  }
 }
 
-.ant-menu-inline .ant-menu-item:after {
-  right: auto;
-  left: 0px;
-}
-
-.ant-menu-inline .ant-menu-item:after {
-  left: 0;
-  right: auto;
-}
-
-.ant-menu-inline .ant-menu-item-selected > a {
+.ant-menu-inline .ant-menu-item-selected>a {
   font-weight: bold;
 }
 
@@ -101,12 +91,13 @@
   border: none;
 }
 
-.ant-btn-danger:hover, .ant-btn-danger:focus {
+.ant-btn-danger:hover,
+.ant-btn-danger:focus {
   opacity: 0.8;
   background-color: @DANGER_BUTTON;
 }
 
-.ant-dropdown-button.ant-btn-group > .ant-btn:last-child:not(:first-child) {
+.ant-dropdown-button.ant-btn-group>.ant-btn:last-child:not(:first-child) {
   padding-left: @PADDING_BASE/2;
   padding-right: @PADDING_BASE/2;
   background-color: transparent;

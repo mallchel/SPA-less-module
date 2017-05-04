@@ -6,33 +6,39 @@ import { Link } from 'react-router-dom'
 import cn from 'classnames'
 import styles from './abstractMenu.less'
 
+  // classMenu,
+  // classItem,
+  // classSelected,
+  // items,
+  // route,
+  // params,
+  // className,
+  // classIcon,
+  // classLink,
+  // classItemVertical,
+  // classMenuVertival,
+  // classLinkVertical,
+  // classText
 const Menu = ({
-  classMenu,
-  classItem,
-  classSelected,
+  className,
+  horizontal,
+  vertical,
   items,
   route,
-  params,
-  className,
-  classIcon,
-  classLink,
-  classItemVertical,
-  classMenuVertival,
-  classLinkVertical,
-  classText }) => {
+  params }) => {
   return (
-    <Row type="flex" justify="space-between" align="middle">
-      <ul className={className ? `${classMenu} ${className}` : classMenu}>
+    <Row type="flex" justify="space-between" align="middle" className={cn(className)}>
+      <ul className={cn(horizontal.menu)}>
         {
           items.map(item => (
             <NavLink key={item.id} route={route} params={{ [params]: item.id }} component={props => {
               return (
-                <li className={cn(classItem, { [classSelected]: props.isActive })}>
-                  <Link to={props.link} className={cn(styles.link, classLink)}>
+                <li className={cn(horizontal.item, { [horizontal.selected]: props.isActive })}>
+                  <Link to={props.link} className={cn(styles.link, horizontal.link)}>
                     {
-                      item.icon ? <Icon type={item.icon} className={cn(classIcon)} /> : null
+                      item.icon ? <Icon type={item.icon} className={cn(horizontal.icon)} /> : null
                     }
-                    <span className={classText}>{item.name}</span>
+                    <span className={horizontal.text}>{item.name}</span>
                   </Link>
                 </li>
               )
@@ -45,12 +51,7 @@ const Menu = ({
           items={items}
           route={route}
           params={params}
-          classSelected={classSelected}
-          classItemVertical={classItemVertical}
-          classMenuVertival={classMenuVertival}
-          classLinkVertical={classLinkVertical}
-          classIcon={classIcon}
-          classText={classText}
+          vertical={vertical}
         />
       </div>
     </Row>

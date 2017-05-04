@@ -1,0 +1,43 @@
+@import '../../../../styles/helpers/index.less';
+
+.menu {
+  overflow: hidden;
+  max-width: 80vw;
+  display: flex;
+  flex-flow: nowrap;
+  background: transparent;
+  line-height: 46px;
+  display: table;
+}
+
+.item {
+  padding: 0 @PADDING_BASE;
+  color: @TEXT_SUB;
+  display: table-cell;
+  width: 1px;
+}
+
+.link {
+  composes: link from './vertical.less';
+  padding-left: 30px;
+  &:hover {
+    color: @TEXT_MENU_HOVER !important;
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+  }
+}
+
+.icon {
+  opacity: 0.8;
+  font-size: 1.25em;
+  margin-left: -30px;
+  width: 30px;
+}
+
+.text {
+  composes: text from './vertical.less';
+}
+
+.selected {
+  composes: selected from './vertical.less';
+}

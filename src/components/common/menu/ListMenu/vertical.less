@@ -1,0 +1,40 @@
+@import '../../../../styles/helpers/index.less';
+
+.item {
+  padding: 0 @PADDING_BASE*2;
+  line-height: 42px;
+  color: @TEXT_SUB;
+}
+
+.link {
+  display: block;
+  &:hover {
+    color: @TEXT_MENU_HOVER;
+  }
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.selected {
+  color: @TEXT;
+}
+
+.icon {
+  opacity: 0.8;
+  font-size: 1.25em;
+  margin-right: @PADDING_BASE;
+}
+
+.text {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  max-width: 90px;
+  display: inline-block;
+  line-height: 1.1em;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.3em;
+}

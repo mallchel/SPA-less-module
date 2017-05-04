@@ -37,9 +37,11 @@ class LeftPanel extends Component {
 
         <Col>
           <Row type="flex" className={styles.body}>
-            asdasasd
+            <div>asdasasd
             asdasasdasas
             asdas
+            sdfsdf
+            </div>
           </Row>
         </Col>
       </div>
