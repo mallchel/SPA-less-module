@@ -6,19 +6,6 @@ import { Link } from 'react-router-dom'
 import cn from 'classnames'
 import styles from './abstractMenu.less'
 
-  // classMenu,
-  // classItem,
-  // classSelected,
-  // items,
-  // route,
-  // params,
-  // className,
-  // classIcon,
-  // classLink,
-  // classItemVertical,
-  // classMenuVertival,
-  // classLinkVertical,
-  // classText
 const Menu = ({
   className,
   horizontal,
