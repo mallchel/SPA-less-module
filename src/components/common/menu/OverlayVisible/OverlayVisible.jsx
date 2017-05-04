@@ -35,10 +35,10 @@ class OverlayVisible extends Component {
     let { props: { vertical } } = this;
     const menu = (
       <AntMenu
-        className={cn(this.props.vertical.menu, styles.verticalMenu)}
+        className={cn(this.props.vertical.menu, styles.menu)}
       >
         <AntMenu.Item
-          className={styles.menuItemSearch}
+          className={styles.itemSearch}
         >
           <input
             type="search"
