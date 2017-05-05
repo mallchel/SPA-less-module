@@ -59,7 +59,7 @@ class OverlayVisible extends Component {
                       {
                         item.icon ? <Icon type={item.icon} className={cn(vertical.icon)} /> : null
                       }
-                      <span className={vertical.text}>{item.name}</span>
+                      <div className={vertical.text}>{item.name}</div>
                     </Link>
                   </li>
                 )

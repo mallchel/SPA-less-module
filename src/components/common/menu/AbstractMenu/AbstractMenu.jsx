@@ -25,7 +25,7 @@ const Menu = ({
                     {
                       item.icon ? <Icon type={item.icon} className={cn(horizontal.icon)} /> : null
                     }
-                    <span className={horizontal.text}>{item.name}</span>
+                    <div className={horizontal.text}>{item.name}</div>
                   </Link>
                 </li>
               )

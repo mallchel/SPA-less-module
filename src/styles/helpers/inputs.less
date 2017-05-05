@@ -1,17 +1,14 @@
 .input-search {
   background-color: #f1f2f4;
   padding: 4px @PADDING_BASE;
-  cursor: text;
   border-radius: 4px;
   border: transparent;
   margin: @PADDING_BASE;
   color: rgba(0, 0, 0, 0.65);
-}
-
-.input-search::-webkit-input-placeholder {
-  color: @TEXT_MUTED;
-}
-
-.input-search:focus {
-  outline: none;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-input-placeholder {
+    color: @TEXT_MUTED;
+  }
 }

@@ -55,13 +55,13 @@ class HeaderCatalog extends Component {
             className={styles.shiftLeft}
           />
         </Col>
-        <Col className={styles.shiftRight}>
+        <Col>
           Продажи
           <Dropdown
             overlay={menu}
             trigger={['click']}
           >
-            <ButtonTransparent><Icon type="setting-10" /></ButtonTransparent>
+            <ButtonTransparent className={styles.shiftRight}><Icon type="setting-10" /></ButtonTransparent>
           </Dropdown>
         </Col>
       </Row>

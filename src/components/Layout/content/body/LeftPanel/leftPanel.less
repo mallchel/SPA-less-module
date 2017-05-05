@@ -1,4 +1,4 @@
-@import '../../../../../styles/helpers/index.less';
+@import (reference) '../../../../../styles/helpers/index.less';
 
 .container {
   display: flex;
@@ -8,16 +8,16 @@
 }
 
 .header {
-  composes: header-base;
-  composes: container--padding-horizontal;
+  .header-base;
+  .container--padding-horizontal;
   border-bottom: 1px solid @BORDER_BLOCK;
   background-color: @BG_CONTENT;
 }
   .icon {
-    composes: shift-right;
+    .shift-right;
   }
 
 .body {
-  composes: container--padding-horizontal;
+  .container--padding-horizontal;
   background-color: @BG_PANELS;
 }

@@ -108,12 +108,12 @@ class HeaderSection extends Component {
           </Row>
         </Col>
 
-        <Col className={styles.tabsMenu}>
+        <Col className={styles.menuContainer}>
           <TabsMenu
             params='sectionId'
             route={routes.section}
             items={sections}
-            className={styles.shiftLeft}
+            className={`${styles.shiftLeft} ${styles.menu}`}
           />
         </Col>
 

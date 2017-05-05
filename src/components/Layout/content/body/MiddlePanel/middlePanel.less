@@ -1,4 +1,4 @@
-@import '../../../../../styles/helpers/index.less';
+@import (reference) '../../../../../styles/helpers/index.less';
 .container {
   max-width: 100%;
   min-width: 400px;
@@ -10,20 +10,20 @@
 }
 
 .header {
-  composes: header-base;
-  composes: container--padding-horizontal;
+  .header-base;
+  .container--padding-horizontal;
   border-bottom: 1px solid @BORDER_BLOCK;
 }
 
 .tabsMenu {
-  composes: shift-left;
+  .shift-left;
 }
 
 .input {
-  composes: input-search;
+  .input-search;
   width: 245px;
 }
 
 .body {
-  composes: container--padding-horizontal;
+  .container--padding-horizontal;
 }
