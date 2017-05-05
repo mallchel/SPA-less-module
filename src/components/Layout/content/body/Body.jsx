@@ -6,28 +6,12 @@ import NavRoute from '../../../common/router/Route'
 import RightPanel from './RightPanel'
 import CatalogBody from './MiddlePanel'
 import LeftPanel from './LeftPanel'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { CSSTransitionGroup } from 'react-transition-group'
 import Splitter from '../../../common/Splitter'
 import styleAnimation from './transitionGroup.less'
 import styles from './body.less'
 
 const ANIMATION_DELAY = 2000;
-
-/*function RowParent(props) {
-  return (
-    <Row type="flex">
-      {props.children}
-    </Row>
-  )
-}
-
-function ROW(props) {
-  return (
-    <Row type="flex" className={styles.childTransitionGroup}>
-      {props.children}
-    </Row>
-  )
-}*/
 
 function ROW(props) {
   return (
@@ -93,7 +77,6 @@ class Body extends Component {
             )
           }
         </NavRoute>
-        {/*<img src="img.png" alt=""/>*/}
 
         <Link to={'/section/1/catalog/1/view/1/1'}>View</Link>&nbsp;
         <Link to={'/section/1/catalog/1/view/1/1/record/1'}>Record</Link>
