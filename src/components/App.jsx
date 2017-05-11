@@ -10,6 +10,7 @@ import NavRoute from './common/router/Route'
 import routes from '../routes'
 import { confirm } from './common/Modal'
 import { Redirect, Route } from 'react-router-dom'
+import StateProvider from './StateProvider'
 
 
 const getConfirmation = (message, callback, state) => {
@@ -36,9 +37,10 @@ class App extends Component {
     return (
       <LocaleProvider locale={ruRu}>
         <HashRouter getUserConfirmation={getConfirmation}>
-          <Route path='/' render={props => (
+          {/*<Route path='/' render={props => (
             props.match && props.match.isExact ? <Redirect to='section/1' /> : <NavRoute route={routes.section} component={Layout} />
-          )} />
+          )} />*/}
+          <StateProvider component={Layout} />
         </HashRouter>
       </LocaleProvider>
     )

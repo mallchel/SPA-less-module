@@ -1,0 +1,12 @@
+export const RED = 'F9C2C2';
+export const ORANGE = 'FFDBBC';
+export const YELLOW = 'FFF2C4';
+export const LEMON = 'EEFFB8';
+export const PINK = 'FDD9F0';
+export const WHITE = 'FFFFFF';
+export const GREY = 'DFE0E0';
+export const GREEN = 'D0FBBF';
+export const PURPLE = 'E7D7FD';
+export const BLUE = 'D3E3FF';
+export const SKY = 'D5F5FF';
+export const MINT = 'C9FDE5';

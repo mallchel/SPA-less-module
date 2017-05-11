@@ -1,0 +1,18 @@
+import * as COLORS from './colors';
+
+export default [
+  COLORS.BLUE,
+  COLORS.GREEN,
+  COLORS.RED,
+
+  COLORS.PURPLE,
+  COLORS.GREY,
+
+  COLORS.SKY,
+  COLORS.LEMON,
+  COLORS.ORANGE,
+
+  COLORS.MINT,
+  COLORS.PINK,
+  COLORS.YELLOW
+];

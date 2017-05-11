@@ -3,6 +3,8 @@ import { Menu as AntMenu, Icon, Dropdown, Row, Col } from 'antd'
 import routes from '../../../../routes'
 import TabsMenu from '../../../common/menu/TabsMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
+import apiActions from '../../../../actions/apiActions'
+
 import styles from './headerSection.less'
 
 const menu = (
@@ -93,8 +95,15 @@ const sections = [
 
 
 class HeaderSection extends Component {
+  componentDidMount() {
+    // our init app-point...
+    apiActions.getSections();
+    apiActions.getCompanyInfo(window.location.host.split('.')[0]);
+  }
+
   render() {
     return (
+    console.log(111, this.props.appState.toJS()),
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <Col>
           <Row type="flex" align="middle" className={styles.logo}>

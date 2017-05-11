@@ -38,3 +38,4 @@ function getRenderComponentToBodyFn(Component) {
 export const confirm = getRenderComponentToBodyFn(Confirm);
 export const alert = getRenderComponentToBodyFn(Alert);
 export const prompt = getRenderComponentToBodyFn(Prompt);
+export const base = getRenderComponentToBodyFn(Base);
