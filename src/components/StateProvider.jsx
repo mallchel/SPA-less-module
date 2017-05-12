@@ -1,5 +1,4 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Reflux from 'reflux';
 import appState from '../appState';
 

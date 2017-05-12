@@ -236,7 +236,7 @@ const appState = Reflux.createStore({
 
   findById(pathToList, id) {
     let list = this.getIn(pathToList);
-    return list && list.find(o=> o.get('id') === id) || null;
+    return (list && list.find(o=> o.get('id') === id)) || null;
   },
 
   toJS() {

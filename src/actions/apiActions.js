@@ -112,7 +112,7 @@ function makeRequest(action, method, path, params, data, query, actionParams) {
       let errorTitle;
       let status = err.status;
 
-      if (status == HttpStatusCode.BadRequest) {
+      if (status === HttpStatusCode.BadRequest) {
         let response = err.response;
         if (response && response.text) {
           try {
@@ -132,10 +132,10 @@ function makeRequest(action, method, path, params, data, query, actionParams) {
       }
       err.title = errorTitle;
       err.text = errorText;
-      if (status == HttpStatusCode.Unauthorized) {
+      if (status === HttpStatusCode.Unauthorized) {
         // location
         location.authorize();
-      } else if (status == HttpStatusCode.Forbidden) {
+      } else if (status === HttpStatusCode.Forbidden) {
         // location.login();
         // todo correct alert
         if (action.failed) {
@@ -143,7 +143,7 @@ function makeRequest(action, method, path, params, data, query, actionParams) {
         } else {
           alert('Access denied');
         }
-      } else if (status == HttpStatusCode.PaymentRequired) {
+      } else if (status === HttpStatusCode.PaymentRequired) {
         location.paymentRequired();
       } else {
         log(path, arguments);
