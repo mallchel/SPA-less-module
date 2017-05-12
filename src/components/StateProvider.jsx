@@ -5,7 +5,7 @@ import appState from '../appState';
 
 const StateProvider = React.createClass({
 
-  mixins: [PureRenderMixin, Reflux.listenTo(appState, 'onAppStateChange')],
+  mixins: [Reflux.listenTo(appState, 'onAppStateChange')],
 
   propTypes: {
     componentProps: React.PropTypes.object

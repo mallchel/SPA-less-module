@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import Reflux from 'reflux';
 import _ from 'lodash';
 // import appActions from './actions/appActions';
-// import apiActions from './actions/apiActions';
+import apiActions from './actions/apiActions';
 // import routeAction from './actions/routeAction';
 // import recordActions from './actions/recordActions';
 // import editorActions from './actions/editorActions';
@@ -26,7 +26,7 @@ const log = require('debug')('CRM:appState');
 const storeMixins = [
   // require('./stores/appMixin'),
   // require('./stores/routeMixin'),
-  require('./stores/sectionsMixin'),
+  require('./stores/sectionsMixin').default,
   // require('./stores/catalogsMixin'),
   // require('./stores/recordsMixin'),
   // require('./stores/editorMixin'),
@@ -36,7 +36,7 @@ const storeMixins = [
   // require('./stores/rightsMixin'),
   // require('./stores/privilegesMixin'),
   // require('./stores/filterKeysMixin'),
-  // require('./stores/authMixin'),
+  require('./stores/authMixin').default,
   // require('./stores/userMixin'),
   // require('./stores/historyMixin'),
   // require('./stores/reports/mixins'),
@@ -149,7 +149,7 @@ const appState = Reflux.createStore({
   listenables: [
     sectionActions,
     // appActions,
-    // apiActions,
+    apiActions,
     // recordActions,
     // catalogActions,
     // editorActions,

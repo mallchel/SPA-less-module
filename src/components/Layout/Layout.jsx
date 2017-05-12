@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import cn from 'classnames';
+import NavRoute from '../common/router/Route'
+import routes from '../../routes'
 import HeaderSection from './header/HeaderSection'
 import Content from './content/Content'
 import styles from './layout.less'
-import cn from 'classnames';
 
 class Section extends Component {
   render() {
@@ -13,7 +15,9 @@ class Section extends Component {
     return (
       <div className={containerClassNames}>
         <HeaderSection { ...this.props } />
-        <Content { ...this.props } />
+        <NavRoute route={routes.section} render={props => (
+          <Content {...this.props} />
+        )} />
       </div>
     )
   }

@@ -63,13 +63,6 @@ export default {
     this.set('initialDataLoading', false);
     this.set('initialDataLoaded', true);
     this.changed();
-
-    let firstId = res && res[0] && res[0].id;
-    if (!this.get('route') && firstId) {
-      router.go('main.section', {
-        sectionId: firstId
-      });
-    }
   },
 
   getSectionsFailed() {

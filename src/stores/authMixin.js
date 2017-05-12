@@ -1,5 +1,6 @@
 import debug from 'debug';
 import Immutable from 'immutable';
+import LazyLoad from 'lazyload-js'
 
 const log = debug('CRM:authMixin');
 
@@ -9,8 +10,8 @@ export default {
     const {extensions, modules, title, domain} = response.body;
 
     extensions.forEach(m=> {
-      m.css && window.LazyLoad.css(m.css);
-      m.js && window.LazyLoad.js(m.js);
+      m.css && LazyLoad.css(m.css);
+      m.js && LazyLoad.js(m.js);
     });
 
     this.set('companyTtile', title);

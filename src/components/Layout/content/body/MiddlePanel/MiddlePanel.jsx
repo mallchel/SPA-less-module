@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
+import Immutable from 'immutable'
 import routes from '../../../../../routes'
 import TabsMenu from '../../../../common/menu/TabsMenu'
 import styles from './middlePanel.less'
@@ -19,7 +20,7 @@ const menu = (
   </AntMenu>
 );
 
-const tabs = [
+const tabs = Immutable.fromJS([
   {
     id: 'record',
     name: 'Записи'
@@ -32,7 +33,7 @@ const tabs = [
     id: 'history',
     name: 'Активность'
   }
-];
+]);
 
 class MiddlePanel extends Component {
   render() {

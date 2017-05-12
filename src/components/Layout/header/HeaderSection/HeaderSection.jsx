@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Menu as AntMenu, Icon, Dropdown, Row, Col } from 'antd'
+import { Menu as AntMenu, Icon, Dropdown, Row, Col, Button } from 'antd'
+import cn from 'classnames'
 import routes from '../../../../routes'
 import TabsMenu from '../../../common/menu/TabsMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
 import apiActions from '../../../../actions/apiActions'
+import DefaultRedirect from '../../../common/router/DefaultRedirect'
 
 import styles from './headerSection.less'
 
@@ -18,82 +20,6 @@ const menu = (
   </AntMenu>
 );
 
-const sections = [
-  {
-    id: 1,
-    name: 'Продажи'
-  },
-  {
-    id: 2,
-    name: 'Лицензии'
-  },
-  {
-    id: 3,
-    name: 'Разработка'
-  },
-  {
-    id: 4,
-    name: 'Бухгалтерия'
-  },
-  {
-    id: 5,
-    name: 'Задачи'
-  },
-  {
-    id: 6,
-    name: 'Управление'
-  },
-  {
-    id: 7,
-    name: 'Продажи1'
-  },
-  {
-    id: 8,
-    name: 'Лицензии1'
-  },
-  {
-    id: 9,
-    name: 'Разработка1'
-  },
-  {
-    id: 10,
-    name: 'Бухгалтерия1'
-  },
-  {
-    id: 11,
-    name: 'Задачи1'
-  },
-  {
-    id: 12,
-    name: 'Управление1'
-  },
-  {
-    id: 13,
-    name: 'Продажи2'
-  },
-  {
-    id: 14,
-    name: 'Лицензии2'
-  },
-  {
-    id: 15,
-    name: 'Разработка2'
-  },
-  {
-    id: 16,
-    name: 'Бухгалтерия2'
-  },
-  {
-    id: 17,
-    name: 'Задачи2'
-  },
-  {
-    id: 18,
-    name: 'Управление2'
-  }
-];
-
-
 class HeaderSection extends Component {
   componentDidMount() {
     // our init app-point...
@@ -102,9 +28,15 @@ class HeaderSection extends Component {
   }
 
   render() {
+    const sections = this.props.appState.get('sections').sortBy(s => s.get('name').toLowerCase()).valueSeq().map(s => s.remove('icon'));
+    const module = this.props.appState.get('extensions').valueSeq();
+    const hasAdd = false;
+    console.log(module.toJS())
+
     return (
-    console.log(111, this.props.appState.toJS()),
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
+        <DefaultRedirect route={routes.section} object={sections.get(0)} />
+
         <Col>
           <Row type="flex" align="middle" className={styles.logo}>
             <Dropdown
@@ -122,12 +54,28 @@ class HeaderSection extends Component {
             params='sectionId'
             route={routes.section}
             items={sections}
+            buttons={[hasAdd && { text: '', icon: '', onClick() { } }]}
             className={`${styles.shiftLeft} ${styles.menu}`}
           />
         </Col>
 
+
         <Col>
           <Row type="flex" justify="space-around" align="middle" className={styles.profile}>
+            {
+              module.map(module => {
+                {/*let isSelected = this.state.selectedModuleCode && this.state.selectedModuleCode === module.get('code');*/ }
+                return (
+                  <Button
+                    className={cn('some-active')} key={module.get('code')}
+                  //onClick={this.onClickModule.bind(this, module.get('code'))}
+                  >
+                    <Icon type={module.get('icon')} />
+                    <span>{module.get('title')}</span>
+                  </Button>
+                )
+              })
+            }
             <img src="favicon.ico" alt="profile" className={styles.img} />
             <ButtonTransparent><Icon type="interface-13" /></ButtonTransparent>
           </Row>

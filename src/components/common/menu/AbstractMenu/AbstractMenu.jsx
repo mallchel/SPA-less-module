@@ -1,5 +1,5 @@
 import React from 'react'
-import OverlayDropdown from '../OverlayVisible'
+import OverlayDropdown from './OverlayDropdown'
 import { Row, Icon } from 'antd'
 import NavLink from '../../router/Link'
 import { Link } from 'react-router-dom'
@@ -18,14 +18,14 @@ const Menu = ({
       <ul className={cn(horizontal.menu)}>
         {
           items.map(item => (
-            <NavLink key={item.id} route={route} params={{ [params]: item.id }} component={props => {
+            <NavLink key={item.get('id')} route={route} params={{ [params]: item.get('id') }} component={props => {
               return (
                 <li className={cn(horizontal.item, { [horizontal.selected]: props.isActive })}>
                   <Link to={props.link} className={cn(styles.link, horizontal.link)}>
                     {
-                      item.icon ? <Icon type={item.icon} className={cn(horizontal.icon)} /> : null
+                      item.get('icon') ? <Icon type={item.get('icon')} className={cn(horizontal.icon)} /> : null
                     }
-                    <div className={horizontal.text}>{item.name}</div>
+                    <div className={horizontal.text}>{item.get('name')}</div>
                   </Link>
                 </li>
               )

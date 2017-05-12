@@ -15,6 +15,7 @@
     "guid": "0.0.12",
     "immutable": "^3.7.4",
     "jquery": "^2.2.4",
+    "lazyload-js": "^1.0.0",
     "lodash": "^3.10.1",
     "lodash.assignwith": "^4.2.0",
     "lodash.truncate": "^4.4.2",
@@ -128,6 +129,5 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "proxy": "http://localhost:81"
+  }
 }

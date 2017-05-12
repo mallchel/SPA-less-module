@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Dropdown, Icon, Row, Col } from 'antd'
+import Immutable from 'immutable'
 import routes from '../../../../routes'
 import ListMenu from '../../../common/menu/ListMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
@@ -20,7 +21,7 @@ const menu = (
   </AntMenu>
 );
 
-const catalogs = [
+const catalogs = Immutable.fromJS([
   {
     id: 1,
     name: 'Клиенты',
@@ -41,7 +42,7 @@ const catalogs = [
     name: 'Добавить',
     icon: "interface-69"
   },
-]
+])
 
 class HeaderCatalog extends Component {
   render() {
