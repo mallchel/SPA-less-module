@@ -16,7 +16,7 @@ class Section extends Component {
       <div className={containerClassNames}>
         <HeaderSection { ...this.props } />
         <NavRoute route={routes.section} render={props => (
-          <Content {...this.props} />
+          <Content {...this.props} {...props} />
         )} />
       </div>
     )

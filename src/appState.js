@@ -10,7 +10,7 @@ import sectionActions from './actions/sectionActions';
 // import dropDownActions from './actions/dropdownActions';
 // import userSettingsActions from './actions/userSettingsActions';
 // import viewActions from './actions/viewActions';
-// import catalogActions from './actions/catalogActions';
+import catalogActions from './actions/catalogActions';
 // import historyActions from './actions/historyActions';
 // import reportsActions from './actions/reports';
 // import linkedRecordActions from './actions/linkedRecord';
@@ -27,7 +27,7 @@ const storeMixins = [
   // require('./stores/appMixin'),
   // require('./stores/routeMixin'),
   require('./stores/sectionsMixin').default,
-  // require('./stores/catalogsMixin'),
+  require('./stores/catalogsMixin').default,
   // require('./stores/recordsMixin'),
   // require('./stores/editorMixin'),
   // require('./stores/dropdownMixin'),
@@ -151,7 +151,7 @@ const appState = Reflux.createStore({
     // appActions,
     apiActions,
     // recordActions,
-    // catalogActions,
+    catalogActions,
     // editorActions,
     // dropDownActions,
     // userSettingsActions,

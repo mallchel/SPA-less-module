@@ -11,7 +11,6 @@ import styles from './headerSection.less'
 
 class HeaderSection extends Component {
   componentDidMount() {
-    // our init app-point...
     apiActions.getSections();
     apiActions.getCompanyInfo(window.location.host.split('.')[0]);
   }

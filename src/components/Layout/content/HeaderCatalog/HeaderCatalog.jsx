@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Dropdown, Icon, Row, Col } from 'antd'
-import Immutable from 'immutable'
 import routes from '../../../../routes'
 import ListMenu from '../../../common/menu/ListMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
+import apiActions from '../../../../actions/apiActions'
 import styles from './headerCatalog.less'
 
 const menu = (
@@ -21,31 +21,14 @@ const menu = (
   </AntMenu>
 );
 
-const catalogs = Immutable.fromJS([
-  {
-    id: 1,
-    name: 'Клиенты',
-    icon: "vote-27"
-  },
-  {
-    id: 2,
-    name: 'Заказы клиентов',
-    icon: "communication-47"
-  },
-  {
-    id: 3,
-    name: 'Проекты',
-    icon: "business-81"
-  },
-  {
-    id: 4,
-    name: 'Добавить',
-    icon: "interface-69"
-  },
-])
-
 class HeaderCatalog extends Component {
+  componentDidMount() {
+    apiActions.getCatalogs();
+  }
   render() {
+    const sectionId = this.props.match.params.sectionId;
+    const catalogs = this.props.appState.get('catalogs').valueSeq().filter(c => c.get('sectionId') === sectionId);
+
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <Col>
