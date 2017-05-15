@@ -4,6 +4,9 @@ import routes from '../../../../routes'
 import ListMenu from '../../../common/menu/ListMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
 import apiActions from '../../../../actions/apiActions'
+import DefaultRedirect from '../../../common/router/DefaultRedirect'
+import CatalogFactory from '../../../../models/CatalogFactory'
+
 import styles from './headerCatalog.less'
 
 const menu = (
@@ -31,6 +34,7 @@ class HeaderCatalog extends Component {
 
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
+        {/*<DefaultRedirect route={routes.catalog} object={this.props.appState.get('catalogs').valueSeq().get(0)} />*/}
         <Col>
           <ListMenu
             params='catalogId'

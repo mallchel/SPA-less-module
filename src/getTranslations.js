@@ -10,7 +10,7 @@ const translations = {
 };
 
 module.exports = function(path, count) {
-  var result = translations[window.app && window.app.currentLang || 'ru'];
+  var result = translations[(window.app && window.app.currentLang) || 'ru'];
 
   if ( !path ) {
     return result;
@@ -35,7 +35,7 @@ module.exports = function(path, count) {
     }
     let text;
     _.forEach(result, (t, c)=> {
-      if ( parseInt(c) <= _count ) {
+      if ( parseInt(c, 10) <= _count ) {
         text = t;
       }
     });

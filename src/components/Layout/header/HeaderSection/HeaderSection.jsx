@@ -12,6 +12,7 @@ import styles from './headerSection.less'
 class HeaderSection extends Component {
   componentDidMount() {
     apiActions.getSections();
+    apiActions.getPrivileges();
     apiActions.getCompanyInfo(window.location.host.split('.')[0]);
   }
 

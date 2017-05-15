@@ -25,10 +25,10 @@ class Body extends Component {
   render() {
     return (
       <div className={styles.body}>
-        <Prompt
+        {/*<Prompt
           when={true}
           message={e => 'Вы изменили запись «», но не сохранили её. Закрыть запись без сохранения?'}
-        />
+        />*/}
         <NavRoute route={routes.catalog}>
           {props => {
             if (props.match && props.match.isExact) {
