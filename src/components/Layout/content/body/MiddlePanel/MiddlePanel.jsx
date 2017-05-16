@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
 import Immutable from 'immutable'
-import routes from '../../../../../routes'
+// import routes from '../../../../../routes'
 import TabsMenu from '../../../../common/menu/TabsMenu'
 import styles from './middlePanel.less'
 
@@ -44,7 +44,7 @@ class MiddlePanel extends Component {
             <Col>
               <TabsMenu
                 params='tabId'
-                route={routes.tab}
+                route={'routes.tab'}
                 items={tabs}
                 className={styles.tabsMenu}
               />

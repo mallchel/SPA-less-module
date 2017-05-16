@@ -75,17 +75,17 @@ export default {
   getCatalogCompleted(data, {catalogId}) {
     let sectionId = data.sectionId.toString();
 
-    if (router.includes('main.section.editCatalog') &&
-      this.getIn(['routeParams', 'catalogId']) === catalogId &&
-      this.getIn(['editingCatalogs', sectionId]) == null) {
+    // if (router.includes('main.section.editCatalog') &&
+      // this.getIn(['routeParams', 'catalogId']) === catalogId &&
+      // this.getIn(['editingCatalogs', sectionId]) == null) {
       let catalog = CatalogFactory.create(data);
       catalog = catalog.set('originalFields', catalog.get('fields'));
       this.setIn(['editingCatalogs', sectionId], catalog);
       this.changed();
-    }
+    // }
 
-    if (router.includes('main.section.catalogData') &&
-      this.getIn(['routeParams', 'catalogId']) === catalogId) {
+    // if (router.includes('main.section.catalogData') &&
+      // this.getIn(['routeParams', 'catalogId']) === catalogId) {
 
       if (!this.get('currentCatalog')) {
         let catalog = CatalogFactory.create(data);
@@ -96,7 +96,7 @@ export default {
         this.setIn(['currentCatalog', 'fields'], fields);
       }
       this.changed();
-    }
+    // }
   },
 
   /* ============================

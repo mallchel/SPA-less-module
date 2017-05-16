@@ -55,8 +55,7 @@ class OverlayDropdown extends Component {
             return (
               <NavLink key={item.get('id')} route={this.props.route} params={{ [this.props.params]: item.get('id') }} component={(props) => {
                 return (
-                  <li
-                    className={cn(vertical.item, { [vertical.selected]: props.isActive })}>
+                  <li className={cn(vertical.item, { [vertical.selected]: props.isActive })}>
                     <Link to={props.link} className={cn(styles.link, vertical.link)}>
                       {
                         item.get('icon') ? <Icon type={item.get('icon')} className={cn(vertical.icon)} /> : null

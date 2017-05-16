@@ -17,8 +17,22 @@ const Menu = ({
     <Row type="flex" justify="space-between" align="middle" className={cn(className)}>
       <ul className={cn(horizontal.menu)}>
         {
-          items.map(item => (
+          /*items.map(item => (
             <NavLink key={item.get('id')} route={route} params={{ [params]: item.get('id') }} component={props => {
+              return (
+                <li className={cn(horizontal.item, { [horizontal.selected]: props.isActive })}>
+                  <Link to={props.link} className={cn(styles.link, horizontal.link)}>
+                    {
+                      item.get('icon') ? <Icon type={item.get('icon')} className={cn(horizontal.icon)} /> : null
+                    }
+                    <div className={horizontal.text}>{item.get('name')}</div>
+                  </Link>
+                </li>
+              )
+            }} />
+          ))*/
+          items.map(item => (
+            <NavLink key={item.get('id')} path={`/${route}/${item.get('id')}`} component={props => {
               return (
                 <li className={cn(horizontal.item, { [horizontal.selected]: props.isActive })}>
                   <Link to={props.link} className={cn(styles.link, horizontal.link)}>

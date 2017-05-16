@@ -1,5 +1,5 @@
 import React from 'react'
-import routes from '../../../../routes'
+// import routes from '../../../../routes'
 import TabsMenu from '../../../common/menu/TabsMenu'
 import styles from './headerSection.less'
 
@@ -9,8 +9,7 @@ const Menu = function ({ ...props }) {
 
   return (
     <TabsMenu
-      params='sectionId'
-      route={routes.section}
+      route='section'
       items={sections}
       buttons={[hasAdd && { text: '', icon: '', onClick() { } }]}
       className={`${styles.shiftLeft} ${styles.menu}`}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+// import { Redirect } from 'react-router-dom'
 import { Row, Col } from 'antd'
-import routes from '../../../../routes'
+// import routes from '../../../../routes'
 import apiActions from '../../../../actions/apiActions'
 import DefaultRedirect from '../../../common/router/DefaultRedirect'
 import Logo from './Logo'
@@ -19,7 +20,7 @@ class HeaderSection extends Component {
   render() {
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
-        <DefaultRedirect route={routes.section} object={this.props.appState.get('sections').valueSeq().get(0)} />
+        <DefaultRedirect route='section' path='/section/:sectionId' object={this.props.appState.get('sections').valueSeq().get(0)} />
 
         <Col>
           <Logo {...this.props} />

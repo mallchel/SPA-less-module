@@ -5,7 +5,7 @@ const NavRoute = function ({ component: Component, route, exact, ...props }) {
   return (
     <Route
       exact={exact}
-      path={route.path}
+      path={route}
       {...props}
       component={Component}
     >

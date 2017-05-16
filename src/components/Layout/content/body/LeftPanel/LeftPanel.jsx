@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'antd'
 import Header from './Header'
+import ViewsController from './view/ViewsController'
 
 import styles from './leftPanel.less'
 
@@ -9,16 +10,19 @@ class LeftPanel extends Component {
     return (
       <div className={styles.container}>
         <Col>
-          <Header {...this.props} />
+          <Header
+            currentCatalog={this.props.currentCatalog}
+            section={this.props.section}
+          />
         </Col>
 
         <Col>
           <Row type="flex" className={styles.body}>
-            <div>asdasasd
-            asdasasdasas
-            asdas
-            sdfsdf
-            </div>
+            <ViewsController
+              currentViewId={this.props.currentViewId}
+              currentCatalogId={this.props.currentCatalogId}
+              currentCatalog={this.props.currentCatalog}
+            />
           </Row>
         </Col>
       </div>

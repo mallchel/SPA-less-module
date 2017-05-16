@@ -1,17 +1,35 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 
-const NavRedirect = function({route, params, ...props}) {
+const NavRedirect = function ({ route, params, ...props }) {
   return (
-    <Redirect to={link(route, params)}/>
+    <Route>
+      {globalRoute => {
+        const href = link(globalRoute, route, params);
+        return <span>{href}</span>
+      }}
+    </Route>
+  );
+
+
+  return (
+    <Route children={globalRoute => {
+      const href = link(globalRoute, route, params);
+      {/*<Redirect to={href} />*/ }
+      return (
+        <span>{href}</span>
+      )
+    }} />
   )
 }
 
-function link(route, params) {
+function link(globalRoute, route, params) {
+  const globalParams = (globalRoute.match && globalRoute.match.params) || {};
+  console.log(globalRoute)
   return route.path.split('/').map(path => {
-    if(path[0]===':') {
+    if (path[0] === ':') {
       const paramName = path.slice(1);
-      return params[paramName];
+      return params[paramName] || globalParams[paramName];
     }
     return path;
   }).join('/');

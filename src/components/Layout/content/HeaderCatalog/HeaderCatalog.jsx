@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Dropdown, Icon, Row, Col } from 'antd'
-import routes from '../../../../routes'
-import ListMenu from '../../../common/menu/ListMenu'
+import PropTypes from 'prop-types'
+// import routes from '../../../../routes'
+import DefaultRedirect from '../../../common/router/DefaultRedirect'
+// import ListMenu from '../../../common/menu/ListMenu'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
 import apiActions from '../../../../actions/apiActions'
-import DefaultRedirect from '../../../common/router/DefaultRedirect'
-import CatalogFactory from '../../../../models/CatalogFactory'
+import Menu from './Menu'
 
 import styles from './headerCatalog.less'
 
@@ -27,6 +28,14 @@ const menu = (
 class HeaderCatalog extends Component {
   componentDidMount() {
     apiActions.getCatalogs();
+
+    let sectionId = this.props.match.params.sectionId;
+
+    if (sectionId) {
+      apiActions.getSection({ sectionId });
+    }
+  }
+  componentWillReceiveProps(nextProps) {
   }
   render() {
     const sectionId = this.props.match.params.sectionId;
@@ -34,14 +43,10 @@ class HeaderCatalog extends Component {
 
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
-        {/*<DefaultRedirect route={routes.catalog} object={this.props.appState.get('catalogs').valueSeq().get(0)} />*/}
+        <DefaultRedirect route='catalog' path='/catalog/:catalogId' object={catalogs.get(0)} />
+
         <Col>
-          <ListMenu
-            params='catalogId'
-            route={routes.catalog}
-            items={catalogs}
-            className={styles.shiftLeft}
-          />
+          <Menu {...this.props} />
         </Col>
         <Col>
           Продажи
@@ -55,6 +60,10 @@ class HeaderCatalog extends Component {
       </Row>
     )
   }
+}
+
+HeaderCatalog.propTypes = {
+  appState: PropTypes.object.isRequired
 }
 
 export default HeaderCatalog;
