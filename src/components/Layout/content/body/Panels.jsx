@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { CSSTransitionGroup } from 'react-transition-group'
 import { Row } from 'antd'
+import { Route } from 'react-router-dom'
 import LeftPanel from './LeftPanel'
 import RightPanel from './RightPanel'
 import CatalogBody from './MiddlePanel'
 import Splitter from '../../../common/Splitter'
-import NavRoute from '../../../common/router/Route'
+// import NavRoute from '../../../common/router/Route'
 import apiActions from '../../../../actions/apiActions'
 
 import styleAnimation from './transitionGroup.less'
@@ -26,18 +27,7 @@ class Panels extends Component {
     apiActions.getCatalog({ catalogId: this.props.match.params.catalogId });
   }
   componentWillReceiveProps(nextProps) {
-    // todo: and check viewId.
-    if (nextProps.match.params.catalogId !== this.props.match.params.catalogId) {
-      apiActions.getCatalog({ catalogId: nextProps.match.params.catalogId });
-    }
 
-    const newSectionId = nextProps.match.params.sectionId;
-
-    if (newSectionId && this.props.match.params.sectionId !== newSectionId) {
-      // update catalogs.
-      apiActions.getCatalogs();
-      apiActions.getSection({ sectionId: newSectionId });
-    }
   }
   render() {
     const sectionId = this.props.match.params.sectionId;
@@ -45,8 +35,9 @@ class Panels extends Component {
     const currentCatalog = this.props.appState.get('currentCatalog');
     const currentCatalogId = this.props.appState.getIn(['currentCatalog','id']);
     const currentViewId = this.props.appState.getIn(['routeParams', 'viewId']);
+    // console.log(currentCatalog, currentCatalogId, currentViewId)
     return (
-      <NavRoute route='/section/:sectionId/catalog/:catalogId/view/:viewId/records/:recordId'>
+      <Route path='/section/:sectionId/catalog/:catalogId/view/:viewId/records/:recordId'>
         {
           props => (
             <CSSTransitionGroup component={ROW}
@@ -59,8 +50,8 @@ class Panels extends Component {
               transitionEnterTimeout={ANIMATION_DELAY} transitionLeaveTimeout={ANIMATION_DELAY} transitionLeave={true}
             >
               {!props.match && (
-                <NavRoute
-                  route={'/section/:sectionId/catalog/:catalogId'}
+                <Route
+                  path={'/section/:sectionId/catalog/:catalogId'}
                   render={props => (
                     <LeftPanel
                       section={section}
@@ -81,8 +72,8 @@ class Panels extends Component {
                 }}
                 transitionEnterTimeout={ANIMATION_DELAY} transitionLeaveTimeout={ANIMATION_DELAY} transitionLeave={true}
               >
-                <NavRoute
-                  route={'/section/:sectionId/catalog/:catalogId'}
+                <Route
+                  path={'/section/:sectionId/catalog/:catalogId'}
                   component={CatalogBody}
                 />
                 {props.match && <Splitter><RightPanel {...props} /></Splitter>}
@@ -90,7 +81,7 @@ class Panels extends Component {
             </CSSTransitionGroup>
           )
         }
-      </NavRoute>
+      </Route>
     )
   }
 }

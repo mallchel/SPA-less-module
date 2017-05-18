@@ -98,7 +98,7 @@ export default {
         break;
     }
 
-    router.go(null, { viewId, catalogId });
+    // router.go(null, { viewId, catalogId });
 
     this.changed();
   },

@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { Link } from 'antd'
 import cn from 'classnames'
 import ViewItem from './ViewItem'
+import viewActions from '../../../../../../actions/viewActions'
 
 import styles from './viewList.less'
 
@@ -13,9 +14,13 @@ const ViewsList = React.createClass({
     currentCatalogId: React.PropTypes.string,
     currentCatalog: React.PropTypes.object,
     currentViewId: React.PropTypes.string,
-    onSelectViewItem: React.PropTypes.func
+    // onSelectViewItem: React.PropTypes.func
   },
-
+  onSelectViewItem(viewId) {
+    // apply filters to FilterStore.
+    // route.go to viewId
+    return viewActions.selectView(viewId, this.props.currentCatalogId);
+  },
   render() {
     let views = this.props.views;
     let newView = views.filter(v => v.get('isNew'));
@@ -27,7 +32,9 @@ const ViewsList = React.createClass({
         currentCatalogId={this.props.currentCatalogId}
         selected={newView.size === 0 && view.get('id') === (this.props.currentViewId || 0)}
         rights={view.get('forRights')}
-        view={view} onClick={this.props.onSelectViewItem} />
+        view={view}
+        onClick={this.onSelectViewItem}
+      />
     });
 
 
@@ -35,7 +42,6 @@ const ViewsList = React.createClass({
       <ul className={cn('ant-menu-inline', styles.menu)}>
         {views.size ?
           views.map(view => {
-            console.log(views.toJS(), this.props)
             return (
               <li key={view.key} className="ant-menu-item">
                 {/*<Link to={``}/>*/}

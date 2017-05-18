@@ -2,10 +2,17 @@ const relativeRoutes = {
   section: { path: '/section/:sectionId' },
   catalog: { parent: 'section', path: '/catalog/:catalogId' },
   view: { parent: 'catalog', path: '/view/:viewId' },
-  // tab: { parent: 'view', path: '/:tabId' },
-  records: { parent: 'view', path: '/records/' },
+
+  // records
+  records: { parent: 'view', path: '/records' },
   record: { parent: 'records', path: '/:recordId' },
-  board: { parent: 'view', path: '/boards/:boardId' },
+
+  // history
+  history: { parent: 'view', path: '/history' },
+
+  // reports
+  reports: { parent: 'view', path: '/reports' },
+  board: { parent: 'reports', path: '/board/:boardId' },
 };
 
 const absoluteRoutes = {};

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
 import Immutable from 'immutable'
-// import routes from '../../../../../routes'
+import routes from '../../../../../routes'
 import TabsMenu from '../../../../common/menu/TabsMenu'
 import styles from './middlePanel.less'
 
@@ -20,19 +20,22 @@ const menu = (
   </AntMenu>
 );
 
-const tabs = Immutable.fromJS([
-  {
+const tabs = Immutable.List([
+  Immutable.Map({
     id: 'record',
-    name: 'Записи'
-  },
-  {
+    name: 'Записи',
+    route: routes.records
+  }),
+  Immutable.Map({
     id: 'reports',
-    name: 'Отчеты'
-  },
-  {
+    name: 'Отчеты',
+    route: routes.reports
+  }),
+  Immutable.Map({
     id: 'history',
-    name: 'Активность'
-  }
+    name: 'Активность',
+    route: routes.history
+  })
 ]);
 
 class MiddlePanel extends Component {
@@ -43,8 +46,8 @@ class MiddlePanel extends Component {
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
             <Col>
               <TabsMenu
-                params='tabId'
-                route={'routes.tab'}
+                params='records'
+                route={routes.records}
                 items={tabs}
                 className={styles.tabsMenu}
               />

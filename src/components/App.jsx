@@ -2,12 +2,15 @@
 import '../styles/App.less'
 
 import React, { Component } from 'react'
-import { HashRouter } from 'react-router-dom'
+import { Router, HashRouter } from 'react-router-dom'
 import { LocaleProvider } from 'antd'
 import ruRu from 'antd/lib/locale-provider/ru_RU'
 import Layout from './Layout/Layout'
 import { confirm } from './common/Modal'
 import StateProvider from './StateProvider'
+import { createHashHistory } from 'history'
+import syncHistoryWithStore from './sync'
+import appState from '../appState'
 
 
 const getConfirmation = (message, callback, state) => {
@@ -29,13 +32,21 @@ const getConfirmation = (message, callback, state) => {
   })
 }
 
+const history= createHashHistory({
+  getUserConfirmation: getConfirmation
+});
+const customHistory = syncHistoryWithStore(history, appState);
+
 class App extends Component {
   render() {
     return (
       <LocaleProvider locale={ruRu}>
-        <HashRouter getUserConfirmation={getConfirmation}>
+        <Router history={customHistory}>
           <StateProvider component={Layout} />
-        </HashRouter>
+        </Router>
+        {/*<HashRouter getUserConfirmation={getConfirmation}>
+          <StateProvider component={Layout} />
+        </HashRouter>*/}
       </LocaleProvider>
     )
   }

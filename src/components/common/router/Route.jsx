@@ -7,9 +7,11 @@ const NavRoute = function ({ component: Component, route, exact, ...props }) {
       exact={exact}
       path={route}
       {...props}
-      component={Component}
-    >
-    </Route>
+      render={props => {
+        return (
+          <Component {...props} />
+        )
+      }} />
   )
 }
 

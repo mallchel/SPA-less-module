@@ -37,11 +37,11 @@ const ViewsController = React.createClass({
     }
   },
 
-  onSelectViewItem(viewId) {
-    // apply filters to FilterStore.
-    // route.go to viewId
-    return viewActions.selectView(viewId, this.props.currentCatalogId);
-  },
+  // onSelectViewItem(viewId) {
+  //   // apply filters to FilterStore.
+  //   // route.go to viewId
+  //   return viewActions.selectView(viewId, this.props.currentCatalogId);
+  // },
 
   render() {
     let views = (this.props.currentCatalog && this.props.currentCatalog.get('views')) ||
@@ -51,7 +51,7 @@ const ViewsController = React.createClass({
       currentCatalog={this.props.currentCatalog}
       currentViewId={this.props.currentViewId}
       currentCatalogId={this.props.currentCatalogId}
-      views={views} onSelectViewItem={this.onSelectViewItem}
+      views={views}
     />;
   }
 });

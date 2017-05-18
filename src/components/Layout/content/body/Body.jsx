@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect, Prompt } from 'react-router-dom'
+import { Link, Redirect, Prompt, Route } from 'react-router-dom'
 import NavRoute from '../../../common/router/Route'
 import Panels from './Panels'
 
@@ -22,7 +22,7 @@ class Body extends Component {
             return null;
           }}
         </NavRoute>*/}
-        <NavRoute route='/section/:sectionId/catalog/:catalogId' render={props => (
+        <Route path='/section/:sectionId/catalog/:catalogId' render={props => (
           <Panels { ...this.props } {...props} />
         )} />
 

@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
 import cn from 'classnames';
-// import NavRoute from '../common/router/Route'
-// import routes from '../../routes'
 import HeaderSection from './header/HeaderSection'
 import Content from './content/Content'
 import styles from './layout.less'
@@ -16,12 +13,7 @@ class Section extends Component {
     return (
       <div className={containerClassNames}>
         <HeaderSection { ...this.props } />
-        {/*<NavRoute route={routes.section} render={props => (
-          <Content {...this.props} {...props} />
-        )} />*/}
-        {/*<Route path='/section/:sectionId' render={props => (*/}
-          <Content {...this.props} />
-        {/*)}/>*/}
+        <Content {...this.props} />
       </div>
     )
   }
