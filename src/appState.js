@@ -88,8 +88,8 @@ Reflux.StoreMethods.setAppState = function setAppState(st) {
 };
 
 let state = Immutable.fromJS({
-  route: '',
-  routeParams: {},
+  // route: '',
+  route: {},
   prevRoute: '',
   prevRouteParams: {},
 
@@ -115,6 +115,8 @@ let state = Immutable.fromJS({
   currentCatalog: null,
 
   editingCatalogs: {},
+
+  catalogMapOrder: [],
 
   currentRecordId: null,
   currentRecordLoading: false,

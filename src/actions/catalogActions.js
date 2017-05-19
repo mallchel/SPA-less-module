@@ -1,4 +1,6 @@
 import Reflux from 'reflux';
 export default Reflux.createActions({
-  'changeSortIndex' : {}
+  'changeSortIndex' : {},
+  'changeMapOrder': {},
+  'saveMapOrder': {}
 });

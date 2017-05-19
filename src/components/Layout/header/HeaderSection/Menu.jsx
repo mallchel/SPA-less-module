@@ -4,8 +4,7 @@ import TabsMenu from '../../../common/menu/TabsMenu'
 import routes from '../../../../routes'
 import styles from './headerSection.less'
 
-const Menu = function ({ ...props }) {
-  const sections = props.appState.get('sections').sortBy(s => s.get('name').toLowerCase()).valueSeq().map(s => s.remove('icon'));
+const Menu = function ({ sections }) {
   const hasAdd = false;
 
   return (

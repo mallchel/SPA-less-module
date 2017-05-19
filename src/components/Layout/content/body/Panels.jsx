@@ -24,7 +24,8 @@ function ROW(props) {
 
 class Panels extends Component {
   componentDidMount() {
-    apiActions.getCatalog({ catalogId: this.props.match.params.catalogId });
+    console.log(111)
+    apiActions.getCatalog({ catalogId: this.props.appState.getIn(['route', 'params', 'catalogId']) });
   }
   componentWillReceiveProps(nextProps) {
 
@@ -33,7 +34,7 @@ class Panels extends Component {
     const sectionId = this.props.match.params.sectionId;
     const section = this.props.appState.getIn(['sections', sectionId]);
     const currentCatalog = this.props.appState.get('currentCatalog');
-    const currentCatalogId = this.props.appState.getIn(['currentCatalog','id']);
+    const currentCatalogId = this.props.appState.getIn(['currentCatalog', 'id']);
     const currentViewId = this.props.appState.getIn(['routeParams', 'viewId']);
     // console.log(currentCatalog, currentCatalogId, currentViewId)
     return (
@@ -58,7 +59,7 @@ class Panels extends Component {
                       currentCatalog={currentCatalog}
                       currentCatalogId={currentCatalogId}
                       currentViewId={currentViewId}
-                     />
+                    />
                   )}
                 />
               )}

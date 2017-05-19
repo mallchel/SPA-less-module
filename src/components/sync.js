@@ -1,8 +1,8 @@
 import { matchPath } from 'react-router'
+import Immutable from 'immutable'
 import routes from '../routes'
 
 export default function syncHistoryWithStore(history, store) {
-  console.log(history)
   // Whenever location changes, dispatch an action to get it in the store
   const handleLocationChange = (location = history.location) => {
     for (let route in routes) {
@@ -13,7 +13,7 @@ export default function syncHistoryWithStore(history, store) {
       });
       if (match) {
         // Tell the store to update by dispatching an action
-        store.set('routeParams', match)
+        store.set('route', Immutable.fromJS(match));
         break;
       }
     }

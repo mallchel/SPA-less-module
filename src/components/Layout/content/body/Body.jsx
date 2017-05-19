@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Link, Redirect, Prompt, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import NavRoute from '../../../common/router/Route'
+import routes from '../../../../routes'
 import Panels from './Panels'
 
 import styles from './body.less'
@@ -22,7 +23,10 @@ class Body extends Component {
             return null;
           }}
         </NavRoute>*/}
-        <Route path='/section/:sectionId/catalog/:catalogId' render={props => (
+        {/*<Route path='/section/:sectionId/catalog/:catalogId' render={props => (
+          <Panels { ...this.props } {...props} />
+        )} />*/}
+        <NavRoute route={routes.catalog} render={props => (
           <Panels { ...this.props } {...props} />
         )} />
 

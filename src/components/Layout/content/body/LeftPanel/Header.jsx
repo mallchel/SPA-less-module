@@ -24,16 +24,13 @@ class Header extends Component {
       modalsActions.openAccessModal({ object, parents }, RESOURCE_TYPES.CATALOG, { readOnly, isAdmin });
     }
   }
-  btnEdit = (e) => {
-    return (
-      <Redirect to={`section/${this.props.section.get('id')}/catalog/${this.props.currentCatalog.get('id')}/edit`} />
-    )
-  }
+
   onOk = (e) => {
     apiActions.deleteCatalog({
       catalogId: this.props.currentCatalog.get('id')
     });
   }
+
   remove = (e) => {
     confirm({
       title: trs('modals.removeConfirm.headerText'),
@@ -43,6 +40,7 @@ class Header extends Component {
       onOk: this.onOk
     })
   }
+
   render() {
     let menu = {};
     let currentCatalog = this.props.currentCatalog;

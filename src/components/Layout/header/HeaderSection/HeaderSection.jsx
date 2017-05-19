@@ -18,6 +18,8 @@ class HeaderSection extends Component {
   }
 
   render() {
+    const sections = this.props.appState.get('sections').sortBy(s => s.get('name').toLowerCase()).valueSeq().map(s => s.remove('icon'));
+
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <DefaultRedirect route='section' path='/section/:sectionId' object={this.props.appState.get('sections').valueSeq().get(0)} />
@@ -27,7 +29,9 @@ class HeaderSection extends Component {
         </Col>
 
         <Col className={styles.menuContainer}>
-          <Menu {...this.props} />
+          <Menu
+            sections={sections}
+           />
         </Col>
 
         <Col>

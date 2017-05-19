@@ -22,7 +22,7 @@ export default {
     // Handle request with empty query
     if (_.size(query) === 0) {
       let byId = {};
-      res.forEach((c, i)=> {
+      res.forEach((c, i) => {
         c.id = c.id.toString();
         c.index = i;
         byId[c.id] = c;
@@ -53,12 +53,12 @@ export default {
     this.changed();
   },
 
-  setCatalogOrderCompleted({catalogId, index}) {
+  setCatalogOrderCompleted({ catalogId, index }) {
     this.set('catalogs', changeMapOrder(this.get('catalogs'), catalogId, index));
     this.changed();
   },
 
-  getCatalogFieldsCompleted({catalogId}, data) {
+  getCatalogFieldsCompleted({ catalogId }, data) {
     let catalog = this.getIn(['catalogs', catalogId]);
     if (!catalog) {
       return;
@@ -72,44 +72,44 @@ export default {
   /* ============================
    * Get Catalog
    */
-  getCatalogCompleted(data, {catalogId}) {
+  getCatalogCompleted(data, { catalogId }) {
     let sectionId = data.sectionId.toString();
 
     // if (router.includes('main.section.editCatalog') &&
-      // this.getIn(['routeParams', 'catalogId']) === catalogId &&
-      // this.getIn(['editingCatalogs', sectionId]) == null) {
-      let catalog = CatalogFactory.create(data);
-      catalog = catalog.set('originalFields', catalog.get('fields'));
-      this.setIn(['editingCatalogs', sectionId], catalog);
-      this.changed();
+    // this.getIn(['routeParams', 'catalogId']) === catalogId &&
+    // this.getIn(['editingCatalogs', sectionId]) == null) {
+    let catalog = CatalogFactory.create(data);
+    catalog = catalog.set('originalFields', catalog.get('fields'));
+    this.setIn(['editingCatalogs', sectionId], catalog);
+    this.changed();
     // }
 
     // if (router.includes('main.section.catalogData') &&
-      // this.getIn(['routeParams', 'catalogId']) === catalogId) {
+    // this.getIn(['routeParams', 'catalogId']) === catalogId) {
 
-      if (!this.get('currentCatalog')) {
-        let catalog = CatalogFactory.create(data);
-        this.set('currentCatalog', catalog);
-      } else {
-        let fields = new Immutable.List(data.fields.map(f => FieldFactory.create(f)));
-        this.mergeIn(['currentCatalog'], data);
-        this.setIn(['currentCatalog', 'fields'], fields);
-      }
-      this.changed();
+    if (!this.get('currentCatalog')) {
+      let catalog = CatalogFactory.create(data);
+      this.set('currentCatalog', catalog);
+    } else {
+      let fields = new Immutable.List(data.fields.map(f => FieldFactory.create(f)));
+      this.mergeIn(['currentCatalog'], data);
+      this.setIn(['currentCatalog', 'fields'], fields);
+    }
+    this.changed();
     // }
   },
 
   /* ============================
    * Create Catalog
    */
-  createCatalog({sectionId}) {
+  createCatalog({ sectionId }) {
     this.setIn(['editingCatalogs', sectionId, 'creating'], true);
     this.setIn(['editingCatalogs', sectionId, 'createError'], null);
     this.setIn(['editingCatalogs', sectionId, 'sectionId'], sectionId);
     this.changed();
   },
 
-  createCatalogCompleted({id: catalogId}, {sectionId}) {
+  createCatalogCompleted({ id: catalogId }, { sectionId }) {
     if (router.includes('main.section.addCatalog') && this.getIn(['routeParams', 'sectionId']) === sectionId) {
       router.go('main.section.catalogData', {
         sectionId: sectionId,
@@ -119,7 +119,7 @@ export default {
     }
   },
 
-  createCatalogFailed(err, {sectionId}) {
+  createCatalogFailed(err, { sectionId }) {
     this.setIn(['editingCatalogs', sectionId, 'creating'], false);
     this.setIn(['editingCatalogs', sectionId, 'createError'], err || true);
     this.changed();
@@ -128,13 +128,13 @@ export default {
   /* ================================
    * Update Catalog
    */
-  updateCatalog({sectionId}) {
+  updateCatalog({ sectionId }) {
     this.setIn(['editingCatalogs', sectionId, 'updating'], true);
     this.setIn(['editingCatalogs', sectionId, 'updateError'], null);
     this.changed();
   },
 
-  updateCatalogCompleted(res, {catalogId, sectionId}) {
+  updateCatalogCompleted(res, { catalogId, sectionId }) {
     if (router.includes('main.section.editCatalog') &&
       this.getIn(['routeParams', 'sectionId']) === sectionId &&
       this.getIn(['routeParams', 'catalogId']) === catalogId) {
@@ -152,7 +152,7 @@ export default {
     }
   },
 
-  updateCatalogFailed(err, {sectionId}) {
+  updateCatalogFailed(err, { sectionId }) {
     this.setIn(['editingCatalogs', sectionId, 'updating'], false);
     this.setIn(['editingCatalogs', sectionId, 'updateError'], err || true);
     this.changed();
@@ -161,22 +161,56 @@ export default {
   /**
    * Delete Catalog
    */
-  deleteCatalog({catalogId}) {},
+  deleteCatalog({ catalogId }) { },
 
-  deleteCatalogCompleted(res, {catalogId}) {
-    if (router.includes('main.section.editCatalog', {catalogId}) ||
-      router.includes('main.section.catalogData', {catalogId})) {
+  deleteCatalogCompleted(res, { catalogId }) {
+    if (router.includes('main.section.editCatalog', { catalogId }) ||
+      router.includes('main.section.catalogData', { catalogId })) {
       router.go('main.section');
     }
 
     apiActions.getCatalogs();
   },
 
-  deleteCatalogFailed(err, {catalogId}) {
+  deleteCatalogFailed(err, { catalogId }) {
   },
 
   changeSortIndex(catalogId, sortIndex) {
     this.setIn(['catalogs', catalogId, 'index'], sortIndex);
+    this.changed();
+  },
+
+  /**
+   * Change Map order
+   */
+  changeMapOrder(collection, id, newIndex) {
+    let oldIndex = collection.getIn([id, 'index']);
+
+    collection = collection.map(c => {
+      let idx = c.get('index');
+      if (newIndex < oldIndex) {
+        if (idx >= newIndex && idx < oldIndex) {
+          c = c.set('index', idx + 1);
+        }
+      } else {
+        if (idx > oldIndex && idx <= newIndex) {
+          c = c.set('index', idx - 1);
+        }
+      }
+
+      return c;
+    });
+
+    collection = collection.setIn([id, 'index'], newIndex);
+
+    this.set('catalogMapOrder', collection);
+    this.changed();
+  },
+  /**
+   * Save Map Order
+   */
+  saveMapOrder(order) {
+    this.set('catalogMapOrder', order);
     this.changed();
   }
 };
