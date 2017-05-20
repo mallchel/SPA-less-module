@@ -1,0 +1,28 @@
+@import (reference) '../../../../../../../styles/helpers/index.less';
+
+.container {
+  min-width: 300px;
+  width: 300px;
+  border-right: 1px solid @BORDER_BLOCK
+}
+
+.header {
+  .header-base;
+  .container--padding-horizontal;
+  border-bottom: 1px solid @BORDER_BLOCK;
+  background-color: @BG_CONTENT;
+}
+
+.catalogName {
+  overflow: hidden;
+  height: 1.5em;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  .shift-right;
+}
+
+.body {
+  background-color: @BG_PANELS;
+}
