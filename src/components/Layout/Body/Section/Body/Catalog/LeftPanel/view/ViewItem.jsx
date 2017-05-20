@@ -19,13 +19,7 @@ const ViewsItem = React.createClass({
     view: React.PropTypes.object,
     currentCatalog: React.PropTypes.object,
     currentCatalogId: React.PropTypes.string,
-    onClick: React.PropTypes.func.isRequired,
     selected: React.PropTypes.bool
-  },
-
-  onSelectItem() {
-    let id = this.props.view.get('id');
-    this.props.onClick(id);
   },
 
   onModalNewView() {
@@ -52,6 +46,9 @@ const ViewsItem = React.createClass({
                 isNew ?
                   trs('views.newView')
                   : name
+              }
+              {
+                isNew && <DropDownButton items={[]} onClick={this.onModalNewView} text={trs('buttons.save')} />
               }
             </Link>
           </li>
