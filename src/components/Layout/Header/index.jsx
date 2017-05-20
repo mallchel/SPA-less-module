@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-// import { Redirect } from 'react-router-dom'
 import { Row, Col } from 'antd'
-// import routes from '../../../routes'
+import PropTypes from 'prop-types'
 import apiActions from '../../../actions/apiActions'
 import DefaultRedirect from '../../common/router/DefaultRedirect'
 import Logo from './Logo'
@@ -11,6 +10,9 @@ import Profile from './Profile'
 import styles from './header.less'
 
 class Header extends Component {
+  static PropTypes = {
+    appState: PropTypes.object.isRequired
+  }
   componentDidMount() {
     apiActions.getSections();
     apiActions.getPrivileges();
@@ -31,7 +33,7 @@ class Header extends Component {
         <Col className={styles.menuContainer}>
           <SectionsMenu
             sections={sections}
-           />
+          />
         </Col>
 
         <Col>

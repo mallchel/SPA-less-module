@@ -4,6 +4,7 @@ import { Link } from 'antd'
 import cn from 'classnames'
 import ViewItem from './ViewItem'
 import viewActions from '../../../../../../../../actions/viewActions'
+import DefaultRedirect from '../../../../../../../common/router/DefaultRedirect'
 
 import styles from './viewList.less'
 
@@ -37,19 +38,11 @@ const ViewsList = React.createClass({
       />
     });
 
-
     return (
       <ul className={cn('ant-menu-inline', styles.menu)}>
+        <DefaultRedirect route='view' path='/view/:viewId' object={this.props.views.get(0)} />
         {views.size ?
-          views.map(view => {
-            return (
-              <li key={view.key} className="ant-menu-item">
-                {/*<Link to={``}/>*/}
-                {view}
-                {newView.size === 0 ? <div style={{ height: '36px' }} >&nbsp;</div> : null}
-              </li>
-            )
-          })
+          views
           :
           null
         }

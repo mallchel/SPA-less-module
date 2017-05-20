@@ -4,6 +4,7 @@ import NavLink from '../../../router/Link'
 import ButtonTransparent from '../../../elements/ButtonTransparent'
 import { Link } from 'react-router-dom'
 import cn from 'classnames'
+
 import styles from './OverlayDropdown.less'
 
 class OverlayDropdown extends Component {
@@ -53,7 +54,7 @@ class OverlayDropdown extends Component {
         {
           filterData.map(item => {
             return (
-              <NavLink key={item.get('id')} route={this.props.route} params={{ [this.props.params]: item.get('id') }} component={(props) => {
+              <NavLink key={item.get('id')} route={item.get('route') || this.props.route} params={{ [this.props.params]: item.get('id') }} render={props => {
                 return (
                   <li className={cn(vertical.item, { [vertical.selected]: props.isActive })}>
                     <Link to={props.link} className={cn(styles.link, vertical.link)}>

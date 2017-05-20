@@ -1,13 +1,16 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ClassNames from 'classnames';
-import trs from '../../../../../../../../getTranslations';
-import modalsActions from '../../../../../../../../actions/modalsActions';
-import DropDownButton from '../../../../../../../common/DropdownButton';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import cn from 'classnames'
+import { Link } from 'react-router-dom'
+import trs from '../../../../../../../../getTranslations'
+import modalsActions from '../../../../../../../../actions/modalsActions'
+import DropDownButton from '../../../../../../../common/DropdownButton'
+import NavLink from '../../../../../../../common/router/Link'
+import routes from '../../../../../../../../routes'
 
-import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes';
-import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes';
-import { checkAccessOnObject } from '../../../../../../../../utils/rights';
+import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
+import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
+import { checkAccessOnObject } from '../../../../../../../../utils/rights'
 
 
 const ViewsItem = React.createClass({
@@ -40,17 +43,28 @@ const ViewsItem = React.createClass({
       : this.props.view.get('name');
     let isNew = this.props.view.get('isNew');
 
-    return isNew ?
-      <div className={ClassNames({ 'nunit-list__row': 1, 'm-select': 1, 'new': 1 })}>
-        {trs('views.newView')}
-        <DropDownButton items={[]} onClick={this.onModalNewView} text={trs('buttons.save')} />
-      </div> :
-
-      <div
-        title={name}
-        className={ClassNames({ 'nunit-list__row': 1, 'm-select': this.props.selected })}
-        onClick={this.onSelectItem}>{name}</div>
+    return (
+      <NavLink route={routes.view} params={{ viewId: this.props.view.get('id') }} render={props => {
+        return (
+          <li className={cn('ant-menu-item', { 'ant-menu-item-selected': props.isActive })}>
+            <Link to={props.link}>
+              {
+                isNew ?
+                  trs('views.newView')
+                  : name
+              }
+            </Link>
+          </li>
+        )
+      }} />
+    )
   }
+  // {
+  //   isNew ?
+  //     trs('views.newView')
+  //     /*<DropDownButton items={[]} onClick={this.onModalNewView} text={trs('buttons.save')} />*/
+  //     : name
+  // }
 });
 
 export default ViewsItem;

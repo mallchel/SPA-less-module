@@ -6,8 +6,10 @@ import LeftPanel from './LeftPanel'
 import RightPanel from './RightPanel'
 import MiddlePanel from './MiddlePanel'
 import Splitter from '../../../../../common/Splitter'
-// import NavRoute from '../../../../../common/router/Route'
+import NavRoute from '../../../../../common/router/Route'
+import routes from '../../../../../../routes'
 import apiActions from '../../../../../../actions/apiActions'
+import userSettingsActions from '../../../../../../actions/userSettingsActions'
 
 import styles from './catalog.less'
 
@@ -21,23 +23,33 @@ function ROW(props) {
   )
 }
 
-class Panels extends Component {
+function loadCatalog(catalogId) {
+  userSettingsActions
+    .getUserSettingsForCatalog({ catalogId })
+    .then(function () {
+      apiActions.getCatalog({ catalogId });
+    });
+}
+
+class Catalog extends Component {
   componentDidMount() {
-    console.log(111)
-    apiActions.getCatalog({ catalogId: this.props.appState.getIn(['route', 'params', 'catalogId']) });
+    loadCatalog(this.props.appState.getIn(['route', 'params', 'catalogId']));
   }
   componentWillReceiveProps(nextProps) {
-
+    // todo: and check viewId.
+    if (nextProps.appState.getIn(['route', 'params', 'catalogId']) !== this.props.appState.getIn(['route', 'params', 'catalogId'])) {
+      loadCatalog(nextProps.appState.getIn(['route', 'params', 'catalogId']));
+    }
   }
   render() {
     const sectionId = this.props.match.params.sectionId;
     const section = this.props.appState.getIn(['sections', sectionId]);
     const currentCatalog = this.props.appState.get('currentCatalog');
     const currentCatalogId = this.props.appState.getIn(['currentCatalog', 'id']);
-    const currentViewId = this.props.appState.getIn(['routeParams', 'viewId']);
-    // console.log(currentCatalog, currentCatalogId, currentViewId)
+    const currentViewId = this.props.appState.getIn(['route', 'params', 'viewId']);
+
     return (
-      <Route path='/section/:sectionId/catalog/:catalogId/view/:viewId/records/:recordId'>
+      <NavRoute route={routes.record}>
         {
           props => (
             <CSSTransitionGroup component={ROW}
@@ -81,9 +93,9 @@ class Panels extends Component {
             </CSSTransitionGroup>
           )
         }
-      </Route>
+      </NavRoute>
     )
   }
 }
 
-export default Panels;
+export default Catalog;

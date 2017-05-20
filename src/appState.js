@@ -32,7 +32,7 @@ const storeMixins = [
   // require('./stores/editorMixin'),
   // require('./stores/dropdownMixin'),
   require('./stores/viewsMixin').default,
-  // require('./stores/filtersMixin'),
+  require('./stores/filtersMixin').default,
   // require('./stores/rightsMixin'),
   require('./stores/privilegesMixin').default,
   // require('./stores/filterKeysMixin'),

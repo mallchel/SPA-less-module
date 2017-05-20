@@ -4,7 +4,7 @@ import routes from '../../../routes'
 
 import styles from './header.less'
 
-const Menu = function ({ sections }) {
+const SectionsMenu = function ({ sections }) {
   const hasAdd = false;
 
   return (
@@ -18,4 +18,4 @@ const Menu = function ({ sections }) {
   )
 }
 
-export default Menu;
+export default SectionsMenu;

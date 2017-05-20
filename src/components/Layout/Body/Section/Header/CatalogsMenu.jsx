@@ -10,10 +10,6 @@ import apiActions from '../../../../../actions/apiActions'
 // import changeMapOrder from '../../../../utils/changeMapOrder'
 import routes from '../../../../../routes'
 
-import PRIVILEGE_CODES from '../../../../../configs/privilegeCodes'
-import RESOURCE_TYPES from '../../../../../configs/resourceTypes'
-import { checkAccessOnObject } from '../../../../../utils/rights'
-
 import ListMenu from '../../../../common/menu/ListMenu'
 import styles from './header.less'
 

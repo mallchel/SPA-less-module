@@ -14,6 +14,7 @@ export default function syncHistoryWithStore(history, store) {
       if (match) {
         // Tell the store to update by dispatching an action
         store.set('route', Immutable.fromJS(match));
+        store.changed();
         break;
       }
     }
