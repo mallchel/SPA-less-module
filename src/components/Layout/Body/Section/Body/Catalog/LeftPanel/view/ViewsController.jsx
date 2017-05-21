@@ -1,9 +1,9 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import ViewsList from './ViewsList';
-import apiActions from '../../../../../../../../actions/apiActions';
-import viewActions from '../../../../../../../../actions/viewActions';
-import Immutable from 'immutable';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import ViewsList from './ViewsList'
+import apiActions from '../../../../../../../../actions/apiActions'
+import viewActions from '../../../../../../../../actions/viewActions'
+import Immutable from 'immutable'
 
 const ViewsController = React.createClass({
   mixins: [PureRenderMixin],
@@ -47,12 +47,16 @@ const ViewsController = React.createClass({
     let views = (this.props.currentCatalog && this.props.currentCatalog.get('views')) ||
       new Immutable.List();
     // get views from currentCatalog.
-    return <ViewsList
-      currentCatalog={this.props.currentCatalog}
-      currentViewId={this.props.currentViewId}
-      currentCatalogId={this.props.currentCatalogId}
-      views={views}
-    />;
+    return (
+      <div>
+        <ViewsList
+          currentCatalog={this.props.currentCatalog}
+          currentViewId={this.props.currentViewId}
+          currentCatalogId={this.props.currentCatalogId}
+          views={views}
+        />
+      </div>
+    )
   }
 });
 
