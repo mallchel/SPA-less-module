@@ -16,7 +16,7 @@ const FilterController = React.createClass({
   getInitialState() {
     return {};
   },
-  
+
   onSave(fieldId, value) {
     filterActions.updateFieldFilter({
       catalogId: this.props.currentCatalog.get('id'),
@@ -29,9 +29,14 @@ const FilterController = React.createClass({
 
   render() {
     let currentCatalog = this.props.currentCatalog;
+
+    if (!(currentCatalog && currentCatalog.get('fields'))) {
+      return null;
+    }
+
     let filters = currentCatalog && currentCatalog.getIn(['filters', 'fields']);
     let catalog = this.props.currentCatalog;
-    let fields = catalog
+    let fields = catalog && catalog
       .get('fields')
       .filter(field => getFilterComponent(field.get('type')));
 
@@ -40,20 +45,16 @@ const FilterController = React.createClass({
     }
 
     return (
-      currentCatalog && currentCatalog.get('fields')
-        ?
+      <div>
         <div>
-          <div>
-            {trs('filter.header')}
-          </div>
-          <FilterList
-            filters={filters}
-            currentCatalog={this.props.currentCatalog}
-            onSave={this.onSave}
-          />
+          {trs('filter.header')}
         </div>
-        :
-        null
+        <FilterList
+          filters={filters}
+          currentCatalog={this.props.currentCatalog}
+          onSave={this.onSave}
+        />
+      </div>
     );
   }
 

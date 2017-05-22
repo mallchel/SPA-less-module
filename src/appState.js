@@ -35,7 +35,7 @@ const storeMixins = [
   require('./stores/filtersMixin').default,
   // require('./stores/rightsMixin'),
   require('./stores/privilegesMixin').default,
-  // require('./stores/filterKeysMixin'),
+  require('./stores/filterKeysMixin').default,
   require('./stores/authMixin').default,
   // require('./stores/userMixin'),
   // require('./stores/historyMixin'),

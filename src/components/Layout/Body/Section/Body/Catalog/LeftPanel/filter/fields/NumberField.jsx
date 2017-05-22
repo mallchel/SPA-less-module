@@ -2,56 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
 import _ from 'lodash'
-import trs from '../../../getTranslations'
-
-// const NumberField = React.createClass({
-//   mixins: [PureRenderMixin],
-//   propTypes: {
-//     value: React.PropTypes.number,
-//     config: React.PropTypes.object,
-//     onSave: React.PropTypes.func.isRequired,
-//     placeholder: React.PropTypes.string
-//   },
-//
-//   getInitialState(){
-//     return {
-//       value: this.props.value
-//     }
-//   },
-//
-//   componentWillReceiveProps(nextProps) {
-//     this.setState({value: nextProps.value});
-//   },
-//
-//   onSave(value) {
-//     let result = {};
-//     result[this.props.name] = value || null;
-//     this.props.onSave(result);
-//   },
-//
-//   onChange(e){
-//     let val = e.target.value;
-//
-//     if ( val !== '' ) {
-//       val = val.replace(/,/g, '.');
-//       if ( isNaN(Number(val)) ) {
-//         return;
-//       }
-//     }
-//
-//     this.setState({
-//       value: val
-//     }, ()=>{
-//       this.onSave(val);
-//     });
-//   },
-//
-//   render() {
-//     return (
-//
-//     );
-//   }
-// });
+import trs from '../../../../../../../../../getTranslations'
 
 const NumberRangeField = React.createClass({
   mixins: [PureRenderMixin],

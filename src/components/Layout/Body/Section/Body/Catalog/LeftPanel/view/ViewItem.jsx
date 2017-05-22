@@ -56,12 +56,6 @@ const ViewsItem = React.createClass({
       }} />
     )
   }
-  // {
-  //   isNew ?
-  //     trs('views.newView')
-  //     /*<DropDownButton items={[]} onClick={this.onModalNewView} text={trs('buttons.save')} />*/
-  //     : name
-  // }
 });
 
 export default ViewsItem;

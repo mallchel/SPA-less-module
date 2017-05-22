@@ -42,7 +42,7 @@ const FilterList = React.createClass({
           }
         }
 
-        let eventHub = new EventEmitter;
+        let eventHub = new EventEmitter();
 
         if (!FilterComponent) {
           return null;
@@ -71,7 +71,7 @@ const FilterList = React.createClass({
 
 
     return (
-      <div className="filter-list">
+      <div>
         {filterFields}
       </div>
     );

@@ -38,7 +38,7 @@ const FilterItem = React.createClass({
     let currentViewId = this.props.currentView && this.props.currentView.get('id');
 
     // shouldn't hide filter item.
-    if (nextCurrentViewId != currentViewId && !nextProps.currentView.get('isNew')) {
+    if (nextCurrentViewId !== currentViewId && !nextProps.currentView.get('isNew')) {
       this.setState({ opened: nextProps.opened });
     }
   },

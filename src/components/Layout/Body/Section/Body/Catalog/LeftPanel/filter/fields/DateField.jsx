@@ -235,6 +235,7 @@ const DateRangeField = React.createClass({
       key: RELATIVE,
       value: trs('filter.keys.' + RELATIVE)
     }];
+    console.log(AppState.get('filterKeys'))
     if (AppState.get('filterKeys').size) {
       let filterKeys = AppState.getIn(['filterKeys', 'date_ranges']).toJS();
       filterKeys.forEach(f => selectItems.push(f));
@@ -248,7 +249,7 @@ const DateRangeField = React.createClass({
           </select>
         </div>
 
-        { (this.state.keyRange == FIXED) ?
+        { (this.state.keyRange === FIXED) ?
           <div className="input-range filter-date__item">
             <DateField
               value={startDate}
@@ -261,7 +262,7 @@ const DateRangeField = React.createClass({
           </div>
           : null
         }
-        { (this.state.keyRange == RELATIVE) ?
+        { (this.state.keyRange === RELATIVE) ?
           <div className="input-range filter-date__item">
             <span>
               <DebouncedInput

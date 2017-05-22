@@ -1,7 +1,7 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import RecordDropdown from './RecordDropdown.jsx'
-import AppState from '../../../appState'
+import AppState from '../../../../../../../../../appState'
 
 
 const UserField = React.createClass({
