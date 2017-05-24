@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import FieldTypes from '../configs/fieldTypes';
+import appState from '../appState';
 
-export default  {
+export default {
   /*
    * Приводит конфиг path в формат ['{some}', '{1}', '{some}']
    *
@@ -9,13 +10,22 @@ export default  {
    *
    * @returns ['catalogs', '{catalogId}', 'filters', 'fields', '{fieldId}']
    */
-  getCatalogFieldPath(path){
-    return ['currentCatalog', 'filters', 'fields', path.fieldId];
+  getViewFilterPath({ catalogId, viewId, fieldId}) {
+
+    if ( Number(viewId) === 0 ) {
+      viewId = "$new";
+    }
+    return ['catalogs', catalogId, 'views', viewId, 'filters', fieldId];
   },
 
-  getCatalogFields() {
-    return ['currentCatalog', 'filters', 'fields'];
-  },
+  // getCatalogFieldPath(path, catalogId) {
+  //   return ['catalogs', catalogId, 'views', 'filters', 'fields', path.fieldId];
+  // },
+
+  // getCatalogFields(catalogId) {
+  //   // return ['currentCatalog', 'filters', 'fields'];
+  //   return ['catalogs', catalogId, 'views', 'filters', 'fields'];
+  // },
 
   /**
    * @param type field
@@ -33,18 +43,15 @@ export default  {
       case FieldTypes.CHECKBOXES:
       case FieldTypes.RADIOBUTTON:
         return value;
-        break;
 
       case FieldTypes.USER:
         return value.map(_ => _.id);
-        break;
       case FieldTypes.OBJECT:
         return value.map(_ => {
-          return {"recordId": _.recordId, "catalogId": _.catalogId};
+          return { "recordId": _.recordId, "catalogId": _.catalogId };
         });
-        break;
 
-      default :
+      default:
         return {};
     }
   },

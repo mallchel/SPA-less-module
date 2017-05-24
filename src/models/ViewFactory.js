@@ -9,7 +9,11 @@ export default {
 
     view.uuid = Math.random();
     view.id = data.id != null ? String(data.id) : null;
-    view.index = data.index;
+
+    if ( data.index !== undefined ) {
+      view.index = data.index;
+    }
+
     view.name = data.name;
     view.originName = data.originName;
     view.forRights = data.forRights;
@@ -23,7 +27,8 @@ export default {
       view.isNew = true;
     }
 
-    view.filters = view.filters || [];
+    view.filters = data.filters || {};
+    view.filtersChanged = false;
 
     return Immutable.fromJS(view);
   }

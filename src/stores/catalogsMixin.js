@@ -72,31 +72,32 @@ export default {
   /* ============================
    * Get Catalog
    */
+
   getCatalogCompleted(data, { catalogId }) {
-    let sectionId = data.sectionId.toString();
+    // let sectionId = data.sectionId.toString();
 
     // if (router.includes('main.section.editCatalog') &&
     // this.getIn(['routeParams', 'catalogId']) === catalogId &&
     // this.getIn(['editingCatalogs', sectionId]) == null) {
-    let catalog = CatalogFactory.create(data);
-    catalog = catalog.set('originalFields', catalog.get('fields'));
-    this.setIn(['editingCatalogs', sectionId], catalog);
-    this.changed();
+    // let catalog = CatalogFactory.create(data);
+    // catalog = catalog.set('originalFields', catalog.get('fields'));
+    // this.setIn(['editingCatalogs', sectionId], catalog);
+    // this.changed();
     // }
 
     // if (router.includes('main.section.catalogData') &&
     // this.getIn(['routeParams', 'catalogId']) === catalogId) {
 
-    if (!this.get('currentCatalog')) {
+    if (!this.getIn(['catalogs', catalogId])) {
       let catalog = CatalogFactory.create(data);
-      this.set('currentCatalog', catalog);
+      this.setIn(['catalogs', catalogId, catalog]);
     } else {
       let fields = new Immutable.List(data.fields.map(f => FieldFactory.create(f)));
-      this.mergeIn(['currentCatalog'], data);
-      this.setIn(['currentCatalog', 'fields'], fields);
+      this.mergeIn(['catalogs', catalogId], data);
+      this.setIn(['catalogs', catalogId, 'fields'], fields);
     }
     this.changed();
-    // }
+    //}
   },
 
   /* ============================

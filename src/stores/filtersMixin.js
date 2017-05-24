@@ -20,49 +20,48 @@ export default {
    * @param value Any
    */
   updateFieldFilter(params, value) {
-    let catalogId = params.catalogId;
-
     if (!_.isEmpty(value)) {
       this.$setFieldFilter(params, value)
     } else {
       this.$removeFieldFilter(params);
     }
 
-    switch (this.getIn(['routeParams', 'tabId'])) {
-      case 'records':
-        recordActions.requestForRecords(catalogId);
-        break;
-      case 'history':
-        historyActions.clearHistory(catalogId);
-        historyActions.loadHistory(catalogId);
-        break;
-      case 'reports':
-        break;
-    }
+    // switch (this.getIn(['routeParams', 'tabId'])) {
+    //   case 'records':
+    //     recordActions.requestForRecords(catalogId);
+    //     break;
+    //   case 'history':
+    //     historyActions.clearHistory(catalogId);
+    //     historyActions.loadHistory(catalogId);
+    //     break;
+    //   case 'reports':
+    //     break;
+    // }
   },
 
   searchByText(catalogId, searchText) {
     // save search text to store.
-    this.setIn(['currentCatalog', 'searchText'], searchText);
+    this.setIn(['catalogs', catalogId, 'searchText'], searchText);
     recordActions.requestForRecords(catalogId);
   },
 
   $setFieldFilter(path, value) {
     //log('Set field', value, path);
-    this.setIn(filtersUtil.getCatalogFieldPath(path), Immutable.fromJS(value));
+    this.setIn([...filtersUtil.getViewFilterPath(path), 'value'], Immutable.fromJS(value));
   },
 
-  $removeFieldFilter(path){
-    this.deleteIn(filtersUtil.getCatalogFieldPath(path));
+  $removeFieldFilter(path) {
+    this.deleteIn(filtersUtil.getViewFilterPath(path));
+
     log('FILTER_STORE remove', this.toJS());
   },
 
-  removeAllFilters(isChange = false) {
-    this.deleteIn(filtersUtil.getCatalogFields());
-    if (isChange) {
-      this.changed();
-    }
-  },
+  // removeAllFilters(isChange = false, catalogId) {
+  //   this.deleteIn(filtersUtil.getCatalogFields(catalogId));
+  //   if (isChange) {
+  //     this.changed();
+  //   }
+  // },
 
   getCatalogFilters() {
     if (this.getIn(['currentCatalog', 'filters'])) {
@@ -84,7 +83,7 @@ export default {
   },
 
   getSearchText(catalogId) {
-    return this.getIn(['currentCatalog', 'searchText']);
+    return this.getIn(['catalogs', catalogId, 'searchText']);
   },
 
   // -> apiActions

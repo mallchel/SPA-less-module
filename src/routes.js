@@ -1,3 +1,9 @@
+class Route {
+  constructor ({path}) {
+    this.path = path
+  }
+}
+
 const relativeRoutes = {
   section: { path: '/section/:sectionId' },
   catalog: { parent: 'section', path: '/catalog/:catalogId' },
@@ -24,9 +30,9 @@ function getAbsolutePath(routeName) {
 }
 
 Object.keys(relativeRoutes).forEach(routeName => {
-  absoluteRoutes[routeName] = {
+  absoluteRoutes[routeName] = new Route({
     path: getAbsolutePath(routeName),
-  }
+  })
 });
 
 export default absoluteRoutes;

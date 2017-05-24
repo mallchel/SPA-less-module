@@ -1,6 +1,6 @@
-import React from 'react';
-import Reflux from 'reflux';
-import appState from '../appState';
+import React from 'react'
+import Reflux from 'reflux'
+import appState from '../appState'
 
 const StateProvider = React.createClass({
 

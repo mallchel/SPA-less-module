@@ -41,24 +41,29 @@ export default {
     init = true;
   },
 
-  getCurrentView() {
-    let currViewId = this.getIn(['currentCatalog', 'currentViewId']);
-    let view = this.getIn(['currentCatalog', 'views']).filter(v => v.get('id') !== currViewId);
-    // todo: or if new ?
-    return view;
-  },
+  // getCurrentView() {
+  //   let currViewId = this.getIn(['currentCatalog', 'currentViewId']);
+  //   let view = this.getIn(['currentCatalog', 'views']).filter(v => v.get('id') !== currViewId);
+  //   // todo: or if new ?
+  //   return view;
+  // },
 
   preGetView({ viewId, catalogId }) {
     // if select virtual view, need hand manipulate.
-    if (Number(viewId) === 0) {
-      this.getView({ viewId, catalogId });
-      this.getViewCompleted({ id: 0 }, { catalogId, viewId });
 
-      if (this.getIn(['currentCatalog', 'views'])) {
-        let virtualView = this.getIn(['currentCatalog', 'views']).find(v => v.get('id') === 0);
-        this.setIn(['currentCatalog', 'currentView'], virtualView);
+    // clear filterChanged on each view except this
+    const views = this.getIn(['catalogs', catalogId, 'views']);
+    views && views.map(v => {
+      const id = v.get('id');
+      if (id !== viewId && v.get('filterChanged')) {
+        this.setIn(['catalogs', catalogId, 'views', id, 'filterChanged'], false);
       }
-    } else {
+      return v;
+    });
+
+    if (Number(viewId) === 0 || viewId === "$new") {
+
+    } else if (!this.getIn(['catalogs', catalogId, 'views', viewId, 'filterChanged'])) {
       // pass apiActions
       apiActions.getView({ viewId, catalogId })
     }
@@ -80,7 +85,7 @@ export default {
     }
 
     // fast change views.
-    this.setIn(['routeParams', 'viewId'], viewId);
+    this.setIn(['route, params', 'viewId'], viewId);
 
     switch (this.getIn(['routeParams', 'tabId'])) {
       case 'records':
@@ -136,7 +141,7 @@ export default {
   // find view by id and update name and rights.
   updateViewCompleted(res, params, data) {
     this.setIn(
-      ['currentCatalog', 'views'],
+      ['catalogs', data.id, 'views'],
       this.getIn(['currentCatalog', 'views']).map(view => {
         if (view.get('id') === params.viewId) {
           view = view
@@ -162,56 +167,50 @@ export default {
    * Create "virtual" view and set on top.
    */
   getViewsCompleted(data, { catalogId }) {
-    if (!this.get('currentCatalog')) {
-      let catalog = CatalogFactory.create({ id: catalogId });
-      this.set('currentCatalog', catalog);
-    }
+    //  if (!this.get('currentCatalog')) {
+    //    let catalog = CatalogFactory.create({ id: catalogId });
+    //   this.set('currentCatalog', catalog);
+    // }
+    // if (this.getIn(['currentCatalog', 'id']) !== catalogId) {
+    //   return;
+    // }
 
-    if (this.getIn(['currentCatalog', 'id']) !== catalogId) {
-      return;
-    }
-
-    let catalogDataName = this.get('currentCatalog').get('name');
+    let views = Immutable.Map();
+    // create default view (all items)
+    let catalogDataName = this.get('catalogs').get(catalogId).get('name');
     let catalogName = antiCapitalize(String(catalogDataName).trim());
-
-    let views = Immutable.List();
-    views = views.push(ViewFactory.create({
+    views = views.set('0', ViewFactory.create({
       id: 0,
       name: trs('views.list.all') + ' ' + catalogName,
       isNew: false,
+      index: -Infinity,
       catalogId
     }));
 
-    // if not defined current viewId, set "0"
-    if (!this.getIn(['currentCatalog', 'currentViewId'])) {
-      this.setIn(['currentCatalog', 'currentViewId'], 0);
-    }
-    if (!this.getIn(['currentCatalog', 'currentView'])) {
-      this.setIn(['currentCatalog', 'currentView'], views.first());
-    } else if (this.getIn(['currentCatalog', 'currentView', 'catalogId']) !== catalogId) {
-      this.setIn(['currentCatalog', 'currentView'], views.first());
-    }
-
-    views = views.concat(data.map(v => {
+    // create map of views
+    data.forEach((v, i) => {
       v.catalogId = catalogId;
-      return ViewFactory.create(v);
-    }));
-    this.setIn(['currentCatalog', 'views'], views);
+      const id = v.id.toString();
+      v.index = i;
+      v = ViewFactory.create(v);
+      views = views.set(id, v);
+    });
 
+    this.mergeDeepIn(['catalogs', catalogId, 'views'], views);
     this.changed();
   },
 
   getCatalogCompleted(catalogData, { catalogId }) {
-    if (this.getIn(['currentCatalog', 'id']) !== catalogId) {
-      return;
-    }
+    // if (this.getIn(['currentCatalog', 'id']) !== catalogId) {
+    //   return;
+    // }
 
     // need update name in virtual view.
     let catalogName = antiCapitalize(String(catalogData.name).trim());
-    if (this.getIn(['currentCatalog', 'views'])) {
+    if (this.getIn(['catalogs', catalogId, 'views'])) {
       this.setIn(
-        ['currentCatalog', 'views'],
-        this.getIn(['currentCatalog', 'views']).map(v => {
+        ['catalogs', catalogId, 'views'],
+        this.getIn(['catalogs', catalogId, 'views']).map(v => {
           if (v.get('id') === 0)
             v = v.set('name', trs('views.list.all') + ' ' + catalogName);
           return v;
@@ -220,47 +219,46 @@ export default {
       this.changed();
     }
 
-    if (this.getIn(['currentCatalog', 'currentView'])) {
-      let view = this.getIn(['currentCatalog', 'currentView']);
-      if (view.get('id') === 0) {
-        this.setIn(['currentCatalog', 'currentView'], view.set('name', trs('views.list.all') + ' ' + catalogName));
-        this.changed();
-      }
-    }
+    // if (this.getIn(['catalogs', catalogId, 'currentView'])) {
+    //   let view = this.getIn(['currentCatalog', 'currentView']);
+    //   if (view.get('id') === 0) {
+    //     this.setIn(['currentCatalog', 'currentView'], view.set('name', trs('views.list.all') + ' ' + catalogName));
+    //     this.changed();
+    //   }
+    // }
   },
 
   getView({ catalogId, viewId }) {
-    if (!this.get('currentCatalog')) {
-      let catalog = CatalogFactory.create({ id: catalogId });
-      this.set('currentCatalog', catalog);
-    }
-    this.setIn(['currentCatalog', 'currentViewId'], viewId);
-    // make request for records for change viewId.
-    this.changed();
+
   },
 
   getViewCompleted(data, { catalogId, viewId }) {
-    if (!this.get('currentCatalog')) {
+
+    // create catalog if not exists
+    if (!this.getIn(['catalogs', catalogId])) {
       let catalog = CatalogFactory.create({ id: catalogId });
-      this.set('currentCatalog', catalog);
+      this.setIn(['catalogs', catalogId], catalog);
     }
-    this.removeAllFilters();
-
-    if (this.getIn(['currentCatalog', 'id']) !== catalogId) {
-      return;
-    }
-
-    if (this.getIn(['currentCatalog', 'currentViewId']) !== viewId) {
-      return;
+    // create view if not exists
+    if (!this.getIn(['catalogs', catalogId, 'views'])) {
+      this.setIn(['catalogs', catalogId, 'views'], Immutable.Map());
     }
 
-    (data.filters || []).forEach(filter => {
-      this.$setFieldFilter({ fieldId: String(filter.attr) }, filter.value);
-    });
+    // convert filters array to map
+    var hashmap = _.reduce(data.filters, function (hash, value) {
+      var key = value['attr'];
+      hash[key] = value;
+      return hash;
+    }, {});
+    data.filters = hashmap;
 
+    // set view
     data.catalogId = catalogId;
-    this.setIn(['currentCatalog', 'currentView'], ViewFactory.create(data));
+    const view = ViewFactory.create(data);
+    let views = Immutable.Map();
+    views = views.set(viewId, view);
 
+    this.mergeDeepIn(['catalogs', catalogId, 'views'], views);
     this.changed();
   },
 
@@ -268,16 +266,31 @@ export default {
    * Listener on update filter of view.
    * create new view if not exist.
    */
-  updateFieldFilter() {
-    this.deleteIn(['currentCatalog', 'currentViewId']);
-    let newView = this.getIn(['currentCatalog', 'views']).find(v => v.get('isNew'));
-    if (!newView) {
-      newView = ViewFactory.create();
-      let newViews = this.getIn(['currentCatalog', 'views']).push(newView);
-      this.setIn(['currentCatalog', 'views'], newViews);
-      // set how currentView
-      this.setIn(['currentCatalog', 'currentView'], newView);
+  updateFieldFilter({ catalogId, viewId }) {
+    if (Number(viewId) === 0) {
+
+      let newView = this.getIn(['catalogs', catalogId, 'views', '$new']);
+
+      // create new view
+      if (!newView) {
+        newView = ViewFactory.create({
+          id: '$new',
+          index: Infinity,
+          name: trs('views.newView'),
+          catalogId: catalogId,
+          filterChanged: true,
+        });
+        this.setIn(['catalogs', catalogId, 'views', '$new'], newView);
+      }
+
+      // redirect to view $new
+      // ... todo
+
+    } else {
+      // set filter changed to view
+      this.setIn(['catalogs', catalogId, 'views', viewId, 'filterChanged'], true);
     }
+
     this.changed();
   },
 

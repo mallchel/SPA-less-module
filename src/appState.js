@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 import Reflux from 'reflux';
 import _ from 'lodash';
-// import appActions from './actions/appActions';
+
 import apiActions from './actions/apiActions';
 // import routeAction from './actions/routeAction';
 // import recordActions from './actions/recordActions';
@@ -209,6 +209,10 @@ const appState = Reflux.createStore({
 
   mergeIn(path, val) {
     state = state.mergeIn(path, val);
+  },
+
+  mergeDeepIn(path, val) {
+    state = state.mergeDeepIn(path, val);
   },
 
   deleteIn(path) {
