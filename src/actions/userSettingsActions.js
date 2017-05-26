@@ -1,16 +1,12 @@
-import Immutable from 'immutable';
-import Reflux from 'reflux';
-import debug from 'debug';
+import Reflux from 'reflux'
 import _ from 'lodash'
-import makeApiRequest from '../utils/makeApiRequest';
-import us_const from '../configs/userSettings';
-import us_util from '../utils/userSettings';
-
-const log = debug('CRM:action:UserSettings');
+import makeApiRequest from '../utils/makeApiRequest'
+import us_const from '../configs/userSettings'
+import us_util from '../utils/userSettings'
 
 
 function createAsyncAction(fn, options = {}) {
-  let action = Reflux.createAction(_.assign(options, {asyncResult: true}));
+  let action = Reflux.createAction(_.assign(options, { asyncResult: true }));
   action.listen(fn);
   return action;
 }
@@ -20,14 +16,14 @@ const actions = {
   /**
    * save visible setting field for the current catalog.
    */
-  setFieldVisibility: createAsyncAction(function ({catalogId, fieldId, visible}) {
-    let data = {catalogId, fieldId, visible};
+  setFieldVisibility: createAsyncAction(function ({ catalogId, fieldId, visible }) {
+    let data = { catalogId, fieldId, visible };
     let key = us_util.makeKey(data, us_const.VISIBLE);
 
-    makeApiRequest(`userSettings/${key}`, {method: 'patch', body: {[us_const.VISIBLE]: visible}})
+    makeApiRequest(`userSettings/${key}`, { method: 'patch', body: { [us_const.VISIBLE]: visible } })
       .then(res => {
         this.completed(res.body);
-      }, err=> {
+      }, err => {
         this.failed(err);
       });
   }),
@@ -35,14 +31,14 @@ const actions = {
   /**
    * save width setting field for the current catalog.
    */
-  setFieldWidth: createAsyncAction(function ({catalogId, fieldId, width}) {
-    let data = {catalogId, fieldId};
+  setFieldWidth: createAsyncAction(function ({ catalogId, fieldId, width }) {
+    let data = { catalogId, fieldId };
     let key = us_util.makeKey(data, us_const.WIDTH);
 
-    makeApiRequest(`userSettings/${key}`, {method: 'patch', body: {[us_const.WIDTH]: width}})
+    makeApiRequest(`userSettings/${key}`, { method: 'patch', body: { [us_const.WIDTH]: width } })
       .then(res => {
         this.completed(res.body);
-      }, err=> {
+      }, err => {
         this.failed(err);
       });
   }),
@@ -51,39 +47,39 @@ const actions = {
   /**
    * get all settings for catalogId
    */
-  getUserSettingsForCatalog: createAsyncAction(function ({catalogId}) {
+  getUserSettingsForCatalog: createAsyncAction(function ({ catalogId }) {
     makeApiRequest(`userSettings`, {
-      query: {search: us_util.makeKeyForSearch({catalogId})},
+      query: { search: us_util.makeKeyForSearch({ catalogId }) },
       method: 'get'
     })
       .then(res => {
-        this.completed(res.body, {catalogId});
-      }, err=> {
+        this.completed(res.body, { catalogId });
+      }, err => {
         this.failed(err);
       });
   }),
 
   //
-  setFieldsOrder: createAsyncAction(function ({catalogId, fieldsOrder}) {
-    let data = {catalogId, fieldsOrder};
+  setFieldsOrder: createAsyncAction(function ({ catalogId, fieldsOrder }) {
+    let data = { catalogId, fieldsOrder };
     let key = us_util.makeKey(data, us_const.FIELDS_ORDER);
 
-    makeApiRequest(`userSettings/${key}`, {method: 'patch', body: {[us_const.FIELDS_ORDER]: fieldsOrder}})
+    makeApiRequest(`userSettings/${key}`, { method: 'patch', body: { [us_const.FIELDS_ORDER]: fieldsOrder } })
       .then(res => {
         this.completed(res.body, data);
-      }, err=> {
+      }, err => {
         this.failed(err);
       });
   }),
 
-  setSortingRecords: createAsyncAction(function ({catalogId}, data) {
-    let params = {catalogId};
+  setSortingRecords: createAsyncAction(function ({ catalogId }, data) {
+    let params = { catalogId };
     let key = us_util.makeKey(params, us_const.SORTING_RECORDS);
 
-    makeApiRequest(`userSettings/${key}`, {method: 'patch', body: data})
+    makeApiRequest(`userSettings/${key}`, { method: 'patch', body: data })
       .then(res => {
         this.completed(res.body, params, data);
-      }, err=> {
+      }, err => {
         this.failed(err);
       });
   })

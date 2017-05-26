@@ -28,7 +28,7 @@ class SectionBody extends Component {
         )} />*/}
         <NavRoute route={routes.catalog} render={props => {
           return <Catalog { ...this.props }
-            catalogId={props.match.params.catalogId}
+            catalogId={props.match && props.match.params.catalogId}
           />
         }} />
 

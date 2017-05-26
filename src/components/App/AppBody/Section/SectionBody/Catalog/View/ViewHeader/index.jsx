@@ -1,69 +1,75 @@
-import React from 'react'
-import { Menu as AntMenu, Row, Col, Dropdown, Icon } from 'antd'
+import React, { Component } from 'react'
+import { Row, Col } from 'antd'
 import Immutable from 'immutable'
+import PropTypes from 'prop-types'
 import TabsMenu from '../../../../../../../common/menu/TabsMenu'
+import NavRoute from '../../../../../../../common/router/Route'
 import routes from '../../../../../../../../routes'
+import RecordActivities from './RecordActivities'
 
 import styles from './viewHeader.less'
 
-const menu = (
-  <AntMenu>
-    <AntMenu.Item key="0">
-      <a href="#">1st AntMenu item</a>
-    </AntMenu.Item>
-    <AntMenu.Item key="1">
-      <a href="#">2nd AntMenu item</a>
-    </AntMenu.Item>
-    <AntMenu.Divider />
-    <AntMenu.Item key="3">
-      <a href="#">3d AntMenu item</a>
-    </AntMenu.Item>
-  </AntMenu>
-);
+class ViewHeader extends Component {
+  static PropTypes = {
+    catalog: PropTypes.object,
+    viewId: PropTypes.string
+  }
+  render() {
+    const countRecord = this.props.catalog && this.props.catalog.get('recordsCount');
+    const tabs = Immutable.List([
+      Immutable.Map({
+        id: 'record',
+        name: `Записи ${countRecord || ''}`,
+        route: routes.records
+      }),
+      Immutable.Map({
+        id: 'reports',
+        name: 'Отчеты',
+        route: routes.reports
+      }),
+      Immutable.Map({
+        id: 'history',
+        name: 'Активность',
+        route: routes.history
+      })
+    ]);
 
-const tabs = Immutable.List([
-  Immutable.Map({
-    id: 'record',
-    name: 'Записи',
-    route: routes.records
-  }),
-  Immutable.Map({
-    id: 'reports',
-    name: 'Отчеты',
-    route: routes.reports
-  }),
-  Immutable.Map({
-    id: 'history',
-    name: 'Активность',
-    route: routes.history
-  })
-]);
+    const catalog = this.props.catalog;
+    const viewId = this.props.viewId;
 
-const ViewHeader = function () {
+    return (
+      <Row type="flex" justify="space-between" align="middle" className={styles.container}>
+        <Col>
+          <TabsMenu
+            items={tabs}
+            className={styles.tabsMenu}
+          />
+          {/*<NavRoute route={routes.records} render={props => {
+            return (
+            )
+          }} />*/}
+        </Col>
 
-  return (
-    <Row type="flex" justify="space-between" align="middle" className={styles.header}>
-      <Col>
-        <TabsMenu
-          items={tabs}
-          className={styles.tabsMenu}
-        />
-      </Col>
+        <Col>
+          <NavRoute route={routes.records} render={props => {
+            return (
+              <input placeholder="быстрый поиск" className={styles.input} />
+            )
+          }} />
+        </Col>
 
-      <Col>
-        <input placeholder="быстрый поиск" className={styles.input} />
-      </Col>
-
-      <Col>
-        <Row type="flex" justify="space-between" align="middle">
-          {/*<Icon type="content-42" />*/}
-          <Dropdown.Button type="primary" overlay={menu}>
-            <Icon type="interface-72" />Создать
-          </Dropdown.Button>
-        </Row>
-      </Col>
-    </Row>
-  )
+        <Col>
+          <Row type="flex" justify="space-between" align="middle">
+            <NavRoute route={routes.records} render={props => {
+              return (
+                <RecordActivities catalog={catalog} viewId={viewId} />
+              )
+            }} />
+          </Row>
+        </Col>
+      </Row>
+    )
+  }
 }
 
 export default ViewHeader;

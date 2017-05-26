@@ -49,24 +49,28 @@ export default {
   // },
 
   preGetView({ viewId, catalogId }) {
-    // if select virtual view, need hand manipulate.
+    // delete newView if selected other view
+    if (viewId !== '$new' && this.getIn(['catalogs', catalogId, 'views', '$new'])) {
+      this.deleteIn(['catalogs', catalogId, 'views', '$new']);
+    }
 
-    // clear filterChanged on each view except this
+    // clear filtersChanged on each view except this
     const views = this.getIn(['catalogs', catalogId, 'views']);
     views && views.map(v => {
       const id = v.get('id');
-      if (id !== viewId && v.get('filterChanged')) {
-        this.setIn(['catalogs', catalogId, 'views', id, 'filterChanged'], false);
+      if (id !== viewId && v.get('filtersChanged')) {
+        this.setIn(['catalogs', catalogId, 'views', id, 'filtersChanged'], false);
       }
       return v;
     });
 
     if (Number(viewId) === 0 || viewId === "$new") {
 
-    } else if (!this.getIn(['catalogs', catalogId, 'views', viewId, 'filterChanged'])) {
+    } else if (!this.getIn(['catalogs', catalogId, 'views', viewId, 'filtersChanged'])) {
       // pass apiActions
       apiActions.getView({ viewId, catalogId })
     }
+    this.changed();
   },
 
   selectView(viewId, catalogId) {
@@ -233,7 +237,6 @@ export default {
   },
 
   getViewCompleted(data, { catalogId, viewId }) {
-
     // create catalog if not exists
     if (!this.getIn(['catalogs', catalogId])) {
       let catalog = CatalogFactory.create({ id: catalogId });
@@ -278,7 +281,8 @@ export default {
           index: Infinity,
           name: trs('views.newView'),
           catalogId: catalogId,
-          filterChanged: true,
+          filtersChanged: true,
+          isNew: true
         });
         this.setIn(['catalogs', catalogId, 'views', '$new'], newView);
       }
@@ -288,7 +292,7 @@ export default {
 
     } else {
       // set filter changed to view
-      this.setIn(['catalogs', catalogId, 'views', viewId, 'filterChanged'], true);
+      this.setIn(['catalogs', catalogId, 'views', viewId, 'filtersChanged'], true);
     }
 
     this.changed();
@@ -331,9 +335,10 @@ export default {
   },
 
   /**
-   * request on create new iew filters.
+   * request on create new view filters.
    */
   setField(fieldId, value) {
+    console.log(1111)
     if (value !== 'inherit') {
       appState.setIn(['currentCatalog', 'currentView', 'fieldPrivilegeCodes', fieldId], value);
     } else {

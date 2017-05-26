@@ -1,25 +1,25 @@
-import Immutable from 'immutable';
-import Reflux from 'reflux';
-import _ from 'lodash';
+import Immutable from 'immutable'
+import Reflux from 'reflux'
+import _ from 'lodash'
 
-import apiActions from './actions/apiActions';
+import apiActions from './actions/apiActions'
 // import routeAction from './actions/routeAction';
 // import recordActions from './actions/recordActions';
 // import editorActions from './actions/editorActions';
-import sectionActions from './actions/sectionActions';
+import sectionActions from './actions/sectionActions'
 // import dropDownActions from './actions/dropdownActions';
 // import userSettingsActions from './actions/userSettingsActions';
 // import viewActions from './actions/viewActions';
-import catalogActions from './actions/catalogActions';
+import catalogActions from './actions/catalogActions'
 // import historyActions from './actions/historyActions';
 // import reportsActions from './actions/reports';
 // import linkedRecordActions from './actions/linkedRecord';
 
 // import UserSettingsStore from './stores/UserSettingsStore';
-// import RequestRecordStore from './stores/RequestRecordStore';
+import RequestRecordStore from './stores/RequestRecordStore'
 // import ModalStore from './stores/ModalStore';
 
-import {DEFAULT} from './configs/appModes';
+import { DEFAULT } from './configs/appModes'
 
 const log = require('debug')('CRM:appState');
 
@@ -28,7 +28,7 @@ const storeMixins = [
   // require('./stores/routeMixin'),
   require('./stores/sectionsMixin').default,
   require('./stores/catalogsMixin').default,
-  // require('./stores/recordsMixin'),
+  require('./stores/recordsMixin').default,
   // require('./stores/editorMixin'),
   // require('./stores/dropdownMixin'),
   require('./stores/viewsMixin').default,
@@ -46,8 +46,8 @@ const storeMixins = [
 
 let apiHandlers = {};
 
-storeMixins.forEach(m=> {
-  _.forEach(m, (fn, handlerName)=> {
+storeMixins.forEach(m => {
+  _.forEach(m, (fn, handlerName) => {
     if (apiHandlers[handlerName] == null) {
       apiHandlers[handlerName] = 0;
     }
@@ -58,13 +58,13 @@ storeMixins.forEach(m=> {
 let aggregatedHandlers = {};
 let originalMixins = storeMixins.slice();
 
-_.forEach(apiHandlers, (count, handlerName)=> {
+_.forEach(apiHandlers, (count, handlerName) => {
   if (count > 1) {
     log(`Warning! '${handlerName}' fn declared ${count} times`);
     aggregatedHandlers[handlerName] = function (...args) {
       let fns = [];
-      originalMixins.forEach(m=> {
-        _.forEach(m, (fn, fnName)=> {
+      originalMixins.forEach(m => {
+        _.forEach(m, (fn, fnName) => {
           if (fnName === handlerName) {
             fns.push(fn);
           }
@@ -110,9 +110,6 @@ let state = Immutable.fromJS({
   catalogs: {},
   catalogsLoading: false,
   catalogsLoadError: null,
-
-  currentIdCatalog: null,
-  currentCatalog: null,
 
   editingCatalogs: {},
 
@@ -164,12 +161,12 @@ const appState = Reflux.createStore({
 
   init() {
     // this.listenTo(routeAction, this.onRouteChange);
-    this.listen(()=> log('changed'));
+    this.listen(() => log('changed'));
   },
 
   registerStore(store) {
     store.setAppState(this);
-    this.listenTo(store, ()=> {
+    this.listenTo(store, () => {
       log(`'${store.name}' triggered change`);
       this.changed();
     });
@@ -242,7 +239,7 @@ const appState = Reflux.createStore({
 
   findById(pathToList, id) {
     let list = this.getIn(pathToList);
-    return (list && list.find(o=> o.get('id') === id)) || null;
+    return (list && list.find(o => o.get('id') === id)) || null;
   },
 
   toJS() {

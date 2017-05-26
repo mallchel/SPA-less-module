@@ -12,7 +12,7 @@ const AppBody = function ({ ...props }) {
       <NavRoute route={routes.section} render={props => {
         return <Section
           appState={appState}
-          sectionId={props.match.params.sectionId}
+          sectionId={props.match && props.match.params.sectionId}
         />
       }} />
     </div>

@@ -1,22 +1,16 @@
-import debug from 'debug';
-import Immutable from 'immutable';
-import guid from 'guid';
-import CatalogFactory from '../models/CatalogFactory';
-import RecordFactory from '../models/RecordFactory';
-import router from '../router';
-import apiActions from '../actions/apiActions';
-import recordActions from '../actions/recordActions';
-import modalsActions from '../actions/modalsActions';
-import historyActions from '../actions/historyActions';
-import appState from '../appState';
-import _ from 'lodash';
-import FIELD_TYPES from '../configs/fieldTypes';
-import VALIDATION_ERRORS from '../configs/validationErrors';
+import Immutable from 'immutable'
+import guid from 'guid'
+import _ from 'lodash'
+import CatalogFactory from '../models/CatalogFactory'
+import RecordFactory from '../models/RecordFactory'
+import apiActions from '../actions/apiActions'
+import recordActions from '../actions/recordActions'
+import appState from '../appState'
+import FIELD_TYPES from '../configs/fieldTypes'
+import VALIDATION_ERRORS from '../configs/validationErrors'
 import { validateField } from '../components/record/recordFieldValidator'
-import trs from '../getTranslations';
+import trs from '../getTranslations'
 import { alert } from '../components/common/Modal'
-
-const log = debug('CRM:Store:recordsMixin');
 
 const recordsMixin = {
   getRelationsCompleted(records, params) {
@@ -47,12 +41,12 @@ const recordsMixin = {
     this.changed();
   },
 
-  updateRecordCompleted(result, {catalogId, recordId}, data) {
+  updateRecordCompleted(result, { catalogId, recordId }, data) {
     let record = this.getIn(['records', catalogId, recordId]);
 
     if (record && record.get('id') === recordId) {
       let values = record.get('values');
-      _.forEach(data.values, (val, key)=> {
+      _.forEach(data.values, (val, key) => {
         values = values.set(key, Immutable.fromJS(val));
       });
       record = record.set('values', values);
@@ -60,31 +54,31 @@ const recordsMixin = {
       this.setIn(['records', catalogId, recordId], record);
       this.setIn(['records', catalogId, recordId, 'isNew'], null);
       this.setIn(['records', catalogId, recordId, 'saving'], false);
-      this.setIn(['records', catalogId, recordId, 'history','forceReload'], true);
+      this.setIn(['records', catalogId, recordId, 'history', 'forceReload'], true);
       this.setIn(['records', catalogId, recordId, 'saveError'], null);
 
-      if (this.getIn(['currentCatalog'])) {
-        if (this.getIn(['currentCatalog', 'id']) === catalogId) {
-          let idx = this.getIn(['currentCatalog', 'records']).findIndex(r=> r.get('id') === recordId);
+      if (this.getIn(['catalogs'])) {
+        if (this.getIn(['catalogs', catalogId])) {
+          let idx = this.getIn(['catalogs', catalogId, 'records']).findIndex(r => r.get('id') === recordId);
           if (idx !== -1) {
-            this.setIn(['currentCatalog', 'records', idx, 'values'], record.get('values'));
+            this.setIn(['catalogs', catalogId, 'records', idx, 'values'], record.get('values'));
           }
         }
-        let linkFields = this.getIn(['currentCatalog', 'fields'])
-          .filter(f=> f.get('type') === FIELD_TYPES.OBJECT || f.get('type') === FIELD_TYPES.USER);
+        let linkFields = this.getIn(['catalogs', catalogId, 'fields'])
+          .filter(f => f.get('type') === FIELD_TYPES.OBJECT || f.get('type') === FIELD_TYPES.USER);
 
         let needReload;
 
         if (linkFields.size > 0) {
-          this.getIn(['currentCatalog', 'records']).forEach(r=> {
+          this.getIn(['catalogs', catalogId, 'records']).forEach(r => {
             if (needReload) {
               return;
             }
-            linkFields.forEach(f=> {
+            linkFields.forEach(f => {
               if (needReload) {
                 return;
               }
-              r.getIn(['values', f.get('id')]).forEach(v=> {
+              r.getIn(['values', f.get('id')]).forEach(v => {
                 if (needReload) {
                   return;
                 }
@@ -102,7 +96,7 @@ const recordsMixin = {
           });
 
           if (needReload) {
-            recordActions.requestForRecords(this.getIn(['currentCatalog', 'id']));
+            recordActions.requestForRecords(this.get(catalogId));
           }
         }
       }
@@ -133,16 +127,16 @@ const recordsMixin = {
   },
 
   setFieldVisibility(params) {
-    let catalog = this.get('currentCatalog');
-    if (!catalog || catalog.get('id') !== params.catalogId) {
+    let catalog = this.getIn(['catalogs', params.catalogId]);
+    if (!catalog) {
       return;
     }
-    let colIndex = catalog.get('fields').findIndex((c)=> c.get('id') === params.fieldId);
+    let colIndex = catalog.get('fields').findIndex((c) => c.get('id') === params.fieldId);
     if (colIndex === -1) {
       return;
     }
     catalog = catalog.setIn(['fields', colIndex, 'visible'], params.visible);
-    this.set('currentCatalog', catalog);
+    this.setIn(['catalogs', params.catalogId], catalog);
     this.changed();
   },
 
@@ -152,7 +146,7 @@ const recordsMixin = {
 
   // apply visible setting for to
   getFieldsVisibilityCompleted(data, params) {
-    let fields = this.get('currentCatalog').get('fields');
+    let fields = this.getIn(['catalogs', params.catalogId]).get('fields');
     fields = fields.map(field => {
       // get field
       let $field = _.find(data, $field => $field.fieldId == field.get('id'));
@@ -161,7 +155,7 @@ const recordsMixin = {
       return field;
     });
 
-    this.setIn(['currentCatalog', 'fields'], fields);
+    this.setIn(['catalogs', params.catalogId, 'fields'], fields);
     this.changed();
   },
 
@@ -171,7 +165,7 @@ const recordsMixin = {
   },
 
   generateNewRecord(catalogId, newRecordId, linkedRecord) {
-    let record = RecordFactory.create({id: newRecordId, isNew: true});
+    let record = RecordFactory.create({ id: newRecordId, isNew: true });
 
     record = record.set('originValues', record.get('values'));
 
@@ -186,15 +180,15 @@ const recordsMixin = {
   getCatalogCompleted(data, params) {
     let catalogRecords = this.getIn(['records', params.catalogId]);
     if (catalogRecords) {
-      catalogRecords = catalogRecords.map((record)=> {
+      catalogRecords = catalogRecords.map((record) => {
         // if ( !record.get('fields') ) {
         record = record.set('fields', Immutable.fromJS(data.fields));
         if (record.get('isNew') && !record.get('isDefaultReceived')) {
           let values = RecordFactory.getEmptyValues(data.fields);
           record = record.set('isDefaultReceived', true);
           if (record.get('linkedRecord')) {
-            const linkedCatalogId =  record.getIn(['linkedRecord', 'catalogId']);
-            const linkedCatalogRecord =  record.getIn(['linkedRecord', 'record']);
+            const linkedCatalogId = record.getIn(['linkedRecord', 'catalogId']);
+            const linkedCatalogRecord = record.getIn(['linkedRecord', 'record']);
             const linkedRecord = {
               catalogId: linkedCatalogId,
               catalogTitle: data.title,
@@ -206,7 +200,7 @@ const recordsMixin = {
               if ((field.type == FIELD_TYPES.OBJECT) && (field.config.catalogs)) {
                 _.forEach(field.config.catalogs, (catalog) => {
                   if (catalog.id == linkedCatalogId) {
-                    values[field.id] = [ linkedRecord ];
+                    values[field.id] = [linkedRecord];
                   }
                 });
               }
@@ -248,7 +242,7 @@ const recordsMixin = {
       record = RecordFactory.create(data);
     }
 
-    record = record.setIn(['history','count'], data.historyCount);
+    record = record.setIn(['history', 'count'], data.historyCount);
     record = record.set('_loadTime', Date.now());
     record = record.set('originValues', record.get('values'));
 
@@ -282,12 +276,7 @@ const recordsMixin = {
 
 
   getRecords(params, query) {
-
-    if (this.get('currentIdCatalog') !== params.catalogId) {
-      return;
-    }
-
-    let catalog = this.get('currentCatalog');
+    let catalog = this.getIn(['catalogs', params.catalogId]);
 
     // catalog not set after location.reload()
     if (catalog) {
@@ -303,7 +292,7 @@ const recordsMixin = {
         //allRecordsLoaded: query.offset === 0 ? false : catalog.get('allRecordsLoaded')
       }));
 
-      this.set('currentCatalog', catalog);
+      this.setIn(['catalogs', params.catalogId], catalog);
       this.changed();
     }
   },
@@ -318,49 +307,38 @@ const recordsMixin = {
         okText: trs('modals.denied.okText')
       });
     }
-    if (this.get('currentIdCatalog') !== params.catalogId) {
-      return;
-    }
 
-    let catalog = this.get('currentCatalog');
+    let catalog = this.getIn(['catalogs', params.catalogId]);
 
     if (!catalog) {
       return;
     }
 
-    this.setIn(['currentCatalog', 'loading'], false);
-    this.setIn(['currentCatalog', 'loadingError'], Immutable.fromJS(errText));
-    log('changed on failed');
+    this.setIn(['catalogs', params.catalogId, 'loading'], false);
+    this.setIn(['catalogs', params.catalogId, 'loadingError'], Immutable.fromJS(errText));
     this.changed();
   },
 
   getRecordsCompleted(records, params, data, query, response) {
-    if (this.get('currentIdCatalog') !== params.catalogId) {
-      return;
-    }
-
-    let catalog = this.get('currentCatalog');
+    let catalog = this.getIn(['catalogs', params.catalogId]);
     let currentQuery = catalog.get('query');
 
     // todo remove this workaround
     // если currentQuery не задан, скорее всего это состояние обновления страницы
-    // т.е. когда страницу обновляют, то currentCatalog еще не сушествует и
+    // т.е. когда страницу обновляют, то catalog еще не сушествует и
     // поэтому в него никто не запишет query
     if (catalog && currentQuery && !Immutable.is(Immutable.fromJS(query), currentQuery)) {
       return;
     }
 
     if (!catalog) {
-      catalog = this.getIn(['catalogs', params.catalogId]);
-      if (!catalog) {
-        catalog = CatalogFactory.create({
-          id: params.catalogId
-        });
-      } else {
-        catalog = catalog.slice();
-        if (query.offset === 0) {
-          catalog = catalog.set('records', Immutable.fromJS([]));
-        }
+      catalog = CatalogFactory.create({
+        id: params.catalogId
+      });
+    } else {
+      catalog = catalog.slice();
+      if (query.offset === 0) {
+        catalog = catalog.set('records', Immutable.fromJS([]));
       }
     }
 
@@ -378,8 +356,7 @@ const recordsMixin = {
     });
 
 
-    this.set('currentCatalog', catalog);
-
+    this.setIn(['catalogs', params.catalogId], catalog);
     this.changed();
   },
 
@@ -414,17 +391,17 @@ const recordsMixin = {
   },
   deleteRecordCompleted(result, params) {
     this.deleteIn(['records', params.catalogId, params.recordId]);
-    if (router.includes('main.section.catalogData.record', {
-        catalogId: params.catalogId,
-        recordId: params.recordId
-      })) {
-      router.go('main.section.catalogData', {
-        catalogId: params.catalogId
-      });
+    // if (router.includes('main.section.catalogData.record', {
+    //   catalogId: params.catalogId,
+    //   recordId: params.recordId
+    // })) {
+    //   router.go('main.section.catalogData', {
+    //     catalogId: params.catalogId
+    //   });
 
-      // TODO: update only when there are no filters applied
-      recordActions.requestForRecords(params.catalogId);
-    }
+    // TODO: update only when there are no filters applied
+    recordActions.requestForRecords(params.catalogId);
+    // }
     this.changed();
   },
   deleteRecordFailed(err, params) {
@@ -455,30 +432,31 @@ const recordsMixin = {
     let errors = [];
     let hasErrors = false;
     let allValues = appState.getIn(['records', catalogId, recordId, 'values']).toJS();
-      _.forEach(values, (value, key) => {
-        if (_.has(value, 'toJS')) {
-          value = value.toJS();
-        }
-        allValues[key] = value;
-      });
+    _.forEach(values, (value, key) => {
+      if (_.has(value, 'toJS')) {
+        value = value.toJS();
+      }
+      allValues[key] = value;
+    });
     fields.map((field, key) => {
       let value = allValues[field.get('id')];
       let type = field.get('type');
       let empty = !validateField(type, value);
       if (field.get('required') && empty) {
-        errors.push({fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY});
+        errors.push({ fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY });
         hasErrors = true;
       }
       switch (field.get('type')) {
         case FIELD_TYPES.NUMBER:
           if (value && (!_.inRange(parseFloat(value), Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER))) {
-            errors.push({fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY});
+            errors.push({ fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY });
             hasErrors = true;
           }
           break;
         default:
-
+          break;
       }
+      return null;
     });
 
     //Если ошибки нет, то создаем или сохраняем запись
@@ -486,14 +464,14 @@ const recordsMixin = {
       if (isNew) {
         apiActions.createRecord({
           catalogId: catalogId,
-        }, {values}).then(success, fail);
+        }, { values }).then(success, fail);
       } else {
         return apiActions.updateRecord({
           catalogId: catalogId,
           recordId: recordId
         }, {
-          values: values
-        }).then(success, fail);
+            values: values
+          }).then(success, fail);
       }
     }
     else {
@@ -505,16 +483,11 @@ const recordsMixin = {
     recordActions.updateErrorFields(catalogId, recordId, errors);
   },
 
-  uploadFileRecordCompleted(...data)
-  {
-    log('uploadFileRecordCompleted',...data)
+  uploadFileRecordCompleted(...data) {
   },
 
-  cloneRecord({catalogId, recordId}) {
-    if (this.getIn(['currentCatalog', 'id']) !== catalogId) {
-      return;
-    }
-    const fields = this.getIn(['currentCatalog', 'fields']);
+  cloneRecord({ catalogId, recordId }) {
+    const fields = this.getIn(['catalogs', catalogId, 'fields']);
     const newRecordId = guid.raw();
     let values = this.getIn(['records', catalogId, recordId, 'values']);
     this.setIn(['records', catalogId, newRecordId], RecordFactory.create({
@@ -524,19 +497,21 @@ const recordsMixin = {
       fields
     }));
     // remove files and id from contacts
-    fields.forEach(field=> {
+    fields.forEach(field => {
       switch (field.get('type')) {
         case FIELD_TYPES.FILE:
           values = values.removeIn([field.get('id')]);
           break;
         case FIELD_TYPES.CONTACT:
-          const mapIn = (path, mapFn)=> {
+          const mapIn = (path, mapFn) => {
             const val = values.getIn(path);
             return values.setIn(path, val && val.map(mapFn));
           };
-          values = mapIn([field.get('id')], val=> {
+          values = mapIn([field.get('id')], val => {
             return val.remove('id');
           });
+          break;
+        default:
           break;
       }
     });
@@ -546,12 +521,12 @@ const recordsMixin = {
       isDefaultReceived: true,
     }));
     this.setIn(['newRecordId', catalogId], newRecordId);
-    router.go('main.section.catalogData.addRecord', {catalogId});
+    // router.go('main.section.catalogData.addRecord', { catalogId });
   },
 
   shouldUpdateProcess(catalogId, recordId, fieldId) {
-    this.mergeIn(['records', catalogId, recordId, 'updateProcesses', 'fields', fieldId], {shouldProcess: true});
-    this.mergeIn(['records', catalogId, recordId, 'updateProcesses'], {should: true});
+    this.mergeIn(['records', catalogId, recordId, 'updateProcesses', 'fields', fieldId], { shouldProcess: true });
+    this.mergeIn(['records', catalogId, recordId, 'updateProcesses'], { should: true });
 
     this.changed();
   }

@@ -11,7 +11,7 @@ const LayoutMiddlePanel = function ({ catalog }) {
       <NavRoute route={routes.view} render={props => {
         return <View
           catalog={catalog}
-          viewId={props.match.params.viewId}
+          viewId={props.match && props.match.params.viewId}
         />
       }} />
     </div>

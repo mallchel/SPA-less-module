@@ -11,12 +11,12 @@ class Alert extends Component {
         maskClosable={false}
         closable={false}
         footer={[
-          <Button key="submit" type="default" size="large" onClick={this.props.onOk}>ОК</Button>,
+          <Button key="submit" type="default" size="large" onClick={this.props.onOk}>{this.props.okText}</Button>,
         ]}
       >
         <div className={styles.container}>
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
-            <h1>Внимание, это Alert</h1>
+            <h1>{this.props.headerText}</h1>
             <ButtonTransparent className={styles.close}>
               <Icon onClick={this.props.onCancel} className={styles.closeIcon} type="interface-74"></Icon>
             </ButtonTransparent>

@@ -1,11 +1,11 @@
 import debug from 'debug';
 import _ from 'lodash';
 import Immutable from 'immutable'
-import apiActions from '../actions/apiActions';
+// import apiActions from '../actions/apiActions';
 import filterActions from '../actions/filterActions';
 import filtersUtil from '../utils/filters';
 import recordActions from '../actions/recordActions';
-import historyActions from '../actions/historyActions';
+// import historyActions from '../actions/historyActions';
 
 const log = debug('CRM:store:filtersMixin');
 
@@ -63,19 +63,19 @@ export default {
   //   }
   // },
 
-  getCatalogFilters() {
-    if (this.getIn(['currentCatalog', 'filters'])) {
+  getCatalogFilters({ catalogId }) {
+    if (this.getIn(['catalogs', catalogId, 'filters'])) {
       return this.getIn(filtersUtil.getCatalogFields());
     } else {
       return Immutable.List();
     }
   },
 
-  getFiltersForRequest() {
-    let catalogFilters = this.getCatalogFilters();
+  getFiltersForRequest({ catalogId }) {
+    let catalogFilters = this.getCatalogFilters({ catalogId });
     if (catalogFilters) {
       catalogFilters = catalogFilters.toJS();
-      return filtersUtil.getFiltersForRequest(catalogFilters, this.getIn(['currentCatalog', 'fields']));
+      return filtersUtil.getFiltersForRequest(catalogFilters, this.getIn(['catalogs', catalogId, 'fields']));
     } else {
       log('Filters are empty. Nothing happens.');
       return [];

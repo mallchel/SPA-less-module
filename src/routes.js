@@ -1,5 +1,5 @@
 class Route {
-  constructor ({path}) {
+  constructor({ path }) {
     this.path = path
   }
 }
@@ -11,6 +11,7 @@ const relativeRoutes = {
 
   // records
   records: { parent: 'view', path: '/records' },
+  addRecord: { parent: 'records', path: '/add' },
   record: { parent: 'records', path: '/:recordId' },
 
   // history

@@ -1,13 +1,11 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import _ from 'lodash'
-// import NavRoute from './Route'
 import NavRedirect from './Redirect'
 import getRouteParams from './getRouteParams'
 import { matchPath } from 'react-router'
 
 const StateRedirect = function ({ route, params, object, ...props }) {
-  console.log(route, params)
   return (
     <Route children={({ location }) => {
       const { route: currentRoute, match } = getRouteParams(location) || {};

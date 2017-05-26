@@ -1,17 +1,16 @@
-import Reflux from 'reflux';
-import _ from 'lodash';
-import qs from 'qs';
-import debug from 'debug';
-import Immutable from 'immutable';
-import recordActions from '../actions/recordActions';
-import apiActions from '../actions/apiActions';
+import Reflux from 'reflux'
+import _ from 'lodash'
+import qs from 'qs'
+import debug from 'debug'
+import recordActions from '../actions/recordActions'
+import apiActions from '../actions/apiActions'
 
-import UserSettingsStore from './UserSettingsStore';
-import AppState from '../appState';
+import UserSettingsStore from './UserSettingsStore'
+import AppState from '../appState'
 
-import DEFAULTS from '../configs/reccords';
+import DEFAULTS from '../configs/reccords'
 
-import {API_PREFIX} from '../configs/reccords';
+import { API_PREFIX } from '../configs/reccords'
 
 const log = debug('CRM:Store:RequestRecordStore');
 
@@ -29,13 +28,14 @@ const RequestRecordStore = Reflux.createStore({
 
   // aggregation action.
   requestForRecords(catalogId, request = {}) {
-    if (!catalogId)
+    if (!catalogId) {
       throw new Error('Undefined catalogId for request records!');
+    }
 
     let sortParams = this.getSortParams(catalogId);
     request.searchText = AppState.getSearchText(catalogId);
 
-    let {viewId} = request;
+    let { viewId } = request;
     viewId = viewId || this.getCurrentViewId();
 
     if (viewId) {
@@ -43,7 +43,7 @@ const RequestRecordStore = Reflux.createStore({
       // no filter, no viewId
       request = Number(viewId) == 0 ?
         _.extend(request, sortParams) :
-        _.extend(request, {viewId}, sortParams);
+        _.extend(request, { viewId }, sortParams);
     } else {
       let filterParams = this.getFilterParams(catalogId);
       request = _.extend(request, sortParams, filterParams);
@@ -53,7 +53,7 @@ const RequestRecordStore = Reflux.createStore({
     request.limit = DEFAULTS.RECORDS_LIMIT;
 
     // pass getRecords with the debounce.
-    this.$getRecordsDebounce({catalogId}, request);
+    this.$getRecordsDebounce({ catalogId }, request);
   },
 
 
@@ -71,7 +71,7 @@ const RequestRecordStore = Reflux.createStore({
       // no filter, no viewId
       request = Number(viewId) == 0 ?
         _.extend(request, sortParams) :
-        _.extend(request, {viewId}, sortParams);
+        _.extend(request, { viewId }, sortParams);
     } else {
       let filterParams = this.getFilterParams(catalogId);
       request = _.extend(request, sortParams, filterParams);
@@ -93,18 +93,18 @@ const RequestRecordStore = Reflux.createStore({
    * @private
    * @param catalogId
    */
-    getSortParams(catalogId) {
-    let sortingRecordSetting = UserSettingsStore.getSortingRecords({catalogId});
+  getSortParams(catalogId) {
+    let sortingRecordSetting = UserSettingsStore.getSortingRecords({ catalogId });
     let sortField = sortingRecordSetting.get('sortField'),
       sortType = sortingRecordSetting.get('sortType');
-    return {sortField, sortType};
+    return { sortField, sortType };
   },
 
   /**
    * @private
    */
-    getFilterParams() {
-    let filters = AppState.getFiltersForRequest();
+  getFilterParams(catalogId) {
+    let filters = AppState.getFiltersForRequest({ catalogId });
     return {
       filters /*FiltersStore.getFiltersForRequest(catalogId)*/
     };
@@ -113,7 +113,7 @@ const RequestRecordStore = Reflux.createStore({
   /**
    * @return viewId
    */
-    getCurrentViewId() {
+  getCurrentViewId() {
     return AppState.getIn(['currentCatalog', 'currentViewId']);
   }
 });

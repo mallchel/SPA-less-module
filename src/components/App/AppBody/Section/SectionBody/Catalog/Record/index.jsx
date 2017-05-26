@@ -20,7 +20,7 @@ class Record extends Component {
         </Col>
         <Col>
           <Row className={styles.body}>
-            <div>Current catalog — {this.props.match.params.catalogId}</div>
+            <div>Current catalog — </div>
           </Row>
         </Col>
       </div>

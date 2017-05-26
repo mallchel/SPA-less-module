@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import viewActions from '../../../../../../../actions/viewActions'
 import ViewHeader from './ViewHeader'
+import ViewBody from './ViewBody'
 
 import styles from './view.less'
 
@@ -37,14 +37,10 @@ class View extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <Col>
-          <ViewHeader />
-        </Col>
-        <Col>
-          <Row className={styles.body}>
-            sadasdasdasd
-        </Row>
-        </Col>
+        <div>
+          <ViewHeader catalog={this.props.catalog} viewId={this.props.viewId}/>
+        </div>
+        <ViewBody catalog={this.props.catalog} />
       </div>
     )
   }

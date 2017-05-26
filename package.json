@@ -34,6 +34,7 @@
     "react-addons-css-transition-group": "^0.14.8",
     "react-addons-pure-render-mixin": "^0.14.8",
     "react-chartjs-2": "~1.3.0",
+    "react-data-grid": "^2.0.44",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^0.14.8",

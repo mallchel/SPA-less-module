@@ -4,13 +4,14 @@ import cn from 'classnames'
 import Immutable from 'immutable'
 import apiActions from '../../../../../../../../actions/apiActions'
 import DefaultRedirect from '../../../../../../../common/router/DefaultRedirect'
+import StateRedirect from '../../../../../../../common/router/StateRedirect'
+import NavRoute from '../../../../../../../common/router/Route'
 import ViewsMenuItem from './ViewsMenuItem'
 import routes from '../../../../../../../../routes'
 
 import styles from './viewsMenu.less'
 
 const ViewsMenu = React.createClass({
-  // mixins: [PureRenderMixin],
   propTypes: {
     catalog: React.PropTypes.object
   },
@@ -35,30 +36,37 @@ const ViewsMenu = React.createClass({
   },
 
   render() {
-    let views = (this.props.catalog && this.props.catalog.get('views')) ||
-      new Immutable.OrderedMap();
+    const views = this.props.catalog && this.props.catalog.get('views');
+    const viewsList = (views && views.valueSeq().sortBy(c => c.get('index'))) || new Immutable.List();
 
     // get views from current Catalog.
-    const firstView = views.get('0');
-    views = views.valueSeq().sortBy(c => c.get('index')).map((view, i) => {
-      return <ViewsMenuItem
-        key={view.get('id')}
-        catalog={this.props.catalog}
-        rights={view.get('forRights')}
-        view={view}
-      />
-    });
+    const firstView = viewsList.get(0);
 
     return (
       <div>
         <DefaultRedirect route={routes.view} params='viewId' object={firstView} />
-
+        {
+          <NavRoute route={routes.view}>
+            {({ match }) => {
+              if (match && match.params.viewId && views && !views.get(match.params.viewId)) {
+                return <StateRedirect route={routes.view} params={{ viewId: firstView && firstView.get('id') }} />
+              }
+              return null;
+            }}
+          </NavRoute>
+        }
         <ul className={cn('ant-menu-inline', styles.menu)}>
           {
-            views.size ?
-              views
-              :
-              null
+            viewsList.size
+              ? viewsList.map((view, i) => {
+                return <ViewsMenuItem
+                  key={view.get('id')}
+                  catalog={this.props.catalog}
+                  rights={view.get('forRights')}
+                  view={view}
+                />
+              })
+              : null
           }
         </ul>
       </div>

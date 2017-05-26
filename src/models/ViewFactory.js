@@ -28,7 +28,7 @@ export default {
     }
 
     view.filters = data.filters || {};
-    view.filtersChanged = false;
+    view.filtersChanged = data.filtersChanged || false;
 
     return Immutable.fromJS(view);
   }
