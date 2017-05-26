@@ -22,7 +22,7 @@ const Records = React.createClass({
       rows.push({
         id: i,
         title: 'Title ' + i,
-        count: i * 10
+        count: i
       });
     }
 
@@ -30,8 +30,9 @@ const Records = React.createClass({
   },
 
   rowGetter(i) {
-    return this._rows[i];
-    // return this._records[i];
+    console.log(this._records[i], i)
+    // return this._rows[i];
+    return this._records[i];
   },
 
   // refactor
@@ -73,21 +74,18 @@ const Records = React.createClass({
         }
       });
       this._records = catalog.get('records') && catalog.get('records').toJS().map(record => {
-        return ({
-          id: record.id,
-          title: record.title,
-        });
+        return record.values;
       })
       // get sort info from user settings.
       let sortingRecordSetting = UserSettingsStore.getSortingRecords({ catalogId });
     }
     return (
-      console.log(this._columns, this._records, this._rows.length),
+      // console.log(this._columns, this._rows),
       this._columns && this._records ?
         <ReactDataGrid
           columns={this._columns}
           rowGetter={this.rowGetter}
-          rowsCount={this._rows.length}
+          rowsCount={this._records.length}
           minHeight={500}
         />
         :
