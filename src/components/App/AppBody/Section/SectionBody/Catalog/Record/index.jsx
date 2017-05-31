@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 // import { Prompt } from 'react-router-dom'
+import Immutable from 'immutable'
+import _ from 'lodash'
 import appState from '../../../../../../../appState'
 import apiActions from '../../../../../../../actions/apiActions'
 import recordActions from '../../../../../../../actions/recordActions'
@@ -37,7 +39,31 @@ class Record extends Component {
     }
   }
 
-  onSaveField(data) {
+  onSaveField = (data) => {
+    let recordId = this.props.recordId;
+    let record = appState.getIn(['records', this.props.catalogId, recordId]);
+    let newValue = data.data;
+    let fieldId = data.fieldId;
+    let oldValue = record.getIn(['originValues', fieldId]);
+
+    let isChanged = _.isObject(newValue)
+      ? !Immutable.is(newValue, oldValue)
+      : newValue !== oldValue;
+
+    if (isChanged) {
+      // пришли изменения
+      this.setState({ hasBeenEdit: true });
+    }
+
+    this.saveField({
+      catalogId: this.props.catalogId,
+      recordId: recordId,
+      fieldId: fieldId,
+      data: newValue
+    });
+  }
+
+  saveField(data) {
     let updateParams;
     if (data.values) {
       updateParams = data.values;

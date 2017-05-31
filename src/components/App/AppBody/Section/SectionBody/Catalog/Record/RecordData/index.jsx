@@ -2,7 +2,6 @@ import _ from 'lodash'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PropTypes from 'prop-types'
-// import trs from '../../../../../../../../getTranslations'
 import apiActions from '../../../../../../../../actions/apiActions'
 import appState from '../../../../../../../../appState'
 import NavRoute from '../../../../../../../common/router/Route'
@@ -76,7 +75,7 @@ const RecordData = React.createClass({
     // }
 
 
-    let tabItems = [];
+    // let tabItems = [];
     // let historyHeader = <HistoryHeader count={record.getIn(['history', 'count']) || 0} />;
 
 
@@ -97,9 +96,9 @@ const RecordData = React.createClass({
 
     return (
       <div className="record-data">
-        <ul className="tabs--record-tab">
+        {/*<ul className="tabs--record-tab">
           {tabItems}
-        </ul>
+        </ul>*/}
 
         <ReactCSSTransitionGroup
           transitionName="record-data-saving"
@@ -114,7 +113,7 @@ const RecordData = React.createClass({
           isLoading
             ? <Loading fullHeight={true} />
             :
-            <NavRoute route={routes.recordHistory} render={prop => {
+            <NavRoute route={routes.record} render={prop => {
               return <TabMain
                 record={record}
                 catalog={catalog}

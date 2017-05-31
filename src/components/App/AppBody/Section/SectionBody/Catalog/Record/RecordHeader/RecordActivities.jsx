@@ -19,6 +19,7 @@ class RecordActivities extends Component {
     onClickAccess: PropTypes.func
   }
   render() {
+    console.log(this.props.hasBeenEdit)
     let dropDownButtonItems = [];
     let createButton;
     const record = this.props.record;

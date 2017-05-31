@@ -97,7 +97,7 @@ const CatalogsMenu = React.createClass({
 
     return (
       <div>
-        <DefaultRedirect route={routes.catalog} path='/catalog/:catalogId' params='catalogId' object={catalogs.get(0)} />
+        <DefaultRedirect route={routes.catalog} params='catalogId' object={catalogs.get(0)} />
         <ListMenu
           route={routes.catalog}
           params='catalogId'

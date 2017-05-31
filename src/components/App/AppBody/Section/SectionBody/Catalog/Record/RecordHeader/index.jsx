@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Immutable from 'immutable'
+import { Redirect } from 'react-router-dom'
 import trs from '../../../../../../../../getTranslations'
 import apiActions from '../../../../../../../../actions/apiActions'
 import recordActions from '../../../../../../../../actions/recordActions'
@@ -9,6 +11,7 @@ import appState from '../../../../../../../../appState'
 import { confirm } from '../../../../../../../common/Modal'
 import NavRoute from '../../../../../../../common/router/Route'
 import routes from '../../../../../../../../routes'
+import TabsMenu from '../../../../../../../common/menu/TabsMenu'
 import RecordActivities from './RecordActivities'
 
 import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
@@ -114,15 +117,34 @@ const RecordHeader = React.createClass({
   },
 
   render() {
+    const tabs = Immutable.List([
+      Immutable.Map({
+        id: 'main',
+        name: trs('record.tabs.main'),
+        route: routes.recordMain
+      }),
+      Immutable.Map({
+        id: 'history',
+        name: trs('tab.history'),
+        route: routes.recordHistory
+      })
+    ]);
+
     const record = this.props.record;
     const isNew = record.get('isNew');
     const headerText = isNew ? trs('record.newRecord') : record.get('title');
 
     return (
       <div className={styles.container}>
+
         <h1 title={headerText}>
           <span>{headerText}</span>
         </h1>
+
+        <TabsMenu
+          items={tabs}
+          className={styles.tabsMenu}
+        />
 
         <NavRoute route={routes.record} render={
           ({ match }) => {

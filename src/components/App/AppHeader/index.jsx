@@ -25,7 +25,7 @@ class AppHeader extends Component {
 
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
-        <DefaultRedirect route={routes.section} path='/section/:sectionId' params='sectionId' object={this.props.appState.get('sections').valueSeq().get(0)} />
+        <DefaultRedirect route={routes.section} params='sectionId' object={this.props.appState.get('sections').valueSeq().get(0)} />
 
         <Col>
           <Logo {...this.props} />
