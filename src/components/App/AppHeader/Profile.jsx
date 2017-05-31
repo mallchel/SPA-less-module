@@ -17,14 +17,14 @@ const Profile = function ({ ...props }) {
               key={module.get('code')}
             //onClick={this.onClickModule.bind(this, module.get('code'))}
             >
-              <Icon type={module.get('icon')} />
+              <Icon type={`icon ${module.get('icon')}`} />
               <span>{module.get('title')}</span>
             </Button>
           )
         })
       }
       <img src="favicon.ico" alt="profile" className={styles.img} />
-      <ButtonTransparent><Icon type="interface-13" /></ButtonTransparent>
+      <ButtonTransparent><Icon type="icon interface-13" /></ButtonTransparent>
     </Row>
   )
 }

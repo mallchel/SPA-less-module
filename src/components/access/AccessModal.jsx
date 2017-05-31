@@ -19,6 +19,7 @@ import PRIVILEGE_CODES from '../../configs/privilegeCodes';
 import RESOURCE_TYPES from '../../configs/resourceTypes';
 
 import PublicAccess from './publicAccess';
+import { connect } from '../StateProvider'
 
 const log = require('debug')('CRM:Component:Rights:Modal');
 
@@ -48,7 +49,7 @@ const AccessRules = React.createClass({
 
   getInitialState() {
     return {
-      rules : this.props.rules
+      rules: this.props.rules
     };
   },
 
@@ -74,22 +75,22 @@ const AccessRules = React.createClass({
     // const isView    = !!(this.props.object && this.props.object.viewId);
     // const isRecord  = !!(this.props.object && this.props.object.recordId);
 
-    if ( this.state.rules ) {
-      let privileges = this.props.privilegeCodes.map(p=> {
+    if (this.state.rules) {
+      let privileges = this.props.privilegeCodes.map(p => {
         return {
           key: p,
           text: this.getPrivilegeText(p)
         }
       }).toJS(); // toJS for DropDown
 
-      rules = this.state.rules.map((rule, index)=> {
+      rules = this.state.rules.map((rule, index) => {
         let subject = rule.getIn(['rightSubject']);
         let attr = subject.getIn(['userAttr']);
         let attrTitle = antiCapitalize(subject.getIn(['userAttrTitle']));
         let privilegeCode = rule.getIn(['privilegeCode']);
         let subjectPrivileges = privileges.slice();
 
-        let subjectIcon = subject.getIn(['catalogIcon']) || ( attr === 'id' && 'users-9' ) || 'users-24';
+        let subjectIcon = subject.getIn(['catalogIcon']) || (attr === 'id' && 'users-9') || 'users-24';
         let subjectDescription;
         let privilegeView;
         let privilegeFieldText = [];
@@ -100,11 +101,11 @@ const AccessRules = React.createClass({
         let readOnly = (this.props.readOnly || privilegeCode == PRIVILEGE_CODES.ADMIN) && !this.props.isAdmin;
         let hasRemoveBtn = privilegeCode != PRIVILEGE_CODES.SEARCH;
 
-        let onClickRemove = ()=> {
+        let onClickRemove = () => {
           this.props.onClickRemoveRight(index);
         };
 
-        let onChangePrivilege = items=> {
+        let onChangePrivilege = items => {
           this.props.onChangePrivilege(index, items);
         };
         let openViewFieldRightsModal = () => {
@@ -113,43 +114,43 @@ const AccessRules = React.createClass({
             privilegeCode == PRIVILEGE_CODES.VIEW ||
             privilegeCode == PRIVILEGE_CODES.ACCESS ||
             privilegeCode == PRIVILEGE_CODES.SEARCH
-          )? 'view' : 'edit';
+          ) ? 'view' : 'edit';
           modalsActions.openViewFieldRightsModal(
             rule,
             index,
             object,
             basePrivilege,
-            (fields)=> {
+            (fields) => {
               this.props.onChangeRule(index, rule.set('fields', fields));
               log('Field rights modal saved');
-            }, ()=> {
+            }, () => {
               log('Field rights modal dismised');
             });
         };
 
-        if ( attrTitle ) {
+        if (attrTitle) {
           subjectDescription = <span className="m-text_light"> ({attrTitle})</span>;
           subjectTitle += ` (${attrTitle})`;
         }
 
         // workaround. because Dropdown incorrect work, while privileges array is empty
         // workaround. to show search privilege
-        if ( !_.find(subjectPrivileges, {key: privilegeCode}) ) {
+        if (!_.find(subjectPrivileges, { key: privilegeCode })) {
           subjectPrivileges.unshift({
             key: privilegeCode,
             text: this.getPrivilegeText(privilegeCode)
           });
         }
 
-        if ( attr === 'allUsers' ) {
-          _.remove(subjectPrivileges, p=> p.key === PRIVILEGE_CODES.DENY);
+        if (attr === 'allUsers') {
+          _.remove(subjectPrivileges, p => p.key === PRIVILEGE_CODES.DENY);
         }
 
-        if ( !this.props.isAdmin ) {
-          _.remove(subjectPrivileges, p=> p.key === PRIVILEGE_CODES.ADMIN);
+        if (!this.props.isAdmin) {
+          _.remove(subjectPrivileges, p => p.key === PRIVILEGE_CODES.ADMIN);
         }
 
-        if ( readOnly ) {
+        if (readOnly) {
           privilegeView = <span className="access-modal__privilege-view">{this.getPrivilegeText(privilegeCode)}</span>;
         } else {
           privilegeView =
@@ -158,7 +159,7 @@ const AccessRules = React.createClass({
                 withButton={true}
                 value={privilegeCode}
                 items={subjectPrivileges}
-                onSelectItems={onChangePrivilege}/>
+                onSelectItems={onChangePrivilege} />
             </div>;
         }
 
@@ -166,14 +167,14 @@ const AccessRules = React.createClass({
         if (
           !isSection
           && ([
-              PRIVILEGE_CODES.VIEW,
-              PRIVILEGE_CODES.EDIT,
-              PRIVILEGE_CODES.CREATE,
-              PRIVILEGE_CODES.EXPORT,
-              PRIVILEGE_CODES.DELETE,
-              PRIVILEGE_CODES.ACCESS,
-              PRIVILEGE_CODES.ADMIN
-            ].indexOf(privilegeCode) != -1)
+            PRIVILEGE_CODES.VIEW,
+            PRIVILEGE_CODES.EDIT,
+            PRIVILEGE_CODES.CREATE,
+            PRIVILEGE_CODES.EXPORT,
+            PRIVILEGE_CODES.DELETE,
+            PRIVILEGE_CODES.ACCESS,
+            PRIVILEGE_CODES.ADMIN
+          ].indexOf(privilegeCode) != -1)
           && !readOnly
         ) {
           let className = classNames({
@@ -188,7 +189,7 @@ const AccessRules = React.createClass({
 
         let basePrivilege = (
           privilegeCode == PRIVILEGE_CODES.VIEW
-        )? 'view' : 'edit';
+        ) ? 'view' : 'edit';
         if (fieldsRules.size != 0) {
           rightsExceptions = <RightsExceptions exceptions={fieldsRules} basePrivilege={basePrivilege} />;
         }
@@ -196,24 +197,24 @@ const AccessRules = React.createClass({
 
         let removeBlock = null;
 
-        if ( !readOnly ) {
+        if (!readOnly) {
           removeBlock =
             <div className="click-area--close" onClick={onClickRemove}>
-              { hasRemoveBtn ? <i className="m-close m-close--absolute"></i> : null }
+              {hasRemoveBtn ? <i className="m-close m-close--absolute"></i> : null}
             </div>
-        } else if ( rule.getIn(['fromObject']) ) {
+        } else if (rule.getIn(['fromObject'])) {
           let fromObjIcon;
           let fromTitle;
 
-          if ( rule.getIn(['fromObject', 'sectionId']) ) {
+          if (rule.getIn(['fromObject', 'sectionId'])) {
             fromObjIcon = this.props.parentSection && this.props.parentSection.get('icon');
             fromTitle = modalTrs('inheritedFromSection');
-          } else if ( rule.getIn(['fromObject', 'catalogId']) ) {
+          } else if (rule.getIn(['fromObject', 'catalogId'])) {
             fromObjIcon = this.props.parentCatalog && this.props.parentCatalog.get('icon');
             fromTitle = modalTrs('inheritedFromCatalog');
           }
 
-          if ( fromObjIcon ) {
+          if (fromObjIcon) {
             removeBlock =
               <span title={fromTitle}>
                 {modalTrs('from')} <span className={'icon access-modal-rule__icon--from icon--' + fromObjIcon}></span>
@@ -230,11 +231,11 @@ const AccessRules = React.createClass({
               <span>{subjectName}</span>{subjectDescription}
             </td>
             <td className="rights__row__item rights__row__item--privilege">
-              { privilegeView }
-              { rightsExceptions }
+              {privilegeView}
+              {rightsExceptions}
             </td>
             <td className="rights__row__item rights__row__item--field">
-              { privilegeField }
+              {privilegeField}
             </td>
             <td className="rights__row__item rights__row__item--close">
               {removeBlock}
@@ -248,10 +249,10 @@ const AccessRules = React.createClass({
 
     return (
       <table className={'unit-list unit-list--padding_default m-bg-color_white rights__table'
-        + (this.props.readOnly ? ' unit-list--hover_off': '')
+        + (this.props.readOnly ? ' unit-list--hover_off' : '')
         + ' ' + this.props.rulesTableClasses}>
         <tbody>
-        {rules}
+          {rules}
         </tbody>
       </table>
     );
@@ -267,7 +268,7 @@ const EmptyRules = React.createClass({
     let count = Math.max(this.props.count, 1);
     let emptyList = [];
 
-    for ( let i = 0; i < count; i++ ) {
+    for (let i = 0; i < count; i++) {
       emptyList.push(
         <tr className="unit-list__row" key={i}>
           <td className="rights__row__item" colSpan={3}></td>
@@ -278,7 +279,7 @@ const EmptyRules = React.createClass({
     return (
       <table className="unit-list unit-list--padding_default unit-list--hover_off m-bg-color_white rights__table">
         <tbody>
-        {emptyList}
+          {emptyList}
         </tbody>
       </table>
     );
@@ -308,7 +309,7 @@ const AccessModal = React.createClass({
 
   getInitialState() {
     return {
-      rules: this.mergeRules( this.props.rules || new Immutable.List ),
+      rules: this.mergeRules(this.props.rules || new Immutable.List),
       selectedSubjects: new Immutable.List,
       isLoading: true
     }
@@ -317,19 +318,19 @@ const AccessModal = React.createClass({
   mergeRules(rules) {
     let toRemoveRules = [];
 
-    rules.forEach((rule, i)=> {
+    rules.forEach((rule, i) => {
       // mark rule as search privilege
-      if ( rule.get('privilegeCode') === PRIVILEGE_CODES.SEARCH ) {
+      if (rule.get('privilegeCode') === PRIVILEGE_CODES.SEARCH) {
         rules = rules.setIn([i, 'isSearchRule'], true);
       } else {
-        let searchRuleIndex = rules.findIndex((rule2, i2)=> {
+        let searchRuleIndex = rules.findIndex((rule2, i2) => {
           return i !== i2
             && rule2.get('privilegeCode') === PRIVILEGE_CODES.SEARCH
             && _.isEqual(rule.get('rightSubject').toJS(), rule2.get('rightSubject').toJS());
         });
 
         // merge subjects with search privilege and other
-        if ( searchRuleIndex > -1 ) {
+        if (searchRuleIndex > -1) {
           rules = rules.setIn([searchRuleIndex, 'privilegeCode'], rule.get('privilegeCode'));
           //rules = rules.remove(i);
           toRemoveRules.push(i);
@@ -337,14 +338,14 @@ const AccessModal = React.createClass({
       }
     });
 
-    rules = rules.filter((o, i)=> !_.contains(toRemoveRules, i));
+    rules = rules.filter((o, i) => !_.contains(toRemoveRules, i));
 
     return rules;
   },
 
   updateState(obj) {
     // merge subjects with search privilege and other and remove search rules
-    if ( obj.rules ) {
+    if (obj.rules) {
       obj.rules = this.mergeRules(obj.rules);
     }
 
@@ -357,7 +358,7 @@ const AccessModal = React.createClass({
       return;
     }
     //let items = this.state.selectedSubjects.toJS();
-    let newRules = items.map(item=> {
+    let newRules = items.map(item => {
       return Immutable.fromJS({
         rightSubject: item.subject,
         privilegeCode: PRIVILEGE_CODES.EDIT
@@ -371,13 +372,13 @@ const AccessModal = React.createClass({
   },
 
   filterAvailableSubjects(item) {
-    return !this.state.rules.find(rule=> {
+    return !this.state.rules.find(rule => {
       return _.isEqual(rule.getIn(['rightSubject']).toJS(), item.subject);
     });
   },
 
-  onClickRemoveRight(index){
-    if ( this.state.rules.getIn([index, 'isSearchRule']) ) {
+  onClickRemoveRight(index) {
+    if (this.state.rules.getIn([index, 'isSearchRule'])) {
       this.onChangePrivilege(index, PRIVILEGE_CODES.SEARCH);
     } else {
       this.updateState({
@@ -386,7 +387,7 @@ const AccessModal = React.createClass({
     }
   },
 
-  onSave(){
+  onSave() {
     let data = {
       object: this.props.object,
       rules: this.state.rules
@@ -397,7 +398,7 @@ const AccessModal = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if ( this.props.rules !== nextProps.rules ) {
+    if (this.props.rules !== nextProps.rules) {
       log('new rules from props', nextProps.rules);
 
       this.updateState({
@@ -420,11 +421,11 @@ const AccessModal = React.createClass({
     apiActions.getRights({}, _.extend({}, query, object));
 
     // get rules for parent objects
-    this.props.parents.forEach(ro=> {
+    this.props.parents.forEach(ro => {
       apiActions.getRights({}, _.extend({}, query, ro.get('object').toJS()));
     });
 
-    if ( !this.props.privilegeCodes.size ) {
+    if (!this.props.privilegeCodes.size) {
       apiActions.getPrivileges();
     }
   },
@@ -446,7 +447,7 @@ const AccessModal = React.createClass({
     let userAttrTitle = antiCapitalize(item.subject.userAttrTitle);
     let subjectDescription;
 
-    if ( userAttrTitle ) {
+    if (userAttrTitle) {
       subjectDescription = <span className="m-text_light">({userAttrTitle})</span>;
     }
 
@@ -456,16 +457,16 @@ const AccessModal = React.createClass({
 
   render() {
     let readOnly = this.props.readOnly;
-    let {isLoading} = this.state;
+    let { isLoading } = this.state;
     let error = null;
     let resource = this.props.resource;
 
     let rules = this.state.rules;
 
-    if ( this.props.hasAdminRule ) {
-      let adminRule = rules.find(rule=> rule.get('privilegeCode') === PRIVILEGE_CODES.ADMIN);
+    if (this.props.hasAdminRule) {
+      let adminRule = rules.find(rule => rule.get('privilegeCode') === PRIVILEGE_CODES.ADMIN);
 
-      if ( !adminRule ) {
+      if (!adminRule) {
         error = modalTrs('errors.adminPrivilegeRequired');
       }
     }
@@ -476,8 +477,8 @@ const AccessModal = React.createClass({
           ? null
           : <button className="btn btn--default" onClick={this.onSave}>{trs('modals.save')}</button>}
         <a href="javascript:void(0)"
-           className="m-like-button"
-           onClick={this.props.dismissModal}>{readOnly ? trs('modals.close') : trs('modals.cancel')}
+          className="m-like-button"
+          onClick={this.props.dismissModal}>{readOnly ? trs('modals.close') : trs('modals.cancel')}
         </a>
       </div>;
 
@@ -490,50 +491,50 @@ const AccessModal = React.createClass({
       <div className="modal-window__content--footer">
         <table className="rights--footer unit-list unit-list--padding_default m-bg-color_white rights__table--footer ng-scope">
           <tbody>
-          <tr className="rights__row">
-            <td className="rights__row__item rights__row__item--icon">
-              <i className="icon icon--interface-69 rights__row__item-icon rights__row__item-icon--plus m-text_light"></i>
-            </td>
-            <td className="rights__row__item w100" colSpan="3">
-              <DropdownRemote
-                type="subjects"
-                filterFn={this.filterAvailableSubjects}
-                sortBy={false}
-                multiselect={false}
-                autocomplete={true}
-                searchable={true}
-                onSelectItems={this.onAddSubjects}
-                clearOnSelect={true}
-                closeOnSelect={true}
-                itemsMapper={this.itemsMapper}
-                placeholder={modalTrs('selectSubject')}
-                withButton={true}
-                blockForceUpdateForEmpty={true}
-              />
-            </td>
-            {/*<td className="rights__row__item rights__row__item--button">
+            <tr className="rights__row">
+              <td className="rights__row__item rights__row__item--icon">
+                <i className="icon icon--interface-69 rights__row__item-icon rights__row__item-icon--plus m-text_light"></i>
+              </td>
+              <td className="rights__row__item w100" colSpan="3">
+                <DropdownRemote
+                  type="subjects"
+                  filterFn={this.filterAvailableSubjects}
+                  sortBy={false}
+                  multiselect={false}
+                  autocomplete={true}
+                  searchable={true}
+                  onSelectItems={this.onAddSubjects}
+                  clearOnSelect={true}
+                  closeOnSelect={true}
+                  itemsMapper={this.itemsMapper}
+                  placeholder={modalTrs('selectSubject')}
+                  withButton={true}
+                  blockForceUpdateForEmpty={true}
+                />
+              </td>
+              {/*<td className="rights__row__item rights__row__item--button">
              <button className="btn btn--default m-text_success" onClick={this.onAddSubjects}>
              <div className="icon icon--status-17 m-text_center"></div>
              </button>
              </td>*/}
-          </tr>
+            </tr>
           </tbody>
         </table>
       </div>;
 
     let parentRules = new Immutable.List();
 
-    this.props.parents.forEach(ro=> {
+    this.props.parents.forEach(ro => {
       let parentObjectRules = ro.get('rules');
-      parentObjectRules && parentObjectRules.forEach(rule=> {
+      parentObjectRules && parentObjectRules.forEach(rule => {
         rule = rule.set('fromObject', ro.get('object'));
 
-        if ( rule.get('privilegeCode') === PRIVILEGE_CODES.SEARCH ) {
+        if (rule.get('privilegeCode') === PRIVILEGE_CODES.SEARCH) {
           return;
         }
 
-        if ( resource === RESOURCE_TYPES.VIEW ) {
-          if ( rule.get('privilegeCode') === PRIVILEGE_CODES.ADMIN ) {
+        if (resource === RESOURCE_TYPES.VIEW) {
+          if (rule.get('privilegeCode') === PRIVILEGE_CODES.ADMIN) {
             parentRules = parentRules.push(rule);
           }
         } else {
@@ -599,7 +600,7 @@ const AccessModal = React.createClass({
 
             {readOnly ? null : addSubjects}
 
-            <PublicAccess resource={this.props.resource} object={this.props.object}/>
+            <PublicAccess resource={this.props.resource} object={this.props.object} />
           </div>
         </div>
         {footer}
@@ -627,17 +628,17 @@ const AccessModalController = React.createClass({
     // parent objects info
     let newParents = this.state.parents;
 
-    if ( props.parents ) {
-      let parentRights = props.parents.map(object=> {
+    if (props.parents) {
+      let parentRights = props.parents.map(object => {
         let parentRight = this.getInfoForObject(props, object);
         parentRight.object = object;
 
         parentsLoadingComplete = parentsLoadingComplete && parentRight.loadingComplete;
 
-        if ( object.sectionId ) {
-          parentSection = props.appState.get('sections').find(o=> o.get('id') === object.sectionId);
-        } else if ( object.catalogId ) {
-          parentCatalog = props.appState.get('catalogs').find(o=> o.get('id') === object.catalogId);
+        if (object.sectionId) {
+          parentSection = props.appState.get('sections').find(o => o.get('id') === object.sectionId);
+        } else if (object.catalogId) {
+          parentCatalog = props.appState.get('catalogs').find(o => o.get('id') === object.catalogId);
         }
 
         return parentRight;
@@ -645,9 +646,9 @@ const AccessModalController = React.createClass({
 
       newParents = newParents.mergeDeep(parentRights);
 
-      newParents.forEach((o, i)=> {
+      newParents.forEach((o, i) => {
         let rules = o.get('rules');
-        if ( rules ) {
+        if (rules) {
           let newParentObj = o.set('rules', rules.setSize(_.get(parentRights, [i, 'rules', 'size'], 0)));
           newParents = newParents.set(i, newParentObj);
         }
@@ -679,13 +680,13 @@ const AccessModalController = React.createClass({
 
   getInfoForObject(props, object) {
     let rightsCollection = props.appState.getIn(['rights']);
-    let rightsObject = rightsCollection.find(ro=> {
+    let rightsObject = rightsCollection.find(ro => {
       return _.isEqual(ro.getIn(['object']).toJS(), object);
     });
     let rules = rightsObject && rightsObject.getIn(['rules']);
     let loadingComplete = rightsObject && rightsObject.getIn(['loadingComplete']);
 
-    return {rules, loadingComplete};
+    return { rules, loadingComplete };
   },
 
   componentWillReceiveProps(nextProps) {
@@ -693,7 +694,7 @@ const AccessModalController = React.createClass({
   },
 
   render() {
-    let {rules, loadingComplete, parents, parentCatalog, parentSection} = this.state;
+    let { rules, loadingComplete, parents, parentCatalog, parentSection } = this.state;
 
     let resource = this.props.resource;
     let privilegeCodes = this.props.appState.getIn(['privilegeCodesByResource', resource]);
@@ -716,4 +717,11 @@ const AccessModalController = React.createClass({
   }
 });
 
-export default AccessModalController;
+// export default connect(AccessModalController, [
+//   'privilegeCodesByResource',
+//   'rights',
+//   'sections',
+//   'catalogs',
+// ]);
+
+export default connect(AccessModalController);

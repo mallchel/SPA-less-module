@@ -36,7 +36,8 @@ const RequestRecordStore = Reflux.createStore({
     request.searchText = AppState.getSearchText(catalogId);
 
     let { viewId } = request;
-    viewId = viewId || this.getCurrentViewId();
+    viewId = viewId || 0;
+    // viewId = viewId || this.getCurrentViewId();
 
     if (viewId) {
       // ID virtual view = 0
@@ -57,14 +58,12 @@ const RequestRecordStore = Reflux.createStore({
   },
 
 
-  requestForExportRecords(catalogId, request = {}) {
+  requestForExportRecords({ catalogId, viewId }, request = {}) {
     if (!catalogId)
       throw new Error('Undefined catalogId for request records!');
 
     let sortParams = this.getSortParams(catalogId);
     request.searchText = AppState.getSearchText(catalogId);
-
-    let viewId = this.getCurrentViewId();
 
     if (viewId) {
       // ID virtual view = 0
@@ -114,6 +113,7 @@ const RequestRecordStore = Reflux.createStore({
    * @return viewId
    */
   getCurrentViewId() {
+    console.log('getCurrentViewId')
     return AppState.getIn(['currentCatalog', 'currentViewId']);
   }
 });

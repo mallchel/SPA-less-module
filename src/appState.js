@@ -4,44 +4,44 @@ import _ from 'lodash'
 
 import apiActions from './actions/apiActions'
 // import routeAction from './actions/routeAction';
-// import recordActions from './actions/recordActions';
-// import editorActions from './actions/editorActions';
+import recordActions from './actions/recordActions'
+import editorActions from './actions/editorActions'
 import sectionActions from './actions/sectionActions'
-// import dropDownActions from './actions/dropdownActions';
-// import userSettingsActions from './actions/userSettingsActions';
-// import viewActions from './actions/viewActions';
+import dropDownActions from './actions/dropdownActions'
+import userSettingsActions from './actions/userSettingsActions'
+import viewActions from './actions/viewActions'
 import catalogActions from './actions/catalogActions'
-// import historyActions from './actions/historyActions';
-// import reportsActions from './actions/reports';
-// import linkedRecordActions from './actions/linkedRecord';
+import historyActions from './actions/historyActions'
+import reportsActions from './actions/reports'
+import linkedRecordActions from './actions/linkedRecord'
 
-// import UserSettingsStore from './stores/UserSettingsStore';
+import UserSettingsStore from './stores/UserSettingsStore';
 import RequestRecordStore from './stores/RequestRecordStore'
-// import ModalStore from './stores/ModalStore';
+import ModalStore from './stores/ModalStore';
 
 import { DEFAULT } from './configs/appModes'
 
 const log = require('debug')('CRM:appState');
 
 const storeMixins = [
-  // require('./stores/appMixin'),
+  require('./stores/appMixin').default,
   // require('./stores/routeMixin'),
   require('./stores/sectionsMixin').default,
   require('./stores/catalogsMixin').default,
   require('./stores/recordsMixin').default,
-  // require('./stores/editorMixin'),
-  // require('./stores/dropdownMixin'),
+  require('./stores/editorMixin').default,
+  require('./stores/dropdownMixin').default,
   require('./stores/viewsMixin').default,
   require('./stores/filtersMixin').default,
-  // require('./stores/rightsMixin'),
+  require('./stores/rightsMixin').default,
   require('./stores/privilegesMixin').default,
   require('./stores/filterKeysMixin').default,
   require('./stores/authMixin').default,
-  // require('./stores/userMixin'),
-  // require('./stores/historyMixin'),
-  // require('./stores/reports/mixins'),
-  // require('./stores/changesMixin'),
-  // require('./stores/linkedRecordMixin'),
+  require('./stores/userMixin').default,
+  require('./stores/historyMixin').default,
+  require('./stores/reports/mixins').default,
+  require('./stores/changesMixin').default,
+  require('./stores/linkedRecordMixin').default,
 ];
 
 let apiHandlers = {};
@@ -140,23 +140,26 @@ let state = Immutable.fromJS({
   modules: [],
 
   mode: DEFAULT,
-  modalsFullScreen: false
+  modalsFullScreen: false,
+
+  boards: {
+    list: []
+  }
 });
 
 const appState = Reflux.createStore({
   mixins: storeMixins,
   listenables: [
     sectionActions,
-    // appActions,
     apiActions,
-    // recordActions,
+    recordActions,
     catalogActions,
-    // editorActions,
-    // dropDownActions,
-    // userSettingsActions,
-    // historyActions,
-    // reportsActions,
-    // linkedRecordActions
+    editorActions,
+    dropDownActions,
+    userSettingsActions,
+    historyActions,
+    reportsActions,
+    linkedRecordActions
   ],
 
   init() {

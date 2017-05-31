@@ -59,7 +59,7 @@ class OverlayDropdown extends Component {
                   <li className={cn(vertical.item, { [vertical.selected]: props.isActive })}>
                     <Link to={props.link} className={cn(styles.link, vertical.link)}>
                       {
-                        item.get('icon') ? <Icon type={item.get('icon')} className={cn(vertical.icon)} /> : null
+                        item.get('icon') ? <Icon type={`icon ${item.get('icon')}`} className={cn(vertical.icon)} /> : null
                       }
                       <div className={vertical.text}>{item.get('name')}</div>
                     </Link>

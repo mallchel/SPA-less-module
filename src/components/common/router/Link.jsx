@@ -9,9 +9,9 @@ const NavLink = function ({ render, route, params, ...props }) {
         const link = getLink(location, route, params);
         return (
           <Route path={link}>
-            {({ match }) => {
+            {({ match, history }) => {
               const isActive = !!match;
-              return render({ ...props, isActive, link });
+              return render({ ...props, history, isActive, link });
             }}
           </Route>
         )

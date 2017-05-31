@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import TabsMenu from '../../../../../../../common/menu/TabsMenu'
 import NavRoute from '../../../../../../../common/router/Route'
 import routes from '../../../../../../../../routes'
-import RecordActivities from './RecordActivities'
+import RecordsActivities from './RecordsActivities'
 
 import styles from './viewHeader.less'
 
@@ -62,7 +62,7 @@ class ViewHeader extends Component {
           <Row type="flex" justify="space-between" align="middle">
             <NavRoute route={routes.records} render={props => {
               return (
-                <RecordActivities catalog={catalog} viewId={viewId} />
+                <RecordsActivities catalog={catalog} viewId={viewId} />
               )
             }} />
           </Row>

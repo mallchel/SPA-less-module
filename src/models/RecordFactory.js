@@ -1,6 +1,5 @@
-import Immutable from 'immutable';
+import Immutable from 'immutable'
 import _ from 'lodash'
-import trs from '../getTranslations';
 
 export default {
   create(data = {}) {

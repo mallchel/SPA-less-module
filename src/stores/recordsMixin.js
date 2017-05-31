@@ -8,7 +8,7 @@ import recordActions from '../actions/recordActions'
 import appState from '../appState'
 import FIELD_TYPES from '../configs/fieldTypes'
 import VALIDATION_ERRORS from '../configs/validationErrors'
-import { validateField } from '../components/record/recordFieldValidator'
+import { validateField } from '../components/App/AppBody/Section/SectionBody/Catalog/Record/recordFieldValidator'
 import trs from '../getTranslations'
 import { alert } from '../components/common/Modal'
 

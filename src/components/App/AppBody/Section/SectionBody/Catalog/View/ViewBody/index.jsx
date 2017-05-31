@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import NavRoute from '../../../../../../../common/router/Route'
 import routes from '../../../../../../../../routes'
-// import Records from './Records'
-import Records from './Records/Records'
+import Records from './Records'
+import Reports from './../../../../../../../Reports'
 
 class ViewBody extends Component {
   static propTypes = {
@@ -15,12 +15,16 @@ class ViewBody extends Component {
         <NavRoute route={routes.records} render={props => {
           return this.props.catalog ?
             <Records catalog={this.props.catalog} />
-            : null
+            :
+            null
         }} />
-        {/*<NavRoute route={routes.reports} render={props => {
-          return null
+        <NavRoute route={routes.reports} render={props => {
+          return this.props.catalog ?
+            <Reports catalog={this.props.catalog} />
+            :
+            null
         }} />
-        <NavRoute route={routes.history} render={props => {
+        {/*<NavRoute route={routes.history} render={props => {
           return null
         }} />*/}
       </div>

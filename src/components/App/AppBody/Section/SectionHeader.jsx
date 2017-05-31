@@ -1,5 +1,5 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
+// import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { Menu as AntMenu, Dropdown, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import modalsActions from '../../../../actions/modalsActions'
@@ -18,7 +18,7 @@ import styles from './section.less'
 const log = require('debug')('CRM:Component:Sidebar:ButtonAfterCatalogs');
 
 const SettingSection = React.createClass({
-  mixins: [PureRenderMixin],
+  // mixins: [PureRenderMixin],
   propTypes: {
     section: PropTypes.object,
     isAccessAdmin: PropTypes.bool.isRequired
@@ -55,8 +55,8 @@ const SettingSection = React.createClass({
     confirm({
       onOk: this.onOk,
       onCancel: this.onCancel,
-      title: trs('modals.removeSectionConfirm.headerText'),
-      contentText: trs('modals.removeSectionConfirm.text'),
+      headerText: trs('modals.removeSectionConfirm.headerText'),
+      text: trs('modals.removeSectionConfirm.text'),
       okText: trs('modals.removeSectionConfirm.okText'),
       cancelText: trs('modals.removeSectionConfirm.cancelText'),
     })
@@ -98,7 +98,7 @@ const SettingSection = React.createClass({
           overlay={menu}
           trigger={['click']}
         >
-          <ButtonTransparent className={styles.shiftRight}><Icon type="setting-10" /></ButtonTransparent>
+          <ButtonTransparent className={styles.shiftRight}><Icon type="icon setting-10" /></ButtonTransparent>
         </Dropdown>
       </div>
     );

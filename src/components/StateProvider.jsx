@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import Reflux from 'reflux'
 import appState from '../appState'
 
@@ -29,3 +30,18 @@ const StateProvider = React.createClass({
 });
 
 export default StateProvider;
+
+export function connect(Component, keys) {
+  function Connector({ appState, ...props }) {
+    const componentProps = keys
+      ? _(keys).mapKeys(key => key).mapValues(key => appState.getIn([].concat(key))).value()
+      : { appState }
+    return <Component {...componentProps} {...props} />
+  }
+
+  return function (props) {
+    return (
+      <StateProvider component={Connector} componentProps={props} />
+    )
+  };
+}

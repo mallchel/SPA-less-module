@@ -74,6 +74,7 @@ export default {
   },
 
   selectView(viewId, catalogId) {
+    console.log('selectView')
     log('select view %s in catalog ', viewId, catalogId);
 
     // drop newView if exist.
@@ -338,7 +339,7 @@ export default {
    * request on create new view filters.
    */
   setField(fieldId, value) {
-    console.log(1111)
+    console.log('setField')
     if (value !== 'inherit') {
       appState.setIn(['currentCatalog', 'currentView', 'fieldPrivilegeCodes', fieldId], value);
     } else {

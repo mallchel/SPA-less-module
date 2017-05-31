@@ -33,8 +33,8 @@ class CatalogHeader extends Component {
 
   remove = (e) => {
     confirm({
-      title: trs('modals.removeConfirm.headerText'),
-      contentText: trs('modals.removeConfirm.text'),
+      headerText: trs('modals.removeConfirm.headerText'),
+      text: trs('modals.removeConfirm.text'),
       okText: trs('modals.removeConfirm.okText'),
       cancelText: trs('modals.removeConfirm.cancelText'),
       onOk: this.onOk
@@ -69,7 +69,7 @@ class CatalogHeader extends Component {
           trigger={['click']}
           placement="bottomRight"
         >
-          <ButtonTransparent className={styles.icon}><Icon type="setting-10" /></ButtonTransparent>
+          <ButtonTransparent className={styles.icon}><Icon type="icon setting-10" /></ButtonTransparent>
         </Dropdown>
       </Row>
     )

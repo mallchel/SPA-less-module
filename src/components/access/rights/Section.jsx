@@ -1,16 +1,14 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Reflux from 'reflux';
+// import PureRenderMixin from 'react-addons-pure-render-mixin';
+// import Reflux from 'reflux';
 import classNames from 'classnames';
 import trs from '../../../getTranslations';
 import Field from './Field';
 
-import PRIVILEGE_CODES from '../../../configs/privilegeCodes';
-
-const log = require('debug')('CRM:Component:Record:Section');
+// import PRIVILEGE_CODES from '../../../configs/privilegeCodes';
 
 const Section = React.createClass({
-  mixins: [PureRenderMixin],
+  // mixins: [PureRenderMixin],
   propTypes: {
     catalogId: React.PropTypes.string,
     basePrivilege: React.PropTypes.string,

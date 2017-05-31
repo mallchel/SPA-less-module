@@ -53,8 +53,8 @@ class ViewActivities extends Component {
     }
 
     confirm({
-      title: trs('modals.removeViewConfirm.headerText'),
-      contentText: view.get('forRights') ? trs('modals.removeViewConfirm.textForRights') : trs('modals.removeViewConfirm.text'),
+      headerText: trs('modals.removeViewConfirm.headerText'),
+      text: view.get('forRights') ? trs('modals.removeViewConfirm.textForRights') : trs('modals.removeViewConfirm.text'),
       okText: trs('modals.removeViewConfirm.okText'),
       cancelText: trs('modals.removeViewConfirm.cancelText'),
       onOk
@@ -110,7 +110,7 @@ class ViewActivities extends Component {
         trigger={['click']}
         placement="bottomRight"
       >
-        <ButtonTransparent className={styles.button}><Icon type="setting-10" /></ButtonTransparent>
+        <ButtonTransparent className={styles.button}><Icon type="icon setting-10" /></ButtonTransparent>
       </Dropdown>
     )
   }

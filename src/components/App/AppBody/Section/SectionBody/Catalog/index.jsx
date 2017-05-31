@@ -3,8 +3,8 @@ import { CSSTransitionGroup } from 'react-transition-group'
 import { Row } from 'antd'
 import { Route } from 'react-router-dom'
 import LayoutLeftPanel from './LayoutLeftPanel'
-import Record from './Record'
 import LayoutMiddlePanel from './LayoutMiddlePanel'
+import LayoutRightPanel from './LayoutRightPanel'
 import Splitter from '../../../../../common/Splitter'
 import NavRoute from '../../../../../common/router/Route'
 import routes from '../../../../../../routes'
@@ -14,7 +14,7 @@ import userSettingsActions from '../../../../../../actions/userSettingsActions'
 
 import styles from './catalog.less'
 
-const ANIMATION_DELAY = 2000;
+const ANIMATION_DELAY = 200;
 
 function ROW(props) {
   return (
@@ -88,7 +88,7 @@ class Catalog extends Component {
                     />
                   )}
                 />
-                {props.match && <Splitter><Record {...props} /></Splitter>}
+                {props.match && <Splitter><LayoutRightPanel {...props} /></Splitter>}
               </CSSTransitionGroup>
             </CSSTransitionGroup>
           )

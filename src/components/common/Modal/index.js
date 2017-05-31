@@ -1,3 +1,4 @@
+import React from 'react';
 import Base from './Base';
 import Confirm from './Confirm';
 import Alert from './Alert';
@@ -38,4 +39,8 @@ function getRenderComponentToBodyFn(Component) {
 export const confirm = getRenderComponentToBodyFn(Confirm);
 export const alert = getRenderComponentToBodyFn(Alert);
 export const prompt = getRenderComponentToBodyFn(Prompt);
-export const base = getRenderComponentToBodyFn(Base);
+
+export function base(Component, props) {
+  renderModaltoBody(Base, { children: <Component {...props} /> })
+  // renderModaltoBody(Base, { Component, props })
+}

@@ -23,7 +23,7 @@ const Menu = ({
                 <li className={cn(horizontal.item, { [horizontal.selected]: props.isActive })}>
                   <Link to={props.link} className={cn(styles.link, horizontal.link)}>
                     {
-                      item.get('icon') ? <Icon type={item.get('icon')} className={cn(horizontal.icon)} /> : null
+                      item.get('icon') ? <Icon type={`icon ${item.get('icon')}`} className={cn(horizontal.icon)} /> : null
                     }
                     <div className={horizontal.text}>{item.get('name')}</div>
                   </Link>

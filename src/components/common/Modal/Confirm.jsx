@@ -17,13 +17,13 @@ class Confirm extends Component {
       >
         <div className={styles.container}>
           <Row type="flex" justify="space-between" align="middle" className={styles.header}>
-            <h1>{this.props.title}</h1>
+            <h1>{this.props.headerText}</h1>
             <ButtonTransparent className={styles.close}>
               <Icon onClick={this.props.onCancel} className={styles.closeIcon} type="interface-74"></Icon>
             </ButtonTransparent>
           </Row>
           <Row className={styles.content}>
-            <p>{this.props.contentText}</p>
+            <p>{this.props.text}</p>
             {this.props.confirmation && <Input type="text" />}
           </Row>
         </div>

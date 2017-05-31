@@ -1,12 +1,12 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
+// import PureRenderMixin from 'react-addons-pure-render-mixin'
 import filterActions from '../../../../../../../../actions/filterActions'
 import trs from '../../../../../../../../getTranslations'
 import getFilterComponent from './getFilterComponent'
 import FilterBody from './FilterBody'
 
 const Filter = React.createClass({
-  mixins: [PureRenderMixin],
+  // mixins: [PureRenderMixin],
 
   propTypes: {
     catalog: React.PropTypes.object,

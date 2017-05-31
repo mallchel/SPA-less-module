@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import getDefaultSize from './widget/getDefaultSize';
 
-import {ADD_WIDGET} from  '../../../configs/reports/widget/types';
+import { ADD_WIDGET } from '../../../configs/reports/widget/types';
 
-function checkZone(matrix, {x, y}, {w, h}) {
+function checkZone(matrix, { x, y }, { w, h }) {
   for (let j = 0, posY; j < h; j++) {
     posY = y + j;
     for (let i = 0, posX; i < w; i++) {
@@ -22,7 +22,7 @@ function findHole(currentLayout, size, maxWidth) {
   const matrix = [];
 
   // fill busy cells
-  currentLayout.forEach(function ({x, y, w, h}) {
+  currentLayout.forEach(function ({ x, y, w, h }) {
     for (let j = 0, posY; j < h; j++) {
       posY = y + j;
       if (!matrix[posY]) {
@@ -40,21 +40,21 @@ function findHole(currentLayout, size, maxWidth) {
   // y <= matrix.length to find empty cell if all cells is filled
   for (let y = 0; y <= matrix.length; y++) {
     for (let x = 0; x < maxWidth; x++) {
-      if (checkZone(matrix, {x, y}, size)) {
-        return {x, y};
+      if (checkZone(matrix, { x, y }, size)) {
+        return { x, y };
       }
     }
   }
 
-  return {x: 0, y: Infinity};
+  return { x: 0, y: Infinity };
 }
 
 export default function (layout, widgets, maxWidth = 2) {
-  let newLayout = _.filter(layout, item=> item.i !== ADD_WIDGET);
+  let newLayout = _.filter(layout, item => item.i !== ADD_WIDGET);
 
   widgets.forEach(function (widget) {
     const widgetUId = widget.get('uid');
-    const inLayout = _.find(newLayout, {i: widgetUId});
+    const inLayout = _.find(newLayout, { i: widgetUId });
 
     if (!inLayout) {
       const defaultSize = getDefaultSize(widget, maxWidth);

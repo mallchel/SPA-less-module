@@ -22,7 +22,7 @@ const Logo = function ({ ...props }) {
         overlay={menu}
         trigger={['click']}
       >
-        <ButtonTransparent><Icon type="content-43" /></ButtonTransparent>
+        <ButtonTransparent><Icon type="icon content-43" /></ButtonTransparent>
       </Dropdown>
       <img src="logo.png" alt="favicon" />
     </Row>
