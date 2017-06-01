@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 
 class SplitterPane extends Component {
   state = {
-    width: 75
+    width: 50
   }
 
   handleMouseDown = (e) => {

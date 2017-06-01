@@ -18,6 +18,7 @@ let recordActions = Reflux.createActions({
   moveFocusToError: {},
 
   cloneRecord: {},
+  createNewRecord: {},
   shouldUpdateProcess: {sync: true}
 });
 

@@ -3,6 +3,8 @@ import { Menu as AntMenu, Dropdown, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import trs from '../../../../../../../../getTranslations'
 import recordActions from '../../../../../../../../actions/recordActions'
+import NavLink from '../../../../../../../common/router/Link'
+import routes from '../../../../../../../../routes'
 
 import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
@@ -14,6 +16,7 @@ class RecordsActivities extends Component {
     catalog: PropTypes.object,
     viewId: PropTypes.string
   }
+
   btnExport() {
     const catalogId = this.props.catalog.get('id');
     const viewId = this.props.viewId;
@@ -21,10 +24,8 @@ class RecordsActivities extends Component {
     recordActions.requestForExportRecords(catalogId, { viewId });
   }
 
-  btnAddRecord() {
-    // router.go('main.section.catalogData.addRecord', {
-    //   catalogId: this.props.catalog.get('id')
-    // });
+  btnAddRecord({ history, link }) {
+    history.push(`${link}/$new`);
   }
 
   render() {
@@ -80,9 +81,13 @@ class RecordsActivities extends Component {
 
     return (
       createButton ?
-        <Dropdown.Button type="primary" onClick={createButton.onClick} overlay={dropdownMenu}>
-          <Icon type="icon interface-72" />{createButton.text}
-        </Dropdown.Button>
+        <NavLink route={routes.records} render={({ link, history }) => {
+          return (
+            <Dropdown.Button type="primary" onClick={() => createButton.onClick({ history, link })} overlay={dropdownMenu}>
+              <Icon type="icon interface-72" />{createButton.text}
+            </Dropdown.Button>
+          )
+        }} />
         : null
     )
   }

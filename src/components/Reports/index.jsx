@@ -20,11 +20,6 @@ const ReportsMainController = React.createClass({
     boards: PropTypes.object
   },
 
-  // componentWillReceiveProps(nextProps) {
-  //   const board = this.getBoard(nextProps);
-  //   this.setState({ board });
-  // },
-
   componentDidMount() {
     const { catalog } = this.props;
     const catalogId = catalog.get('id');

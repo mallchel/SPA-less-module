@@ -1,18 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
-import { Redirect } from 'react-router-dom'
+import _ from 'lodash'
 import trs from '../../../../../../../../getTranslations'
 import apiActions from '../../../../../../../../actions/apiActions'
 import recordActions from '../../../../../../../../actions/recordActions'
 import modalsActions from '../../../../../../../../actions/modalsActions'
-// import RecordFactory from '../../../../../../../../models/RecordFactory'
 import appState from '../../../../../../../../appState'
 import { confirm } from '../../../../../../../common/Modal'
 import NavRoute from '../../../../../../../common/router/Route'
+import NavRedirect from '../../../../../../../common/router/Redirect'
 import routes from '../../../../../../../../routes'
 import TabsMenu from '../../../../../../../common/menu/TabsMenu'
 import RecordActivities from './RecordActivities'
+import getLink from '../../../../../../../common/router/getLink'
 
 import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
@@ -25,49 +26,15 @@ const RecordHeader = React.createClass({
     record: PropTypes.object.isRequired,
     catalog: PropTypes.object.isRequired,
     catalogId: PropTypes.string.isRequired,
-    hasBeenEdit: PropTypes.bool.isRequired
-    //onSave: React.PropTypes.func.isRequired,
-    //onCreateRecord: React.PropTypes.func.isRequired
+    hasBeenEdit: PropTypes.bool.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    onCreateRecord: React.PropTypes.func.isRequired
   },
 
-  onCreateRecord(catalogId, values) {
-    appState.setIn(['records', catalogId, appState.getIn(['newRecordId', catalogId]), 'creating'], true);
-    appState.setIn(['records', catalogId, appState.getIn(['newRecordId', catalogId]), 'createError'], null);
-    appState.changed();
-    recordActions.validateAndSaveRecord(catalogId, appState.getIn(['newRecordId', catalogId]), values, (result) => {
-      let oldRecordId = appState.getIn(['newRecordId', catalogId]);
-      let newRecordId = result.id;
-
-      // if (router.includes('main.section.catalogData.addRecord', { catalogId: catalogId })) {
-      //   let record = appState.getIn(['records', catalogId, oldRecordId]);
-      //   appState.setIn(['records', catalogId, newRecordId], RecordFactory.create({
-      //     id: newRecordId,
-      //     values: record.get('values'),
-      //     fields: record.get('fields'),
-      //     privilegeCode: PRIVILEGE_CODES.EDIT
-      //   }));
-
-      //   router.go('main.section.catalogData.record', {
-      //     catalogId: catalogId,
-      //     recordId: newRecordId
-      //   });
-
-      //   // clear in timeout to record not rerender while router in change progress
-      //   setTimeout(function () {
-      //     appState.deleteIn(['newRecordId', catalogId]);
-      //     appState.deleteIn(['records', catalogId, oldRecordId]);
-      //     appState.changed();
-      //   });
-
-      //   recordActions.requestForRecords(catalogId);
-      // }
-    });
-  },
-
-  onClickCreate() {
+  onClickCreate(props) {
     let newRecordId = appState.getIn(['newRecordId', this.props.catalogId]);
     let values = appState.getIn(['records', this.props.catalogId, newRecordId, 'values']).toJS();
-    this.onCreateRecord(this.props.catalogId, values);
+    this.props.onCreateRecord(this.props.catalogId, values, props);
   },
 
   onClickAccess() {
@@ -109,11 +76,12 @@ const RecordHeader = React.createClass({
     });
   },
 
-  onClone() {
+  onClone({ history, link }) {
     recordActions.cloneRecord({
       catalogId: this.props.catalogId,
       recordId: this.props.record.get('id'),
-    })
+    });
+    history.push(link);
   },
 
   render() {
@@ -136,6 +104,9 @@ const RecordHeader = React.createClass({
 
     return (
       <div className={styles.container}>
+        <NavRoute route={routes.record} exact render={props => {
+          return <NavRedirect route={tabs.getIn([0, 'route'])} />
+        }} />
 
         <h1 title={headerText}>
           <span>{headerText}</span>
@@ -147,16 +118,18 @@ const RecordHeader = React.createClass({
         />
 
         <NavRoute route={routes.record} render={
-          ({ match }) => {
+          ({ match, location, history }) => {
+            const link = getLink(location, routes.record, { recordId: '$new' });
             return <RecordActivities
               record={record}
               catalog={this.props.catalog}
               viewId={match.params.viewId}
               hasBeenEdit={this.props.hasBeenEdit}
-              onClone={this.onClone}
+              onClone={() => this.onClone({ history, link })}
               onRemove={this.onRemove}
               onClickCreate={this.onClickCreate}
               onClickAccess={this.onClickAccess}
+              onSave={this.props.onSave}
             />
           }
         } />

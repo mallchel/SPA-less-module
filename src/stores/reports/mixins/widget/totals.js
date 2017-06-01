@@ -1,10 +1,10 @@
 import Immutable from 'immutable';
 
-import {chartDataKeyPrefix} from './valuesPrefix';
+import { chartDataKeyPrefix } from './valuesPrefix';
 
-const getStoreKey = uid=> [...chartDataKeyPrefix, uid, 'totals'];
+const getStoreKey = uid => [...chartDataKeyPrefix, uid, 'totals'];
 
-export function getTotals({widgetId}, query, {uid}) {
+export function getTotals({ widgetId }, query, { uid }) {
   if (!this.getIn(chartDataKeyPrefix)) {
     this.setIn(chartDataKeyPrefix, Immutable.Map());
   }
@@ -20,9 +20,9 @@ export function getTotals({widgetId}, query, {uid}) {
   this.changed();
 }
 
-export function getTotalsCompleted(data, {widgetId}, postData, query, res, {uid}) {
+export function getTotalsCompleted(data, { widgetId }, postData, query, res, { uid }) {
   const key = getStoreKey(uid);
-  const normalData = data.reduce(function (obj, {key, value}) {
+  const normalData = data.reduce(function (obj, { key, value }) {
     obj[key] = value;
     return obj;
   }, {});
@@ -34,7 +34,7 @@ export function getTotalsCompleted(data, {widgetId}, postData, query, res, {uid}
   this.changed();
 }
 
-export function getTotalsFailed(err, {widgetId}, data, query, {uid}) {
+export function getTotalsFailed(err, { widgetId }, data, query, { uid }) {
   const key = getStoreKey(uid);
   this.setIn([...key, 'error'], err);
   this.setIn([...key, 'loading'], false);

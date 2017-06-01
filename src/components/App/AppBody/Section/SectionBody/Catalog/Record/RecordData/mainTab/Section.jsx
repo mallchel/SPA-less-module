@@ -115,7 +115,6 @@ const Section = React.createClass({
   },
 
   render() {
-    console.log('section')
     const { record } = this.props;
 
     let fieldItems = this.props.fields.map((field) => {

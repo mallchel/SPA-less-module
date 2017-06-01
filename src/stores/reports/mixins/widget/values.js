@@ -1,10 +1,10 @@
 import Immutable from 'immutable';
 
-import {chartDataKeyPrefix} from './valuesPrefix';
+import { chartDataKeyPrefix } from './valuesPrefix';
 
-const getStoreKey = uid=> [...chartDataKeyPrefix, uid, 'values'];
+const getStoreKey = uid => [...chartDataKeyPrefix, uid, 'values'];
 
-export function getValues({widgetId}, query, {uid}) {
+export function getValues({ widgetId }, query, { uid }) {
   if (!this.getIn(chartDataKeyPrefix)) {
     this.setIn(chartDataKeyPrefix, Immutable.Map());
   }
@@ -20,7 +20,7 @@ export function getValues({widgetId}, query, {uid}) {
   this.changed();
 }
 
-export function getValuesCompleted(data, {widgetId}, postData, query, res, {uid}) {
+export function getValuesCompleted(data, { widgetId }, postData, query, res, { uid }) {
   const key = getStoreKey(uid);
   this.setIn([...key, 'data'], data);
   this.setIn([...key, 'loading'], false);
@@ -29,7 +29,7 @@ export function getValuesCompleted(data, {widgetId}, postData, query, res, {uid}
   this.changed();
 }
 
-export function getValuesFailed(err, {widgetId}, data, query, {uid}) {
+export function getValuesFailed(err, { widgetId }, data, query, { uid }) {
   const key = getStoreKey(uid);
   this.setIn([...key, 'error'], err);
   this.setIn([...key, 'loading'], false);

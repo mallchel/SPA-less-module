@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import PropTypes from 'prop-types'
 import TabsMenu from '../../../../../../../common/menu/TabsMenu'
 import NavRoute from '../../../../../../../common/router/Route'
+import NavRedirect from '../../../../../../../common/router/Redirect'
 import routes from '../../../../../../../../routes'
 import RecordsActivities from './RecordsActivities'
 
@@ -39,6 +40,9 @@ class ViewHeader extends Component {
 
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
+        <NavRoute route={routes.view} exact render={props => {
+          return <NavRedirect route={tabs.getIn([0, 'route'])} />
+        }} />
         <Col>
           <TabsMenu
             items={tabs}

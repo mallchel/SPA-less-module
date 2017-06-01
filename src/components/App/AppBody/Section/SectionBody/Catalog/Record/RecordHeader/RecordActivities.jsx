@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Menu as AntMenu, Dropdown } from 'antd'
 import PropTypes from 'prop-types'
 import trs from '../../../../../../../../getTranslations'
+import NavLink from '../../../../../../../common/router/Link'
+import routes from '../../../../../../../../routes'
 
 import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
@@ -16,10 +18,10 @@ class RecordActivities extends Component {
     onClone: PropTypes.func,
     onRemove: PropTypes.func,
     onClickCreate: PropTypes.func,
-    onClickAccess: PropTypes.func
+    onClickAccess: PropTypes.func,
+    onSave: PropTypes.func
   }
   render() {
-    console.log(this.props.hasBeenEdit)
     let dropDownButtonItems = [];
     let createButton;
     const record = this.props.record;
@@ -31,7 +33,7 @@ class RecordActivities extends Component {
       if (record.get('creating')) {
         createButton = {
           disabled: true,
-          type: 'success',
+          type: 'primary',
           text: trs('buttons.creating')
         };
       } else {
@@ -42,7 +44,7 @@ class RecordActivities extends Component {
 
         if (isAccessCreate || isAccessCreateAtCatalog) {
           createButton = {
-            type: 'success',
+            type: 'primary',
             text: trs('buttons.create'),
             onClick: this.props.onClickCreate,
             disabled: !!record.getIn(['updateProcesses', 'count']) || record.getIn(['updateProcesses', 'should'])
@@ -76,7 +78,7 @@ class RecordActivities extends Component {
       if (this.props.hasBeenEdit) {
         // check access on edit record.
         createButton = {
-          type: 'success',
+          type: 'primary',
           text: trs('buttons.save'),
           onClick: this.props.onSave,
           disabled: record.get('saving') || !!record.getIn(['updateProcesses', 'count']) || record.getIn(['updateProcesses', 'should'])
@@ -100,11 +102,18 @@ class RecordActivities extends Component {
 
     return (
       createButton ?
-        <Dropdown.Button type={createButton.type} onClick={createButton.onClick} overlay={dropdownMenu}>
-          {createButton.text}
-        </Dropdown.Button>
+        <NavLink route={routes.records} render={({ link, history }) => {
+          return (
+            <Dropdown.Button disabled={createButton.disabled} type={createButton.type} onClick={() => createButton.onClick({ history, link })} overlay={dropdownMenu}>
+              {createButton.text}
+            </Dropdown.Button>
+          )
+        }} />
         : null
     )
+    {/*<Dropdown.Button disabled={createButton.disabled} type={createButton.type} onClick={createButton.onClick} overlay={dropdownMenu}>
+          {createButton.text}
+        </Dropdown.Button>*/}
   }
 }
 

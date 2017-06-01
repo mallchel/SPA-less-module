@@ -35,7 +35,6 @@ const TabMain = React.createClass({
   },
 
   render() {
-    console.log('tabMain')
     let sections = [];
     let _curGroup;
     const values = this.props.record.get('values');

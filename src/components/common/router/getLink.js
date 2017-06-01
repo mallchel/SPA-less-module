@@ -1,6 +1,6 @@
 import getRouteParams from './getRouteParams'
 
-export default function link(location, route, params) {
+export default function link(location, route, params = {}) {
   const { match } = getRouteParams(location) || { match: { params: {} } };
 
   return route.path.split('/').map(path => {

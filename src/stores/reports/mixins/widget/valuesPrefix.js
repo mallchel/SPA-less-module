@@ -1,1 +1,1 @@
-export const chartDataKeyPrefix = ['currentCatalog', 'widgetsChartData'];
+export const chartDataKeyPrefix = ['widgetsChartData'];

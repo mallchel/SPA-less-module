@@ -11,7 +11,7 @@ const relativeRoutes = {
 
   // records
   records: { parent: 'view', path: '/records' },
-  addRecord: { parent: 'records', path: '/add' },
+  // addRecord: { parent: 'records', path: '/:add' },
   record: { parent: 'records', path: '/:recordId' },
   recordMain: { parent: 'record', path: '/main' },
   recordHistory: { parent: 'record', path: '/history' },
