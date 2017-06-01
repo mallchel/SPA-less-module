@@ -1,12 +1,16 @@
 import React from 'react'
-import Record from './Record'
+import RecordController from './Record/RecordController'
 
 const LayoutRightPanel = function (props) {
   return (
-    <Record
+    <RecordController
       recordId={props && props.match.params.recordId}
       catalogId={props && props.match.params.catalogId}
     />
+    /*<Record
+      recordId={props && props.match.params.recordId}
+      catalogId={props && props.match.params.catalogId}
+    />*/
   )
 }
 

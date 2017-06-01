@@ -39,26 +39,26 @@ class Record extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    let recordId = this.props.recordId;
-    let newRecordId = nextProps.recordId;
-    const newCatalogId = nextProps.catalogId;
+    // let recordId = this.props.recordId;
+    // let newRecordId = nextProps.recordId;
+    // const newCatalogId = nextProps.catalogId;
 
 
-    if (!newCatalogId) { return; } // not enough values
+    // if (!newCatalogId) { return; } // not enough values
 
-    console.log(recordId, newRecordId, this.recordId)
+    // console.log(recordId, newRecordId, this.recordId)
 
-    if (newRecordId == '$new' && ( newRecordId !== recordId || ! this.recordId ) )  {
-      // console.log('NEW');
-      recordActions.createNewRecord({ catalogId: newCatalogId });
+    // if (newRecordId == '$new' && ( newRecordId !== recordId || ! this.recordId ) )  {
+    //   // console.log('NEW');
+    //   recordActions.createNewRecord({ catalogId: newCatalogId });
 
-      apiActions.getCatalog({ catalogId: newCatalogId });
-      // this.recordId = appState.getIn(['newRecordId', newCatalogId]);
-    } else if (newRecordId !== recordId) {
-      apiActions.getRecord({ recordId: newRecordId, catalogId: newCatalogId });
-      apiActions.getCatalog({ catalogId: newCatalogId });
-      // this.recordId = newRecordId;
-    }
+    //   apiActions.getCatalog({ catalogId: newCatalogId });
+    //   // this.recordId = appState.getIn(['newRecordId', newCatalogId]);
+    // } else if (newRecordId !== recordId) {
+    //   apiActions.getRecord({ recordId: newRecordId, catalogId: newCatalogId });
+    //   apiActions.getCatalog({ catalogId: newCatalogId });
+    //   // this.recordId = newRecordId;
+    // }
 
     // if (!newCatalogId) { return; } // not enough values
     // if (newRecordId === recordId && this.recordId) { return; } // nothing changed
@@ -101,7 +101,7 @@ class Record extends Component {
   }
 
   onSaveField = (data) => {
-    let recordId = this.recordId;
+    let recordId = this.props.recordId;
     let record = appState.getIn(['records', this.props.catalogId, recordId]);
     let newValue = data.data;
     let fieldId = data.fieldId;
@@ -136,7 +136,7 @@ class Record extends Component {
 
   onSave = () => {
     let catalogId = this.props.catalogId;
-    let recordId = this.recordId;
+    let recordId = this.props.recordId;
     let record = appState.getIn(['records', catalogId, recordId]);
     let oldValues = record.get('originValues');
     let newValues = record.get('values');
@@ -193,7 +193,7 @@ class Record extends Component {
   }
 
   render() {
-    let recordId = this.recordId;
+    let recordId = this.props.recordId;
     const catalogId = this.props.catalogId;
     const record = appState.getIn(['records', catalogId, recordId]);
     const catalog = appState.getIn(['catalogs', catalogId]);

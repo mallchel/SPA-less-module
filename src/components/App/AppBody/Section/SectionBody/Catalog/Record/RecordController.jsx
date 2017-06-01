@@ -18,27 +18,29 @@ const RecordController = React.createClass({
     catalogId && apiActions.getCatalog({ catalogId: this.props.catalogId });
   },
 
-  render() {
-    let currentCatalogId = this.props.appState.getIn(['routeParams', 'catalogId']);
-    let currentRecordId = this.props.appState.getIn(['routeParams', 'recordId']);
-    currentRecordId = currentRecordId ? currentRecordId : this.props.appState.getIn(['newRecordId', currentCatalogId]);
+  componentWillReceiveProps(nextProps) {
+    let recordId = this.props.recordId;
+    let newRecordId = nextProps.recordId;
+    if (newRecordId == '$new' && newRecordId !== recordId) {
+      recordActions.createNewRecord({ catalogId: this.props.catalogId });
+      apiActions.getCatalog({ catalogId: this.props.catalogId });
+    } else if (newRecordId && newRecordId !== recordId) {
+      apiActions.getRecord({ recordId: newRecordId, catalogId: nextProps.catalogId });
+    }
+  },
 
-    let record = this.props.appState.getIn(['records', currentCatalogId, currentRecordId]);
+  render() {
+    const catalogId = this.props.catalogId;
+    const recordId = this.props.recordId == '$new' ? this.props.newRecordId.get(catalogId) : this.props.recordId;
 
     return (
       <Record
-        ref="record"
-        key={currentCatalogId + '_' + currentRecordId}
-        record={record}
-        onClickTab={this.onClickTab}
-        onSaveField={this.onSaveField}
-        onCreateRecord={this.onCreateRecord}
-        catalog={this.props.appState.get('currentCatalog')}
-        catalogId={this.props.appState.getIn(['routeParams', 'catalogId'])}
-        routeRecordId={this.props.appState.getIn(['routeParams', 'recordId'])} />
+        recordId={recordId}
+        catalogId={catalogId}
+      />
     );
   }
 
 });
 
-export default connect(RecordController, ['catalogs', 'records']);
+export default connect(RecordController, ['catalogs', 'records', 'newRecordId']);
