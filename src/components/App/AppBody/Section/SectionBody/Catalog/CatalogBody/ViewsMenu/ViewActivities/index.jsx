@@ -29,6 +29,8 @@ class ViewActivities extends Component {
         // if (result && result.viewId) {
         //   router.go('main.section.catalogData', { viewId: result.viewId });
         // }
+        // const link = getLink({params: { viewId: result.viewId }})
+        // history.push(link)
       });
     }
   }

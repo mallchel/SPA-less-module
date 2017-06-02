@@ -6,6 +6,7 @@ import apiActions from '../../../../actions/apiActions'
 // import NavRoute from '../../../common/router/Route'
 // import routes from '../../../../routes'
 // import Header from './Header'
+import { connect } from '../../../StateProvider'
 
 import PRIVILEGE_CODES from '../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../configs/resourceTypes'
@@ -18,9 +19,6 @@ import SectionBody from './SectionBody'
 import styles from './section.less'
 
 class Section extends Component {
-  static propTypes = {
-    appState: PropTypes.object.isRequired
-  }
   componentDidMount() {
     const sectionId = this.props.sectionId;
     if (sectionId) {
@@ -39,9 +37,9 @@ class Section extends Component {
   }
   render() {
     const sectionId = this.props.sectionId;
-    const catalogs = this.props.appState.get('catalogs');
+    const catalogs = this.props.catalogs;
 
-    const section = this.props.appState.getIn(['sections', sectionId]);
+    const section = this.props.sections.get(sectionId);
     // todo: check access for
     const isAccessAdmin = checkAccessOnObject(RESOURCE_TYPES.SECTION, section, PRIVILEGE_CODES.ADMIN);
 
@@ -60,10 +58,10 @@ class Section extends Component {
             />
           </Col>
         </Row>
-        <SectionBody { ...this.props } />
+        <SectionBody />
       </div>
     )
   }
 }
 
-export default Section;
+export default connect(Section, ['sections', 'catalogs']);

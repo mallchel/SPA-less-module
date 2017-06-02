@@ -23,17 +23,6 @@ const fieldComponentsByType = {
   [FIELD_TYPES.STARS]: require('../../../../../../../../../common/dataTypes/StarsField').default
 };
 
-/*class CellRenderer extends Cell {
-  render() {
-    console.log(123)
-    return (
-      <div style={{ backgroundColor: 'red' }}>
-        {super.render()}
-      </div>
-    )
-  }
-}*/
-
 class RowRenderer extends Row {
   render() {
     return (

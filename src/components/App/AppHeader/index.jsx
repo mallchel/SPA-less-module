@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import apiActions from '../../../actions/apiActions'
-import DefaultRedirect from '../../common/router/DefaultRedirect'
-import routes from '../../../routes'
 import Logo from './Logo'
 import SectionsMenu from './SectionsMenu'
 import Profile from './Profile'
@@ -25,18 +23,16 @@ class AppHeader extends Component {
 
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
-        <DefaultRedirect route={routes.section} params='sectionId' object={this.props.appState.get('sections').valueSeq().get(0)} />
-
         <Col>
-          <Logo {...this.props} />
+          <Logo />
         </Col>
 
         <Col className={styles.menuContainer}>
-          <SectionsMenu {...this.props} />
+          <SectionsMenu />
         </Col>
 
         <Col>
-          <Profile {...this.props} />
+          <Profile />
         </Col>
       </Row>
     )

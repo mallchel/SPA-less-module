@@ -8,6 +8,7 @@ const relativeRoutes = {
   section: { path: '/section/:sectionId' },
   catalog: { parent: 'section', path: '/catalog/:catalogId' },
   view: { parent: 'catalog', path: '/view/:viewId' },
+  catalogEdit: { parent: 'catalog', path: '/edit' },
 
   // records
   records: { parent: 'view', path: '/records' },

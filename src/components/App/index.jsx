@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { HashRouter } from 'react-router-dom'
 import { LocaleProvider } from 'antd'
 import ruRu from 'antd/lib/locale-provider/ru_RU'
-import layoutApp from './layoutApp'
+import LayoutApp from './layoutApp'
 import { confirm } from '../common/Modal'
 import StateProvider from '../StateProvider'
 
@@ -34,7 +34,8 @@ class App extends Component {
     return (
       <LocaleProvider locale={ruRu}>
         <HashRouter getUserConfirmation={getConfirmation}>
-          <StateProvider component={layoutApp} />
+          {/*<StateProvider component={LayoutApp} />*/}
+          <LayoutApp />
         </HashRouter>
       </LocaleProvider>
     )

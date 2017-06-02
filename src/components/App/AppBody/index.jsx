@@ -5,14 +5,12 @@ import Section from './Section'
 
 import styles from './appBody.less'
 
-const AppBody = function ({ ...props }) {
-  const { appState } = props;
+const AppBody = function () {
   return (
     <div className={styles.container}>
       <NavRoute route={routes.section} render={props => {
         return <Section
-          appState={appState}
-          sectionId={props.match && props.match.params.sectionId}
+          sectionId={props.match.params.sectionId}
         />
       }} />
     </div>

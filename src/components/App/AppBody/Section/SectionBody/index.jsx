@@ -26,15 +26,12 @@ class SectionBody extends Component {
         {/*<Route path='/section/:sectionId/catalog/:catalogId' render={props => (
           <Panels { ...this.props } {...props} />
         )} />*/}
-        <NavRoute route={routes.catalog} render={props => {
-          return <Catalog { ...this.props }
-            catalogId={props.match && props.match.params.catalogId}
+        {/*<NavRoute route={routes.catalog} render={props => {
+          return <Catalog
+            catalogId={props.match.params.catalogId}
           />
-        }} />
-
-        <Link to={'/section/1/catalog/1/view/0'}>View</Link>&nbsp;
-        <Link to={'/section/1/catalog/1/view/0/records/1'}>Record</Link>
-
+        }} />*/}
+        <NavRoute route={routes.catalog} component={Catalog} />
       </div>
     )
   }

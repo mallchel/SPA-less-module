@@ -1,16 +1,19 @@
 import React from 'react'
 import { Row, Button, Icon } from 'antd'
 import ButtonTransparent from '../../common/elements/ButtonTransparent'
+import { connect } from '../../StateProvider'
 
 import styles from './appHeader.less'
 
-const Profile = function ({ ...props }) {
-  const module = props.appState.get('extensions').valueSeq();
+const Profile = function (props) {
+  const modules = props.extensions.valueSeq();
+
+  console.log(111)
 
   return (
     <Row type="flex" justify="space-around" align="middle" className={styles.profile}>
       {
-        module.map(module => {
+        modules.map(module => {
           {/*let isSelected = this.state.selectedModuleCode && this.state.selectedModuleCode === module.get('code');*/ }
           return (
             <Button
@@ -29,4 +32,4 @@ const Profile = function ({ ...props }) {
   )
 }
 
-export default Profile;
+export default connect(Profile, ['extensions']);
