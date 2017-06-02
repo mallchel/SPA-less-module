@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Reflux from 'reflux'
 import Immutable from 'immutable'
 import _ from 'lodash'
-import RecordData from './RecordData'
+import RecordBody from './RecordBody'
 import apiActions from '../../../../../../../actions/apiActions'
 import RecordActions from '../../../../../../../actions/recordActions'
 import FieldErrorsStore from '../../../../../../../stores/FieldErrorsStore'
@@ -166,7 +166,7 @@ const RecordModal = React.createClass({
         </header>
         <div className="record-modal__wrapper">
           {record && record.get('fields')
-            ? <RecordData
+            ? <RecordBody
               isNew={isNew}
               disableAutoSave={true}
               unsavedFields={this.props.unsavedFields}

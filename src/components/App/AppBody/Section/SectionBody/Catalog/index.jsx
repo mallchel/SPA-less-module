@@ -14,7 +14,7 @@ import userSettingsActions from '../../../../../../actions/userSettingsActions'
 
 import styles from './catalog.less'
 
-const ANIMATION_DELAY = 200;
+const ANIMATION_DELAY = 2000;
 
 function ROW(props) {
   return (

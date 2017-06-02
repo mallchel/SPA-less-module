@@ -36,7 +36,7 @@ const ViewsMenuItem = React.createClass({
       ? view.get('originName')
       : view.get('name');
     let filtersChanged = view.get('filtersChanged');
-    const isNew = view.get('id') === '$new';
+    const isNew = view.get('id') == '$new';
 
     return (
       <StateLink route={routes.view} params={{ viewId: view.get('id') }} render={props => {

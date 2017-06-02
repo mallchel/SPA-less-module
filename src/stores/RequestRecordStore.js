@@ -112,9 +112,9 @@ const RequestRecordStore = Reflux.createStore({
   /**
    * @return viewId
    */
-  getCurrentViewId() {
-    return AppState.getIn(['currentCatalog', 'currentViewId']);
-  }
+  // getCurrentViewId() {
+  //   return AppState.getIn(['currentCatalog', 'currentViewId']);
+  // }
 });
 
 

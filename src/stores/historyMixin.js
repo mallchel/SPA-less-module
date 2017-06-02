@@ -12,7 +12,7 @@ export default {
 
   currentLoading: null,
 
-  loadHistory (catalogId, recordId = 0, request = {}, forceUpdate = false) {
+  loadHistory(catalogId, recordId = 0, request = {}, forceUpdate = false) {
     log('loading history', catalogId, recordId);
     if (recordId) {
       let history = this.getIn(['records', catalogId, recordId, 'history']);
@@ -49,10 +49,7 @@ export default {
         return false;
       }
     } else {
-      if (catalogId !== this.getIn(['currentCatalog', 'id'])) {
-        return;
-      }
-      let history = this.getIn(['currentCatalog', 'history']);
+      let history = this.get('history');
       if (history && (!history.get('allLoaded') || forceUpdate)) {
         let query = {
           catalogId: catalogId,
@@ -63,16 +60,16 @@ export default {
           query['from'] = lastId;
         }
 
-        let viewId = request.viewId || this.getIn(['currentCatalog', 'currentViewId']);
+        let viewId = request.viewId || 0; //this.getIn(['currentCatalog', 'currentViewId']);
         if (viewId) {
           // ID virtual view = 0
           // no filter, no viewId
           if (Number(viewId) != 0) {
-            request = {viewId};
+            request = { viewId };
           }
         } else {
-          let filters = appState.getFiltersForRequest();
-          request = {filters};
+          let filters = appState.getFiltersForRequest({ catalogId });
+          request = { filters };
         }
         if (!_.isEmpty(request)) {
           query['recordsFilter'] = request;
@@ -106,10 +103,10 @@ export default {
 
   createComment(catalogId, recordId, commentText) {
     log('create comment', catalogId, recordId, commentText);
-    let record = this.getIn(['records', catalogId, recordId]);
+    // let record = this.getIn(['records', catalogId, recordId]);
     return apiActions.createHistory({}, {
-      catalogId : catalogId,
-      recordId : recordId,
+      catalogId: catalogId,
+      recordId: recordId,
       type: 'COMMENT',
       payload: {
         message: commentText
@@ -126,10 +123,7 @@ export default {
     if (recordId) {
       object = this.getIn(['records', catalogId, recordId, 'history']);
     } else {
-      if (catalogId !== this.getIn(['currentCatalog', 'id'])) {
-        return;
-      }
-      object = this.getIn(['currentCatalog', 'history']);
+      object = this.get('history');
     }
 
     object = object.set('allLoaded', false);
@@ -141,7 +135,7 @@ export default {
     if (recordId) {
       this.setIn(['records', catalogId, recordId, 'history'], object);
     } else {
-      this.setIn(['currentCatalog', 'history'], object);
+      this.set('history', object);
     }
 
     this.changed();
@@ -154,14 +148,13 @@ export default {
       history = this._setFilterToObject(history, filter);
       this.setIn(['records', data.catalogId, data.recordId, 'history'], history);
       historyActions.loadHistory(data.catalogId, data.recordId, {}, true);
+
     } else {
+
       //История для каталога
-      if (data.catalogId !== this.getIn(['currentCatalog', 'id'])) {
-        return;
-      }
-      let history = this.getIn(['currentCatalog', 'history']);
+      let history = this.get('history');
       history = this._setFilterToObject(history, filter);
-      this.setIn(['currentCatalog', 'history'], history);
+      this.set('history', history);
       historyActions.loadHistory(data.catalogId, 0, {}, true);
     }
   },
@@ -188,15 +181,13 @@ export default {
         this.changed();
       }
     } else {
+
       //История для каталога
-      if (data.catalogId !== this.getIn(['currentCatalog', 'id'])) {
-        return;
-      }
-      let history = this.getIn(['currentCatalog', 'history']);
+      let history = this.get('history');
       if (history) {
         history = history.set('loading', true);
         history = history.set('loadError', null);
-        this.setIn(['currentCatalog', 'history'], history);
+        this.set('history', history);
         this.changed();
       }
     }
@@ -211,14 +202,12 @@ export default {
       history = this._updateMergeHistory(history, query.limit, result);
       this.setIn(['records', query.catalogId, query.recordId, 'history'], history);
     } else {
+
       //История для каталога
-      if (query.catalogId !== this.getIn(['currentCatalog', 'id'])) {
-        return;
-      }
-      let history = this.getIn(['currentCatalog', 'history']);
+      let history = this.get('history');
       if (!history) { return; }
       history = this._updateMergeHistory(history, query.limit, result);
-      this.setIn(['currentCatalog', 'history'], history);
+      this.set('history', history);
     }
     this.currentLoading = null;
     this.changed();
@@ -237,7 +226,7 @@ export default {
     let newIds = {};
     let history;
 
-    result.forEach((h)=> {
+    result.forEach((h) => {
       newIds[h.id] = true;
     });
 
@@ -247,7 +236,7 @@ export default {
     }
 
     history = object.get('items') || new Immutable.List();
-    history = history.filter((h)=> !newIds[h.get('id')]);
+    history = history.filter((h) => !newIds[h.get('id')]);
     // смердживаем старую и новую историю и рассортировываем ее в правильном порядке
     history = Immutable.fromJS(result).concat(history);
     history = history.sort((a, b) => b.get('id') - a.get('id'));
@@ -281,15 +270,12 @@ export default {
         this.changed();
       }
     } else {
-      if (query.catalogId !== this.getIn(['currentCatalog', 'id'])) {
-        return;
-      }
 
-      let history = this.getIn(['currentCatalog', 'history']);
+      let history = this.get('history');
       if (history) {
         history = history.set('loading', false);
         history = history.set('loadError', true);
-        this.setIn(['currentCatalog', 'history'], history);
+        this.set('history', history);
         this.changed();
       }
     }

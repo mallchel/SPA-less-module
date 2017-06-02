@@ -144,7 +144,9 @@ let state = Immutable.fromJS({
 
   boards: {
     list: []
-  }
+  },
+
+  history: {}
 });
 
 const appState = Reflux.createStore({

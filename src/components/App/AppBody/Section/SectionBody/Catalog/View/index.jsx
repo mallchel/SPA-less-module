@@ -40,7 +40,7 @@ class View extends Component {
         <div>
           <ViewHeader catalog={this.props.catalog} viewId={this.props.viewId}/>
         </div>
-        <ViewBody catalog={this.props.catalog} />
+        <ViewBody catalog={this.props.catalog} viewId={this.props.viewId} />
       </div>
     )
   }

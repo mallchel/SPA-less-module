@@ -30,8 +30,8 @@ export default {
     catalog.loading = false; // is there pending request for catalog records
     catalog.loadingError = null; // err obj for last request for records
 
-    catalog.history = {};
-    
+    // catalog.history = {};
+
     catalog.widgetsChartData = {};
     catalog.boards = {
       loaded: false, loading: false, list: []

@@ -90,7 +90,7 @@ export default {
 
     if (!this.getIn(['catalogs', catalogId])) {
       let catalog = CatalogFactory.create(data);
-      this.setIn(['catalogs', catalogId, catalog]);
+      this.setIn(['catalogs', catalogId], catalog);
     } else {
       let fields = new Immutable.List(data.fields.map(f => FieldFactory.create(f)));
       this.mergeIn(['catalogs', catalogId], data);

@@ -179,7 +179,7 @@ const recordsMixin = {
 
   getCatalogCompleted(data, params) {
     let catalogRecords = this.getIn(['records', params.catalogId]);
-      console.log('!!!', catalogRecords)
+
     if (catalogRecords) {
       catalogRecords = catalogRecords.map((record) => {
         // if ( !record.get('fields') ) {
@@ -428,7 +428,6 @@ const recordsMixin = {
 
   validateAndSaveRecord(catalogId, recordId, values, success, fail) {
     let record = this.getIn(['records', catalogId, recordId]);
-    console.log(catalogId, record, values)
     let fields = record.get('fields');
     let isNew = record.get('isNew') || false;
     let errors = [];

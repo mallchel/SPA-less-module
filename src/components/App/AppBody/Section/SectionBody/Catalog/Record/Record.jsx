@@ -3,12 +3,11 @@ import React, { Component } from 'react'
 import Immutable from 'immutable'
 import _ from 'lodash'
 import appState from '../../../../../../../appState'
-import apiActions from '../../../../../../../actions/apiActions'
 import recordActions from '../../../../../../../actions/recordActions'
 import Loading from '../../../../../../common/Loading'
 import RecordFactory from '../../../../../../../models/RecordFactory'
 import RecordHeader from './RecordHeader'
-import RecordData from './RecordData'
+import RecordBody from './RecordBody'
 
 import { checkAccessOnObject } from '../../../../../../../utils/rights'
 import PRIVILEGE_CODES from '../../../../../../../configs/privilegeCodes'
@@ -22,82 +21,10 @@ class Record extends Component {
   }
 
   componentDidMount() {
-    // const recordId = this.props.recordId;
-    // const catalogId = this.props.catalogId;
-
-    // console.log('mount: ', recordId, "catalog: ", catalogId);
-    // if (recordId == '$new') {
-
-      // this.recordId = recordActions.createNewRecord({ catalogId });
-      // console.log('create in mount: ',this.recordId );
-    // } else if (recordId && catalogId) {
-      // apiActions.getRecord({ recordId, catalogId: this.props.catalogId });
-      // this.recordId = recordId;
-    // }
-    // catalogId && apiActions.getCatalog({ catalogId: this.props.catalogId });
   }
 
 
   componentWillReceiveProps(nextProps) {
-    // let recordId = this.props.recordId;
-    // let newRecordId = nextProps.recordId;
-    // const newCatalogId = nextProps.catalogId;
-
-
-    // if (!newCatalogId) { return; } // not enough values
-
-    // console.log(recordId, newRecordId, this.recordId)
-
-    // if (newRecordId == '$new' && ( newRecordId !== recordId || ! this.recordId ) )  {
-    //   // console.log('NEW');
-    //   recordActions.createNewRecord({ catalogId: newCatalogId });
-
-    //   apiActions.getCatalog({ catalogId: newCatalogId });
-    //   // this.recordId = appState.getIn(['newRecordId', newCatalogId]);
-    // } else if (newRecordId !== recordId) {
-    //   apiActions.getRecord({ recordId: newRecordId, catalogId: newCatalogId });
-    //   apiActions.getCatalog({ catalogId: newCatalogId });
-    //   // this.recordId = newRecordId;
-    // }
-
-    // if (!newCatalogId) { return; } // not enough values
-    // if (newRecordId === recordId && this.recordId) { return; } // nothing changed
-
-
-    // if (newRecordId == '$new') {
-    //   if (newRecordId !== recordId) {
-    //     this.recordId = null
-    //   } else if (!this.recordId) {
-    //     recordActions.createNewRecord({ catalogId: newCatalogId })
-    //     apiActions.getCatalog({ catalogId: newCatalogId });
-
-    //     console.log('create');
-
-    //     this.recordId = appState.getIn(['newRecordId', newCatalogId]);
-    //   }
-    //   //} else {
-    //   //this.recordId = null;
-    //   //}
-    // } else {
-    //   console.log('LOA');
-    //   apiActions.getRecord({ recordId: newRecordId, catalogId: newCatalogId });
-    //   apiActions.getCatalog({ catalogId: newCatalogId });
-    //   this.recordId = newRecordId;
-    // }
-
-    // if (newRecordId == '$new' && (this.recordId && newRecordId !== recordId)) {
-    //   this.recordId = null
-    //   recordActions.createNewRecord({ catalogId: newCatalogId });
-    //   apiActions.getCatalog({ catalogId: newCatalogId });
-
-    // } else if (newRecordId == '$new' && !this.recordId) {
-    //   this.recordId = appState.getIn(['newRecordId', newCatalogId]);
-
-    // } else if (newRecordId && newRecordId !== recordId) {
-    //   apiActions.getRecord({ recordId: newRecordId, catalogId: newCatalogId });
-    //   this.recordId = newRecordId;
-    //   apiActions.getCatalog({ catalogId: newCatalogId });
-    // }
   }
 
   onSaveField = (data) => {
@@ -230,7 +157,7 @@ class Record extends Component {
           onCreateRecord={this.onCreateRecord}
         />
 
-        <RecordData
+        <RecordBody
           disableAutoSave={true}
           unsavedFields={this.props.unsavedFields}
           onSaveField={this.onSaveField}

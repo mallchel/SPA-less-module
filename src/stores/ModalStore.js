@@ -15,8 +15,7 @@ function _openRecordModal(component, catalogId, recordId, recordName, { allowClo
   let mode = appState.getIn(['mode']);
   let isFullScreen = appState.getIn(['modalsFullScreen']);
 
-  base({
-    component: component,
+  base(component, {
     recordId,
     recordName,
     catalogId,
@@ -52,8 +51,7 @@ const ModalStore = Reflux.createStore({
     onCloseCb
   ) {
     let FieldRightsModal = require('../components/access/FieldRightsModal');
-    base({
-      component: FieldRightsModal,
+    base(FieldRightsModal, {
       rule,
       index,
       object,
@@ -112,8 +110,7 @@ const ModalStore = Reflux.createStore({
   },
 
   openViewInputModal(catalogId, accessOnViewForRights) {
-    base({
-      component: ViewInputModal,
+    base(ViewInputModal, {
       isNew: true,
       headerText: trs('modals.createNewView.headerText'),
       onSave: (params) => viewsActions.createNewView(catalogId, params),
@@ -122,8 +119,7 @@ const ModalStore = Reflux.createStore({
   },
 
   openViewInputModalEdit(currView, catalogId) {
-    base({
-      component: ViewInputModal,
+    base(ViewInputModal, {
       isNew: false,
       headerText: trs('modals.editNewView.headerText'),
       name: currView.get('name'),

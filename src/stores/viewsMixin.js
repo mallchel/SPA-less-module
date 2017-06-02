@@ -78,19 +78,19 @@ export default {
     log('select view %s in catalog ', viewId, catalogId);
 
     // drop newView if exist.
-    let newView = this.getIn(['currentCatalog', 'views']).find(v => v.get('isNew'));
-    if (newView) {
-      this.setIn(
-        ['currentCatalog', 'views'],
-        this.getIn(['currentCatalog', 'views']).filter(v => !v.get('isNew'))
-      );
+    // let newView = this.getIn(['currentCatalog', 'views']).find(v => v.get('isNew'));
+    // if (newView) {
+    //   this.setIn(
+    //     ['currentCatalog', 'views'],
+    //     this.getIn(['currentCatalog', 'views']).filter(v => !v.get('isNew'))
+    //   );
 
       // need update filters
-      viewActions.preGetView({ viewId, catalogId });
-    }
+    //   viewActions.preGetView({ viewId, catalogId });
+    // }
 
     // fast change views.
-    this.setIn(['route, params', 'viewId'], viewId);
+    // this.setIn(['route, params', 'viewId'], viewId);
 
     switch (this.getIn(['routeParams', 'tabId'])) {
       case 'records':

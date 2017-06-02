@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import Reflux from 'reflux'
 import Immutable from 'immutable'
+import PropTypes from 'prop-types'
 import UserSettingsStore from '../../../../../../../../../stores/UserSettingsStore'
 import recordActions from '../../../../../../../../../actions/recordActions'
 import RecordsData from './RecordsBody/RecordsData'
@@ -21,7 +22,8 @@ function getDropdownItemsById(map, fields) {
 const Records = React.createClass({
   mixins: [Reflux.listenTo(UserSettingsStore, "onUserSettings")],
   propTypes: {
-    catalog: React.PropTypes.object,
+    catalog: PropTypes.object,
+    viewId: PropTypes.string
   },
 
   // refactor
@@ -39,7 +41,8 @@ const Records = React.createClass({
   },
 
   componentDidMount() {
-    recordActions.requestForRecords(this.catalogId()); // todo +viewId.
+    const viewId = this.props.viewId;
+    recordActions.requestForRecords(this.catalogId(), Number(viewId) === 0 ? {} : { viewId }); // todo +viewId.
   },
 
   catalogId(catalog = this.props.catalog) {
@@ -48,6 +51,18 @@ const Records = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     // this.startInitialCatalogLoadingTimer();
+    const viewId = this.props.viewId;
+    const newViewId = nextProps.viewId;
+    const catalogId = this.catalogId();
+    const newCatalogId = nextProps.catalogId;
+
+    if (newViewId && newViewId !== viewId) {
+      recordActions.requestForRecords(catalogId, Number(newViewId) === 0 ? {} : { viewId: newViewId });
+    }
+
+    if (newCatalogId && newCatalogId !== catalogId) {
+      recordActions.requestForRecords(newCatalogId, Number(newViewId) === 0 ? {} : { viewId: newViewId });
+    }
   },
 
   render() {

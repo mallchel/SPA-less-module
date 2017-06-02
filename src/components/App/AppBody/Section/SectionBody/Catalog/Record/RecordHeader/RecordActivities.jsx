@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu as AntMenu, Dropdown } from 'antd'
+import { Menu as AntMenu, Dropdown, Button } from 'antd'
 import PropTypes from 'prop-types'
 import trs from '../../../../../../../../getTranslations'
 import NavLink from '../../../../../../../common/router/Link'
@@ -34,7 +34,8 @@ class RecordActivities extends Component {
         createButton = {
           disabled: true,
           type: 'primary',
-          text: trs('buttons.creating')
+          text: trs('buttons.creating'),
+          new: true
         };
       } else {
         const isAccessCreate = checkAccessOnObject(RESOURCE_TYPES.VIEW,
@@ -47,7 +48,8 @@ class RecordActivities extends Component {
             type: 'primary',
             text: trs('buttons.create'),
             onClick: this.props.onClickCreate,
-            disabled: !!record.getIn(['updateProcesses', 'count']) || record.getIn(['updateProcesses', 'should'])
+            disabled: !!record.getIn(['updateProcesses', 'count']) || record.getIn(['updateProcesses', 'should']),
+            new: true
           };
         }
       }
@@ -104,9 +106,15 @@ class RecordActivities extends Component {
       createButton ?
         <NavLink route={routes.records} render={({ link, history }) => {
           return (
-            <Dropdown.Button disabled={createButton.disabled} type={createButton.type} onClick={() => createButton.onClick({ history, link })} overlay={dropdownMenu}>
-              {createButton.text}
-            </Dropdown.Button>
+            createButton.new
+              ?
+              <Button disabled={createButton.disabled} type={createButton.type} onClick={() => createButton.onClick({ history, link })} overlay={dropdownMenu}>
+                {createButton.text}
+              </Button>
+              :
+              <Dropdown.Button disabled={createButton.disabled} type={createButton.type} onClick={() => createButton.onClick({ history, link })} overlay={dropdownMenu}>
+                {createButton.text}
+              </Dropdown.Button>
           )
         }} />
         : null

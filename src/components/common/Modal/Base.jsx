@@ -14,19 +14,4 @@ const Base = props => {
   )
 }
 
-/*const Base = ({ Component, props, ...modalProps }) => {
-  return (
-    <Modal
-      visible={true}
-      maskClosable={false}
-      closable={false}
-      footer=''
-      width='60%'
-      {...modalProps}
-    >
-      <Component {...props} />
-    </Modal>
-  )
-}*/
-
 export default Base;

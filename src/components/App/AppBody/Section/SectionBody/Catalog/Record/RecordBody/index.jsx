@@ -7,6 +7,7 @@ import appState from '../../../../../../../../appState'
 import NavRoute from '../../../../../../../common/router/Route'
 import routes from '../../../../../../../../routes'
 import TabMain from './mainTab/TabMain'
+import TabHistory from './historyTab/TabHistory'
 
 // import RecordTabItem from './RecordTabItem'
 import Loading from '../../../../../../../common/Loading'
@@ -31,7 +32,7 @@ import Loading from '../../../../../../../common/Loading'
 //   history: require('./historyTab/TabHistory')
 // };
 
-const RecordData = React.createClass({
+const RecordBody = React.createClass({
   propTypes: {
     record: PropTypes.object.isRequired,
     catalog: PropTypes.object,
@@ -113,18 +114,27 @@ const RecordData = React.createClass({
           isLoading
             ? <Loading fullHeight={true} />
             :
-            <NavRoute route={routes.record} render={prop => {
-              return <TabMain
-                record={record}
-                catalog={catalog}
-                onSaveField={this.props.onSaveField}
-                unsavedFields={this.props.unsavedFields}
-                disableAutoSave={this.props.disableAutoSave}
-                isNewRecord={isNew}
-                readOnly={this.props.readOnly}
+            <div>
+              <NavRoute route={routes.recordMain} render={routeProps => {
+                return <TabMain
+                  record={record}
+                  catalog={catalog}
+                  onSaveField={this.props.onSaveField}
+                  unsavedFields={this.props.unsavedFields}
+                  disableAutoSave={this.props.disableAutoSave}
+                  isNewRecord={isNew}
+                  readOnly={this.props.readOnly}
+                />
+              }}
               />
-            }}
-            />
+              <NavRoute route={routes.recordHistory} render={routeProps => {
+                return <TabHistory
+                  record={record}
+                  catalogId={catalog.get('id')}
+                />
+              }}
+              />
+            </div>
           /*: <Tab record={record} catalogId={this.props.catalogId} {...tabProps} />*/
         }
       </div>
@@ -133,4 +143,4 @@ const RecordData = React.createClass({
 
 });
 
-export default RecordData;
+export default RecordBody;

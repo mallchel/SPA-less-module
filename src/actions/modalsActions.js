@@ -1,8 +1,6 @@
 import Reflux from 'reflux';
 import _ from 'lodash';
 
-const log = require('debug')('CRM:Action:modalsActions');
-
 const actions = Reflux.createActions({
   openAccessModal: {sync: true},
   openViewAccessModal: {sync: true},

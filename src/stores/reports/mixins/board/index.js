@@ -7,12 +7,6 @@ import * as layout from '../layout';
 import { BOARDS_PREFIX, getBoardKey } from './getKey';
 
 export function getBoards() {
-  // if (!this.getIn([...BOARDS_PREFIX])) {
-  //   this.setIn([...BOARDS_PREFIX], Immutable.fromJS({
-  //     loaded: false, loading: false, list: []
-  //   }));
-  // }
-
   this.setIn([...BOARDS_PREFIX, 'loading'], true);
   this.changed();
 }
