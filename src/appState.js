@@ -146,7 +146,7 @@ let state = Immutable.fromJS({
     list: []
   },
 
-  history: {}
+  catalogsHistory: {}
 });
 
 const appState = Reflux.createStore({

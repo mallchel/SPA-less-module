@@ -49,7 +49,13 @@ export default {
         return false;
       }
     } else {
-      let history = this.get('history');
+      let history = this.getIn(['catalogsHistory', catalogId]);
+      
+      if (!history) {
+        this.setIn(['catalogsHistory', catalogId], Immutable.Map());
+        history = Immutable.Map();
+      }
+
       if (history && (!history.get('allLoaded') || forceUpdate)) {
         let query = {
           catalogId: catalogId,
@@ -123,7 +129,7 @@ export default {
     if (recordId) {
       object = this.getIn(['records', catalogId, recordId, 'history']);
     } else {
-      object = this.get('history');
+      object = this.getIn(['catalogsHistory', catalogId]);
     }
 
     object = object.set('allLoaded', false);
@@ -135,7 +141,7 @@ export default {
     if (recordId) {
       this.setIn(['records', catalogId, recordId, 'history'], object);
     } else {
-      this.set('history', object);
+      this.setIn(['catalogsHistory', catalogId], object);
     }
 
     this.changed();
@@ -152,9 +158,9 @@ export default {
     } else {
 
       //История для каталога
-      let history = this.get('history');
+      let history = this.getIn(['catalogsHistory', data.catalogId]);
       history = this._setFilterToObject(history, filter);
-      this.set('history', history);
+      this.setIn(['catalogsHistory', data.catalogId], history);
       historyActions.loadHistory(data.catalogId, 0, {}, true);
     }
   },
@@ -181,13 +187,12 @@ export default {
         this.changed();
       }
     } else {
-
       //История для каталога
-      let history = this.get('history');
+      let history = this.getIn(['catalogsHistory', data.catalogId]);
       if (history) {
         history = history.set('loading', true);
         history = history.set('loadError', null);
-        this.set('history', history);
+        this.setIn(['catalogsHistory', data.catalogId], history);
         this.changed();
       }
     }
@@ -204,10 +209,10 @@ export default {
     } else {
 
       //История для каталога
-      let history = this.get('history');
+      let history = this.getIn(['catalogsHistory', query.catalogId]);
       if (!history) { return; }
       history = this._updateMergeHistory(history, query.limit, result);
-      this.set('history', history);
+      this.setIn(['catalogsHistory', query.catalogId], history);
     }
     this.currentLoading = null;
     this.changed();
@@ -271,11 +276,11 @@ export default {
       }
     } else {
 
-      let history = this.get('history');
+      let history = this.getIn(['catalogsHistory', query.catalogId]);
       if (history) {
         history = history.set('loading', false);
         history = history.set('loadError', true);
-        this.set('history', history);
+        this.setIn(['catalogsHistory', query.catalogId], history);
         this.changed();
       }
     }

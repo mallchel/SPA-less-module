@@ -44,8 +44,7 @@ const HistoryData = React.createClass({
     const catalog = this.props.catalog;
     const catalogId = catalog.get('id');
     const fields = catalog.get('fields');
-    const history = this.props.history;
-
+    const history = this.props.catalogsHistory.get(catalogId);
     const historyLoading = history && history.get('loading');
     let historyItems = history && history.get('items');
 
@@ -90,4 +89,4 @@ const HistoryData = React.createClass({
   }
 });
 
-export default connect(HistoryData, ['history']);
+export default connect(HistoryData, ['catalogsHistory']);
