@@ -7,6 +7,7 @@ class Route {
 const relativeRoutes = {
   section: { path: '/section/:sectionId' },
   catalog: { parent: 'section', path: '/catalog/:catalogId' },
+  catalogAdd: { parent: 'section', path: '/add' },
   view: { parent: 'catalog', path: '/view/:viewId' },
   catalogEdit: { parent: 'catalog', path: '/edit' },
 

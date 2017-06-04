@@ -1,17 +1,36 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
+import { matchPath } from 'react-router'
 import NavRoute from '../../common/router/Route'
 import routes from '../../../routes'
 import Section from './Section'
+import LayoutCatalogEditor from './LayoutCatalogEditor'
 
 import styles from './appBody.less'
 
 const AppBody = function () {
   return (
     <div className={styles.container}>
-      <NavRoute route={routes.section} render={props => {
-        return <Section
-          sectionId={props.match.params.sectionId}
-        />
+      <Route render={props => {
+        const { location } = props;
+        const matchEdit = matchPath(location.pathname, {
+          path: routes.catalogEdit.path,
+          exact: true,
+          strict: false
+        });
+        const matchAdd = matchPath(location.pathname, {
+          path: routes.catalogAdd.path,
+          exact: true,
+          strict: false
+        });
+        if (matchEdit) {
+          return <NavRoute route={routes.catalogEdit} component={LayoutCatalogEditor} />
+
+        } else if (matchAdd) {
+          return <NavRoute route={routes.catalogAdd} component={LayoutCatalogEditor} />
+        } else {
+          return <NavRoute route={routes.section} component={Section} />
+        }
       }} />
     </div>
   )

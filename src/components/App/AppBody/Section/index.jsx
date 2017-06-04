@@ -36,7 +36,7 @@ class Section extends Component {
     }
   }
   render() {
-    const sectionId = this.props.sectionId;
+    const { sectionId } = this.props.match.params;
     const catalogs = this.props.catalogs;
 
     const section = this.props.sections.get(sectionId);

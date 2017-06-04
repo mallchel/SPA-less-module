@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import NavRoute from '../../../../common/router/Route'
 import routes from '../../../../../routes'
 import Catalog from './Catalog'
