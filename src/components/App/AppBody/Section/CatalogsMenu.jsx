@@ -103,6 +103,7 @@ const CatalogsMenu = React.createClass({
           params='catalogId'
           items={catalogs}
           className={styles.shiftLeft}
+          draggable
         />
       </div>
     );

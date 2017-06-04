@@ -24,11 +24,12 @@ class AbstractMenu extends Component {
       vertical,
       items,
       route,
-      params } = this.props;
+      params,
+      draggable } = this.props;
 
     return (
       <Row type="flex" justify="space-between" align="middle" className={cn(className)}>
-        <ul className={cn(horizontal.menu)} ref={this.dragulaDecorator}>
+        <ul className={cn(horizontal.menu)} ref={draggable ? this.dragulaDecorator : null}>
           {
             items.map((item, i) => (
               <NavLink key={item.get('id')} route={item.get('route') || route} params={(params && { [params]: item.get('id') }) || {}} render={props => {
