@@ -20,7 +20,7 @@ const CatalogEditor = React.createClass({
       });
     } else {
       catalogActions.addCatalog({
-        sectionId
+        sectionId: sectionId
       });
     }
   },
@@ -36,7 +36,7 @@ const CatalogEditor = React.createClass({
     }
     if (this.props.isStateAddCatalog && newSectionId !== this.props.match.params.sectionId) {
       catalogActions.addCatalog({
-        newSectionId
+        sectionId: newSectionId
       });
     }
   },
