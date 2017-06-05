@@ -74,16 +74,14 @@ export default {
    */
 
   getCatalogCompleted(data, { catalogId }) {
-    // let sectionId = data.sectionId.toString();
+    let sectionId = data.sectionId.toString();
 
-    // if (router.includes('main.section.editCatalog') &&
-    // this.getIn(['routeParams', 'catalogId']) === catalogId &&
-    // this.getIn(['editingCatalogs', sectionId]) == null) {
-    // let catalog = CatalogFactory.create(data);
-    // catalog = catalog.set('originalFields', catalog.get('fields'));
-    // this.setIn(['editingCatalogs', sectionId], catalog);
-    // this.changed();
-    // }
+    if (catalogId && this.getIn(['editingCatalogs', sectionId]) == null) {
+      let catalog = CatalogFactory.create(data);
+      catalog = catalog.set('originalFields', catalog.get('fields'));
+      this.setIn(['editingCatalogs', sectionId], catalog);
+      this.changed();
+    }
 
     // if (router.includes('main.section.catalogData') &&
     // this.getIn(['routeParams', 'catalogId']) === catalogId) {
@@ -213,5 +211,19 @@ export default {
   saveMapOrder(order) {
     this.set('catalogMapOrder', order);
     this.changed();
-  }
+  },
+
+  /**
+   * add catalog
+   */
+
+  addCatalog({ sectionId }) {
+    const catalog = CatalogFactory.create({
+      isNew: true,
+      icon: 'content-11'
+    });
+    this.setIn(['editingCatalogs', sectionId], catalog);
+    this.changed();
+  },
+
 };

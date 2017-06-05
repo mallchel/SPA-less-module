@@ -3,5 +3,5 @@ export default Reflux.createActions({
   'changeSortIndex' : {},
   'changeMapOrder': {},
   'saveMapOrder': {},
-  'preGetCatalog': {}
+  'addCatalog': {}
 });

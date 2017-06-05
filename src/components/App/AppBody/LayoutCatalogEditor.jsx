@@ -2,14 +2,14 @@ import React from 'react'
 import FieldTypes from '../../fieldTypes/FieldTypes'
 import CatalogEditor from '../../catalogEditor/CatalogEditor'
 
-export default function () {
+export default function (props) {
   return (
     <div>
       <div>
         <FieldTypes />
       </div>
       <div>
-        <CatalogEditor />
+        <CatalogEditor {...props} />
       </div>
     </div>
   )

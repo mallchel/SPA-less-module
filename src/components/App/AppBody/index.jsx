@@ -24,10 +24,14 @@ const AppBody = function () {
           strict: false
         });
         if (matchEdit) {
-          return <NavRoute route={routes.catalogEdit} component={LayoutCatalogEditor} />
+          return <NavRoute route={routes.catalogEdit} render={props => {
+            return <LayoutCatalogEditor isStateEditCatalog={true} />
+          }} />
 
         } else if (matchAdd) {
-          return <NavRoute route={routes.catalogAdd} component={LayoutCatalogEditor} />
+          return <NavRoute route={routes.catalogAdd} render={props => {
+            return <LayoutCatalogEditor isStateAddCatalog={true} />
+          }} />
         } else {
           return <NavRoute route={routes.section} component={Section} />
         }

@@ -5,7 +5,7 @@ import CatalogEditorHeader from './CatalogEditorHeader'
 import Loading from '../common/Loading'
 import apiActions from '../../actions/apiActions'
 import { connect } from '../StateProvider'
-import CatalogFactory from '../../models/CatalogFactory'
+import catalogActions from '../../actions/catalogActions'
 
 const CatalogEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -14,18 +14,14 @@ const CatalogEditor = React.createClass({
     const catalogId = this.props.match.params.catalogId;
     const sectionId = this.props.match.params.sectionId;
 
-    catalogId && apiActions.getCatalog({
-      catalogId: catalogId
-    });
-
-    if (!this.props.editingCatalogs.get(sectionId) && catalogId) {
-      this.props.editingCatalogs.set(sectionId, this.props.catalogs.get(catalogId));
-    } else if (!this.props.editingCatalogs.get(sectionId) && !catalogId) {
-      const catalog = CatalogFactory.create({
-        isNew: true,
-        icon: 'content-11'
+    if (this.props.isStateEditCatalog) {
+      apiActions.getCatalog({
+        catalogId: catalogId
       });
-      this.props.editingCatalogs.set(sectionId, catalog);
+    } else {
+      catalogActions.addCatalog({
+        sectionId
+      });
     }
   },
 
@@ -33,18 +29,14 @@ const CatalogEditor = React.createClass({
     const newCatalogId = nextProps.match.params.catalogId;
     const newSectionId = nextProps.match.params.sectionId;
 
-    if (!nextProps.editingCatalogs.get(newSectionId) && newCatalogId) {
-      nextProps.editingCatalogs.set(newSectionId, nextProps.catalogs.get(newCatalogId));
-    } else if (!nextProps.editingCatalogs.get(newSectionId) && !newCatalogId) {
-      const catalog = CatalogFactory.create({
-        isNew: true,
-        icon: 'content-11'
-      });
-      nextProps.editingCatalogs.set(newSectionId, catalog);
-    }
-    if (newCatalogId && newCatalogId !== this.props.match.params.catalogId) {
+    if (this.props.isStateEditCatalog && newCatalogId && newCatalogId !== this.props.match.params.catalogId) {
       apiActions.getCatalog({
         catalogId: newCatalogId
+      });
+    }
+    if (this.props.isStateAddCatalog && newSectionId !== this.props.match.params.sectionId) {
+      catalogActions.addCatalog({
+        newSectionId
       });
     }
   },

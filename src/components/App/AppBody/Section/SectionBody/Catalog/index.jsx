@@ -26,7 +26,7 @@ function ROW(props) {
 }
 
 function loadCatalog(catalogId) {
-  catalogActions.preGetCatalog({ catalogId });
+  // catalogActions.preGetCatalog({ catalogId });
   userSettingsActions
     .getUserSettingsForCatalog({ catalogId })
     .then(function () {
