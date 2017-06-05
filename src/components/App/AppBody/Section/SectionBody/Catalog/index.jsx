@@ -9,7 +9,7 @@ import Splitter from '../../../../../common/Splitter'
 import NavRoute from '../../../../../common/router/Route'
 import routes from '../../../../../../routes'
 import apiActions from '../../../../../../actions/apiActions'
-import catalogActions from '../../../../../../actions/catalogActions'
+// import catalogActions from '../../../../../../actions/catalogActions'
 import userSettingsActions from '../../../../../../actions/userSettingsActions'
 import { connect } from '../../../../../StateProvider'
 

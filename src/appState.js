@@ -9,15 +9,15 @@ import editorActions from './actions/editorActions'
 import sectionActions from './actions/sectionActions'
 import dropDownActions from './actions/dropdownActions'
 import userSettingsActions from './actions/userSettingsActions'
-import viewActions from './actions/viewActions'
+// import viewActions from './actions/viewActions'
 import catalogActions from './actions/catalogActions'
 import historyActions from './actions/historyActions'
 import reportsActions from './actions/reports'
 import linkedRecordActions from './actions/linkedRecord'
 
-import UserSettingsStore from './stores/UserSettingsStore';
-import RequestRecordStore from './stores/RequestRecordStore'
-import ModalStore from './stores/ModalStore';
+// import UserSettingsStore from './stores/UserSettingsStore';
+// import RequestRecordStore from './stores/RequestRecordStore'
+// import ModalStore from './stores/ModalStore';
 
 import { DEFAULT } from './configs/appModes'
 

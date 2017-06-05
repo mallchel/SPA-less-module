@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDom from 'react-dom'
 import OverlayDropdown from './OverlayDropdown'
 import { Row, Icon } from 'antd'
 import NavLink from '../../router/Link'
@@ -10,13 +9,19 @@ import Dragula from 'react-dragula'
 import styles from './abstractMenu.less'
 
 class AbstractMenu extends Component {
+  componentWillMount() {
+    this.drake = Dragula(null, {
+      moves: (el, source, handle, sibling) => console.log('moves', el, source, handle, sibling) || 1,
+      accepts: (el, source, handle, sibling) => console.log('accepts', el, source, handle, sibling) || 1
+    });
+  }
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
-      let options = {};
-      const drake = Dragula([componentBackingInstance], options);
-      console.log(drake)
+      this.drake.containers.push(componentBackingInstance);
+      console.log(this.drake)
     }
   }
+
   render() {
     const {
       className,
@@ -53,6 +58,7 @@ class AbstractMenu extends Component {
             route={route}
             params={params}
             vertical={vertical}
+            container={this.dragulaDecorator}
           />
         </div>
       </Row>

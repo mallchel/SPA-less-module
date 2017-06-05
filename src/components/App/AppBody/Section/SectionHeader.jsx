@@ -6,7 +6,7 @@ import modalsActions from '../../../../actions/modalsActions'
 import apiActions from '../../../../actions/apiActions'
 import trs from '../../../../getTranslations'
 import InputModal from '../../../common/InputModal'
-import { base, confirm } from '../../../common/Modal'
+import { base, confirm, prompt } from '../../../common/Modal'
 import ButtonTransparent from '../../../common/elements/ButtonTransparent'
 
 import PRIVILEGE_CODES from '../../../../configs/privilegeCodes'
@@ -35,11 +35,12 @@ const SettingSection = React.createClass({
   },
 
   openRenameModal() {
-    base({
-      component: InputModal,
+    prompt({
       headerText: trs('modals.changeSectionName.headerText'),
       value: this.props.section.get('name'),
-      onSave: this.onRename
+      onOk: this.onRename,
+      okText: trs('buttons.save'),
+      cancelText: trs('buttons.cancel')
     });
   },
 
@@ -97,6 +98,7 @@ const SettingSection = React.createClass({
         <Dropdown
           overlay={menu}
           trigger={['click']}
+          disabled={!this.props.isAccessAdmin ? true : false}
         >
           <ButtonTransparent className={styles.shiftRight}><Icon type="icon setting-10" /></ButtonTransparent>
         </Dropdown>

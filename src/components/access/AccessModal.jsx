@@ -1,25 +1,27 @@
-import _ from 'lodash';
-import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Immutable from 'immutable';
-import classNames from 'classnames';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
+import _ from 'lodash'
+import React from 'react'
+import ImmutablePropTypes from 'react-immutable-proptypes'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import Immutable from 'immutable'
+import classNames from 'classnames'
+import CSSTransitionGroup from 'react-addons-css-transition-group'
+import { Modal, Button } from 'antd'
+import PropTypes from 'prop-types'
 
-import trs from '../../getTranslations';
-import Dropdown from '../common/Dropdown';
-import DropdownRemote from '../common/DropdownRemote';
-import RightsExceptions from './RightsExceptions';
-import antiCapitalize from '../../utils/antiCapitalize'
-import apiActions from '../../actions/apiActions';
-import modalsActions from '../../actions/modalsActions';
-import HelpIcon from '../common/HelpIcon';
-
-import PRIVILEGE_CODES from '../../configs/privilegeCodes';
-import RESOURCE_TYPES from '../../configs/resourceTypes';
-
-import PublicAccess from './publicAccess';
 import { connect } from '../StateProvider'
+import trs from '../../getTranslations'
+import Dropdown from '../common/Dropdown'
+import DropdownRemote from '../common/DropdownRemote'
+import RightsExceptions from './RightsExceptions'
+import antiCapitalize from '../../utils/antiCapitalize'
+import apiActions from '../../actions/apiActions'
+import modalsActions from '../../actions/modalsActions'
+import HelpIcon from '../common/HelpIcon'
+
+import PRIVILEGE_CODES from '../../configs/privilegeCodes'
+import RESOURCE_TYPES from '../../configs/resourceTypes'
+
+import PublicAccess from './publicAccess'
 
 const log = require('debug')('CRM:Component:Rights:Modal');
 
@@ -289,16 +291,18 @@ const EmptyRules = React.createClass({
 const AccessModal = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    resource: React.PropTypes.string.isRequired,
-    privilegeCodes: React.PropTypes.object,
-    object: React.PropTypes.object.isRequired,
-    parentCatalog: React.PropTypes.object,
-    parentSection: React.PropTypes.object,
+    resource: PropTypes.string.isRequired,
+    privilegeCodes: PropTypes.object,
+    object: PropTypes.object.isRequired,
+    parentCatalog: PropTypes.object,
+    parentSection: PropTypes.object,
     rules: ImmutablePropTypes.list,
     parents: ImmutablePropTypes.list,
-    isLoading: React.PropTypes.bool,
-    readOnly: React.PropTypes.bool,
-    hasAdminRule: React.PropTypes.bool
+    isLoading: PropTypes.bool,
+    readOnly: PropTypes.bool,
+    hasAdminRule: PropTypes.bool,
+    onOk: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
   },
 
   getDefaultProps() {
@@ -394,7 +398,7 @@ const AccessModal = React.createClass({
     };
 
     apiActions.createRight({}, data);
-    this.props.closeModal(this.props.object);
+    this.props.onOk(this.props.object);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -471,22 +475,6 @@ const AccessModal = React.createClass({
       }
     }
 
-    let footerContent =
-      <div>
-        {readOnly
-          ? null
-          : <button className="btn btn--default" onClick={this.onSave}>{trs('modals.save')}</button>}
-        <a href="javascript:void(0)"
-          className="m-like-button"
-          onClick={this.props.dismissModal}>{readOnly ? trs('modals.close') : trs('modals.cancel')}
-        </a>
-      </div>;
-
-    let footer =
-      <footer className="modal-window__footer">
-        {error && !isLoading ? <span className="m-text_danger">{error}</span> : footerContent}
-      </footer>;
-
     let addSubjects =
       <div className="modal-window__content--footer">
         <table className="rights--footer unit-list unit-list--padding_default m-bg-color_white rights__table--footer ng-scope">
@@ -512,11 +500,6 @@ const AccessModal = React.createClass({
                   blockForceUpdateForEmpty={true}
                 />
               </td>
-              {/*<td className="rights__row__item rights__row__item--button">
-             <button className="btn btn--default m-text_success" onClick={this.onAddSubjects}>
-             <div className="icon icon--status-17 m-text_center"></div>
-             </button>
-             </td>*/}
             </tr>
           </tbody>
         </table>
@@ -544,67 +527,77 @@ const AccessModal = React.createClass({
     });
 
     return (
-      <div>
-        <header className="modal-window__header">
-          <i className="modal-window__header__close" onClick={this.props.dismissModal}></i>
-          <h2 className="modal-window__header__title">
-            {modalTrs('header')} {modalTrs('headerSuffix.' + this.props.resource)}
-            {' '}
-            <HelpIcon helpPath='policy.html' />
-          </h2>
-        </header>
-        <div className="modal-window__content rights">
-          <div className="modal-window__content__padding modal-window__content--caption">
-            <div>
-              <div className="access-modal__caption-element"><h2 className="popup--share__head">{modalTrs('stuffs')}</h2></div>
-              <div className="access-modal__caption-element access-modal__caption-element--right">
-                <CSSTransitionGroup
-                  className="m-text_light"
-                  transitionName="access-modal__loading"
-                  transitionEnterTimeout={10}
-                  transitionLeaveTimeout={300}>
-                  {isLoading ? <span>{modalTrs('loading')}</span> : null}
-                </CSSTransitionGroup>
+      <Modal
+        visible={true}
+        maskClosable={false}
+        closable={false}
+        footer={[
+          <Button key="submit" type="primary" size="large" onClick={this.onSave}>{trs('buttons.save')}</Button>,
+          <Button key="back" type="default" size="large" onClick={this.props.onCancel}>{trs('buttons.cancel')}</Button>,
+        ]}
+        width='60%'
+      >
+        <div>
+          <header className="modal-window__header">
+            <i className="modal-window__header__close" onClick={this.props.onCancel}></i>
+            <h2 className="modal-window__header__title">
+              {modalTrs('header')} {modalTrs('headerSuffix.' + this.props.resource)}
+              {' '}
+              <HelpIcon helpPath='policy.html' />
+            </h2>
+          </header>
+          <div className="modal-window__content rights">
+            <div className="modal-window__content__padding modal-window__content--caption">
+              <div>
+                <div className="access-modal__caption-element"><h2 className="popup--share__head">{modalTrs('stuffs')}</h2></div>
+                <div className="access-modal__caption-element access-modal__caption-element--right">
+                  <CSSTransitionGroup
+                    className="m-text_light"
+                    transitionName="access-modal__loading"
+                    transitionEnterTimeout={10}
+                    transitionLeaveTimeout={300}>
+                    {isLoading ? <span>{modalTrs('loading')}</span> : null}
+                  </CSSTransitionGroup>
+                </div>
               </div>
+
+              <div className="access-modal__rules">
+                <AccessRules
+                  rules={parentRules}
+                  parentCatalog={this.props.parentCatalog}
+                  parentSection={this.props.parentSection}
+                  resource={resource}
+                  privilegeCodes={this.props.privilegeCodes}
+                  readOnly={true}
+                  rulesTableClasses="rights__table--readonly"
+                />
+
+                <AccessRules
+                  rules={this.state.rules}
+                  resource={this.props.resource}
+                  privilegeCodes={this.props.privilegeCodes}
+                  object={this.props.object}
+                  readOnly={readOnly}
+                  isAdmin={this.props.isAdmin}
+                  onClickRemoveRight={this.onClickRemoveRight}
+                  onChangePrivilege={this.onChangePrivilege}
+                  onChangeRule={this.onChangeRule}
+                />
+
+                <EmptyRules
+                  count={MIN_RULES - this.state.rules.size - parentRules.size}
+                />
+              </div>
+
+              {readOnly ? <div className="rights__line"></div> : null}
+
+              {readOnly ? null : addSubjects}
+
+              <PublicAccess resource={this.props.resource} object={this.props.object} />
             </div>
-
-            <div className="access-modal__rules">
-              <AccessRules
-                rules={parentRules}
-                parentCatalog={this.props.parentCatalog}
-                parentSection={this.props.parentSection}
-                resource={resource}
-                privilegeCodes={this.props.privilegeCodes}
-                readOnly={true}
-                rulesTableClasses="rights__table--readonly"
-              />
-
-              <AccessRules
-                rules={this.state.rules}
-                resource={this.props.resource}
-                privilegeCodes={this.props.privilegeCodes}
-                object={this.props.object}
-                readOnly={readOnly}
-                isAdmin={this.props.isAdmin}
-                onClickRemoveRight={this.onClickRemoveRight}
-                onChangePrivilege={this.onChangePrivilege}
-                onChangeRule={this.onChangeRule}
-              />
-
-              <EmptyRules
-                count={MIN_RULES - this.state.rules.size - parentRules.size}
-              />
-            </div>
-
-            {readOnly ? <div className="rights__line"></div> : null}
-
-            {readOnly ? null : addSubjects}
-
-            <PublicAccess resource={this.props.resource} object={this.props.object} />
           </div>
         </div>
-        {footer}
-      </div>
+      </Modal>
     );
   }
 });
@@ -636,9 +629,11 @@ const AccessModalController = React.createClass({
         parentsLoadingComplete = parentsLoadingComplete && parentRight.loadingComplete;
 
         if (object.sectionId) {
-          parentSection = props.appState.get('sections').find(o => o.get('id') === object.sectionId);
+          // parentSection = appState.get('sections').find(o => o.get('id') === object.sectionId);
+          parentSection = this.props.sections.find(o => o.get('id') === object.sectionId);
         } else if (object.catalogId) {
-          parentCatalog = props.appState.get('catalogs').find(o => o.get('id') === object.catalogId);
+          // parentCatalog = appState.get('catalogs').find(o => o.get('id') === object.catalogId);
+          parentCatalog = this.props.catalogs.find(o => o.get('id') === object.catalogId);
         }
 
         return parentRight;
@@ -679,7 +674,8 @@ const AccessModalController = React.createClass({
   },
 
   getInfoForObject(props, object) {
-    let rightsCollection = props.appState.getIn(['rights']);
+    let rightsCollection = this.props.rights;
+    // let rightsCollection = appState.get('rights');
     let rightsObject = rightsCollection.find(ro => {
       return _.isEqual(ro.getIn(['object']).toJS(), object);
     });
@@ -697,8 +693,8 @@ const AccessModalController = React.createClass({
     let { rules, loadingComplete, parents, parentCatalog, parentSection } = this.state;
 
     let resource = this.props.resource;
-    let privilegeCodes = this.props.appState.getIn(['privilegeCodesByResource', resource]);
-
+    // let privilegeCodes = appState.getIn(['privilegeCodesByResource', resource]);
+    let privilegeCodes = this.props.privilegeCodesByResource.get(resource);
     return <AccessModal
       resource={resource}
       privilegeCodes={privilegeCodes}
@@ -709,19 +705,12 @@ const AccessModalController = React.createClass({
       hasAdminRule={this.props.hasAdminRule}
       isAdmin={this.props.isAdmin}
       isLoading={!loadingComplete}
-      closeModal={this.props.closeModal}
-      dismissModal={this.props.dismissModal}
+      onOk={this.props.onOk}
+      onCancel={this.props.onCancel}
       parentCatalog={parentCatalog}
       parentSection={parentSection}
-    />;
+    />
   }
 });
 
-// export default connect(AccessModalController, [
-//   'privilegeCodesByResource',
-//   'rights',
-//   'sections',
-//   'catalogs',
-// ]);
-
-export default connect(AccessModalController);
+export default connect(AccessModalController, ['sections', 'catalogs', 'privilegeCodesByResource', 'rights']);

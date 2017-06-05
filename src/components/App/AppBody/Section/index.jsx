@@ -20,19 +20,18 @@ import styles from './section.less'
 
 class Section extends Component {
   componentDidMount() {
-    const sectionId = this.props.sectionId;
+    const { sectionId } = this.props.match.params;
+
     if (sectionId) {
       apiActions.getSection({ sectionId });
-      // apiActions.getCatalogs({ sectionId });
     }
   }
   componentWillReceiveProps(nextProps) {
-    const newSectionId = nextProps.sectionId;
+    const newSectionId = nextProps.match.params.sectionId;
 
-    if (newSectionId && this.props.sectionId !== newSectionId) {
+    if (newSectionId && newSectionId !== this.props.match.params.sectionId) {
       // update catalogs.
       apiActions.getSection({ sectionId: newSectionId });
-      // apiActions.getCatalogs({ sectionId: newSectionId });
     }
   }
   render() {

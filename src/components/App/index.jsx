@@ -8,7 +8,7 @@ import { LocaleProvider } from 'antd'
 import ruRu from 'antd/lib/locale-provider/ru_RU'
 import LayoutApp from './layoutApp'
 import { confirm } from '../common/Modal'
-import StateProvider from '../StateProvider'
+// import StateProvider from '../StateProvider'
 
 const getConfirmation = (message, callback, state) => {
   function onOk() {

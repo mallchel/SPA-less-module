@@ -8,14 +8,14 @@ import trs from '../getTranslations'
 import guid from 'guid'
 import appState from '../appState'
 import RESOURCE_TYPES from '../configs/resourceTypes'
-import { base } from '../components/common/Modal'
+import { renderModaltoBody } from '../components/common/Modal'
 import { MODAL_ONLY } from '../configs/appModes'
 
 function _openRecordModal(component, catalogId, recordId, recordName, { allowClose, onCreate }) {
   let mode = appState.getIn(['mode']);
   let isFullScreen = appState.getIn(['modalsFullScreen']);
 
-  base(component, {
+  renderModaltoBody(component, {
     recordId,
     recordName,
     catalogId,
@@ -32,13 +32,16 @@ const ModalStore = Reflux.createStore({
   openAccessModal({ object, parents }, resource, accessProps, hasAdminRule = false, onCloseCb) {
     let RightsModal = require('../components/access/AccessModal').default;
     const { readOnly, isAdmin } = accessProps;
-    base(RightsModal, {
+    renderModaltoBody(RightsModal, {
       object,
       parents,
       resource,
       readOnly,
       isAdmin,
-      hasAdminRule
+      hasAdminRule,
+      onOk: ({ rules }) => {
+        apiActions.createRight({}, { object, rules });
+      }
     })
   },
 
@@ -50,8 +53,8 @@ const ModalStore = Reflux.createStore({
     onSaveCb,
     onCloseCb
   ) {
-    let FieldRightsModal = require('../components/access/FieldRightsModal');
-    base(FieldRightsModal, {
+    let FieldRightsModal = require('../components/access/FieldRightsModal').default;
+    renderModaltoBody(FieldRightsModal, {
       rule,
       index,
       object,
@@ -73,8 +76,8 @@ const ModalStore = Reflux.createStore({
   },
 
   openRecordModal(catalogId, recordId, recordName, allowClose = true) {
-    let RecordModal = require('../components/App/AppBody/Section/SectionBody/Catalog/Record/RecordModal');
-    let mode = appState.getIn(['mode']);
+    let RecordModal = require('../components/App/AppBody/Section/SectionBody/Catalog/Record/RecordModal').default;
+    // let mode = appState.getIn(['mode']);
 
     recordActions.openLinkedRecordModal(catalogId, recordId);
 
@@ -90,7 +93,7 @@ const ModalStore = Reflux.createStore({
   openRelatedRecordCreate(catalogId, linkedRecord, options = {}) {
     let { allowClose = true, onCreate } = options;
     let newRecordId = guid.raw();
-    let RecordModalCreate = require('../components/App/AppBody/Section/SectionBody/Catalog/Record/RecordModalCreate');
+    let RecordModalCreate = require('../components/App/AppBody/Section/SectionBody/Catalog/Record/RecordModalCreate').default;
 
     recordActions.generateNewRecord(catalogId, newRecordId, linkedRecord);
 
@@ -100,7 +103,7 @@ const ModalStore = Reflux.createStore({
   openLinkedRecordCreate(catalogId, options = {}) {
     let { allowClose = true, onCreate } = options;
     let newRecordId = guid.raw();
-    let RecordModalCreate = require('../components/App/AppBody/Section/SectionBody/Catalog/Record/RecordModalCreate');
+    let RecordModalCreate = require('../components/App/AppBody/Section/SectionBody/Catalog/Record/RecordModalCreate').default;
 
     // если надо открыть уже существующую новую строку, то тут надо найти ее в appState и передать в попап и не вызывать экшны
     recordActions.generateNewRecord(catalogId, newRecordId);
@@ -110,7 +113,7 @@ const ModalStore = Reflux.createStore({
   },
 
   openViewInputModal(catalogId, accessOnViewForRights) {
-    base(ViewInputModal, {
+    renderModaltoBody(ViewInputModal, {
       isNew: true,
       headerText: trs('modals.createNewView.headerText'),
       onSave: (params) => viewsActions.createNewView(catalogId, params),
@@ -119,7 +122,7 @@ const ModalStore = Reflux.createStore({
   },
 
   openViewInputModalEdit(currView, catalogId) {
-    base(ViewInputModal, {
+    renderModaltoBody(ViewInputModal, {
       isNew: false,
       headerText: trs('modals.editNewView.headerText'),
       name: currView.get('name'),

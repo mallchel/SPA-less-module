@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-export default function renderComponentToBody(Component, props) {
+export default function renderComponentToBody(Component, props = {}) {
   const div = document.createElement('div');
   document.body.appendChild(div);
 

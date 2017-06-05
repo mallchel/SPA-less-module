@@ -48,7 +48,7 @@ export function connect(Component, keys, mapProps = p => p) {
     return <Pure {...componentProps} {...mapProps(props) } />
   }
 
-  return function (props) {
+  return function Connect(props) {
     return (
       <StateProvider component={Connector} componentProps={props} />
     )

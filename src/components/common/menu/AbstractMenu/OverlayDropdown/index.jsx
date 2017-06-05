@@ -37,10 +37,11 @@ class OverlayDropdown extends Component {
 
     const { props: { vertical } } = this;
     const menu = (
-      <AntMenu
-        className={cn(this.props.vertical.menu, styles.menu)}
+      <ul
+        className={cn(this.props.vertical.menu, styles.menu, 'ant-dropdown-menu ant-dropdown-menu-vertical ')}
+        ref={this.props.container}
       >
-        <AntMenu.Item
+        <li
           className={styles.itemSearch}
         >
           <input
@@ -50,7 +51,7 @@ class OverlayDropdown extends Component {
             onChange={this.search}
             onClick={e => e.stopPropagation()}
           />
-        </AntMenu.Item>
+        </li>
         {
           filterData.map(item => {
             return (
@@ -69,7 +70,7 @@ class OverlayDropdown extends Component {
             )
           })
         }
-      </AntMenu>
+      </ul>
     );
 
     return (
