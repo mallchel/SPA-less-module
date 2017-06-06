@@ -51,7 +51,11 @@
 
 .ant-menu-item {
   padding: 0 @PADDING_BASE;
+  & .anticon {
+    margin-right: 0;
+  }
 }
+
 
 .ant-menu-inline .ant-menu-item {
   border-right: none;
@@ -64,7 +68,6 @@
   &:hover:after {
     transform: none;
     transition: none;
-
   }
   &:after {
     right: auto;
@@ -97,7 +100,7 @@
   background-color: @DANGER_BUTTON;
 }
 
-.ant-btn-group > .ant-btn:first-child:not(:last-child) {
+.ant-btn-group>.ant-btn:first-child:not(:last-child) {
   padding-right: @PADDING_BASE;
 }
 

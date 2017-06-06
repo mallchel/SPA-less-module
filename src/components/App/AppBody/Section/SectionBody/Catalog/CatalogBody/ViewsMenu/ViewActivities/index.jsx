@@ -6,6 +6,8 @@ import trs from '../../../../../../../../../getTranslations'
 import apiActions from '../../../../../../../../../actions/apiActions'
 import modalsActions from '../../../../../../../../../actions/modalsActions'
 import { confirm } from '../../../../../../../../common/Modal'
+import getLink from '../../../../../../../../common/router/getLink'
+import routes from '../../../../../../../../../routes'
 
 import PRIVILEGE_CODES from '../../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../../configs/resourceTypes'
@@ -18,25 +20,23 @@ class ViewActivities extends Component {
     view: PropTypes.object
   }
 
-  onClickAccess = (e) => {
+  onClickAccess = (history, location, e) => {
     const view = this.props.view;
-    const viewId = view.get('id');
 
-    if (viewId) {
+    if (view) {
       let isAccessView = view && checkAccessOnObject(RESOURCE_TYPES.VIEW, view, PRIVILEGE_CODES.ACCESS);
       let readOnly = !checkAccessOnObject(RESOURCE_TYPES.CATALOG, this.props.catalog, PRIVILEGE_CODES.ACCESS) && !isAccessView;
-      modalsActions.openViewAccessModal(viewId, readOnly, (result) => {
-        // if (result && result.viewId) {
-        //   router.go('main.section.catalogData', { viewId: result.viewId });
-        // }
-        // const link = getLink({params: { viewId: result.viewId }})
-        // history.push(link)
+      modalsActions.openViewAccessModal(view, readOnly, (result) => {
+        if (result && result.viewId) {
+          const link = getLink(location, routes.view, { viewId: result.viewId });
+          history.push(link);
+        }
       });
     }
   }
 
   renameView = (e) => {
-    const view = this.props.view;
+    let view = this.props.view;
     const catalogId = view.get('catalogId');
     modalsActions.openViewInputModalEdit(view, catalogId);
   }
@@ -47,21 +47,20 @@ class ViewActivities extends Component {
     const viewId = view.get('id');
     const catalogId = view.get('catalogId');
 
-    function onOk() {
-      apiActions.deleteView({
-        catalogId: catalogId,
-        viewId: viewId
-      });
-    }
-
     confirm({
       headerText: trs('modals.removeViewConfirm.headerText'),
       text: view.get('forRights') ? trs('modals.removeViewConfirm.textForRights') : trs('modals.removeViewConfirm.text'),
       okText: trs('modals.removeViewConfirm.okText'),
       cancelText: trs('modals.removeViewConfirm.cancelText'),
-      onOk
+      onOk() {
+        apiActions.deleteView({
+          catalogId: catalogId,
+          viewId: viewId
+        });
+      }
     });
   }
+
   render() {
     const view = this.props.view;
     let dropDownButtonItems = [];
@@ -80,7 +79,8 @@ class ViewActivities extends Component {
       let isAccessAdmin = checkAccessOnObject(RESOURCE_TYPES.VIEW, view, PRIVILEGE_CODES.ACCESS);
       let isPrivateView = !view.get('forRights');
 
-      if ((!view.get('isNew') && Number(view.get('id')) !== 0) && (isAccessAdmin || isPrivateView)) {
+      // if ((!view.get('isNew') && Number(view.get('id')) !== 0) && (isAccessAdmin || isPrivateView)) {
+      if (isAccessAdmin || isPrivateView) {
         dropDownButtonItems = [{
           text: trs('views.renameView'),
           onClick: this.renameView
@@ -98,7 +98,7 @@ class ViewActivities extends Component {
           dropDownButtonItems.map((item, i) => {
             return (
               <AntMenu.Item key={i}>
-                <a rel="noopener noreferrer" onClick={item.onClick}>{item.text}</a>
+                <a rel="noopener noreferrer" onClick={() => item.onClick(this.props.history, this.props.location)}>{item.text}</a>
               </AntMenu.Item>
             )
           })

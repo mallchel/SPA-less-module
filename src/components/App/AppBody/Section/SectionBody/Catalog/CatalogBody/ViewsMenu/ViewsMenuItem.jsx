@@ -2,6 +2,7 @@ import React from 'react'
 import cn from 'classnames'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
 import trs from '../../../../../../../../getTranslations'
 import modalsActions from '../../../../../../../../actions/modalsActions'
 import DropDownButton from '../../../../../../../common/DropdownButton'
@@ -14,6 +15,7 @@ import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
 import { checkAccessOnObject } from '../../../../../../../../utils/rights'
 
+import styles from './viewsMenu.less'
 
 const ViewsMenuItem = React.createClass({
   propTypes: {
@@ -41,20 +43,22 @@ const ViewsMenuItem = React.createClass({
     return (
       <StateLink route={routes.view} params={{ viewId: view.get('id') }} render={props => {
         return (
-          <li className={cn('ant-menu-item', { 'ant-menu-item-selected': props.isActive })}>
+          <li className={cn('ant-menu-item', { 'ant-menu-item-selected': props.isActive }, styles.menuItem)}>
             {
               isNew ? <StateRedirect route={routes.view} params={{ viewId: view.get('id') }} /> : null
             }
             <Link to={props.link}>
               {name}
-              {
-                (!filtersChanged && props.isActive && !(Number(view.get('id')) === 0)) &&
-                <ViewActivities view={view} />
-              }
-              {
-                filtersChanged && <DropDownButton items={[]} onClick={this.onModalNewView} text={trs('buttons.save')} />
-              }
             </Link>
+            {
+              (!filtersChanged && props.isActive && !(Number(view.get('id')) === 0)) &&
+              <Route render={props => {
+                return <ViewActivities view={view} {...props} />
+              }} />
+            }
+            {
+              filtersChanged && <DropDownButton items={[]} onClick={this.onModalNewView} text={trs('buttons.save')} />
+            }
           </li>
         )
       }} />

@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import { Modal, Button, Icon, Row, Input } from 'antd'
+import ReactDOM from 'react-dom'
 import ButtonTransparent from '../elements/ButtonTransparent'
 import styles from './modal.less'
 
 class Prompt extends Component {
   state = {
     value: this.props.value
+  }
+  componentDidMount() {
+    let el = ReactDOM.findDOMNode(this.input);
+    el.focus();
+    el.setSelectionRange(0, el.value.length);
   }
   onChange = (e) => {
     this.setState({

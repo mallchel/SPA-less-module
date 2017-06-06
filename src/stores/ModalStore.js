@@ -39,9 +39,7 @@ const ModalStore = Reflux.createStore({
       readOnly,
       isAdmin,
       hasAdminRule,
-      onOk: ({ rules }) => {
-        apiActions.createRight({}, { object, rules });
-      }
+      onOk: onCloseCb
     })
   },
 
@@ -64,12 +62,13 @@ const ModalStore = Reflux.createStore({
       }, false, onSaveCb, onCloseCb);
   },
 
-  openViewAccessModal(viewId, readOnly, onCloseCb) {
-    let object = { viewId };
+  openViewAccessModal(view, readOnly, onCloseCb) {
+    let object = { viewId: view.get('id') };
+    const catalogId = view.get('catalogId');
     let parents = [{
-      sectionId: appState.getIn(['currentCatalog', 'sectionId'])
+      sectionId: appState.getIn(['catalogs', catalogId, 'sectionId'])
     }, {
-      catalogId: appState.getIn(['currentCatalog', 'id'])
+      catalogId: catalogId
     }];
 
     this.openAccessModal({ object, parents }, RESOURCE_TYPES.VIEW, { readOnly }, false, onCloseCb);
@@ -128,7 +127,7 @@ const ModalStore = Reflux.createStore({
       name: currView.get('name'),
       originName: currView.get('originName'),
       rights: currView.get('forRights'),
-      onSave: (params) => {
+      onOk: (params) => {
         apiActions.updateView({
           catalogId,
           viewId: currView.get('id'),

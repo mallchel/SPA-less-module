@@ -417,7 +417,7 @@ const AccessModal = React.createClass({
 
   componentDidMount() {
     let object = this.props.object;
-
+console.log(object)
     let query = {
       withSearch: true
     };
