@@ -12,7 +12,7 @@ import { checkAccessOnObject } from '../../../../../../../../utils/rights'
 
 
 class RecordsActivities extends Component {
-  static PropTypes = {
+  static propTypes = {
     catalog: PropTypes.object,
     viewId: PropTypes.string
   }

@@ -10,7 +10,7 @@ import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
 import { checkAccessOnObject } from '../../../../../../../../utils/rights'
 
 class RecordActivities extends Component {
-  static PropTypes = {
+  static propTypes = {
     record: PropTypes.object,
     catalog: PropTypes.object,
     viewId: PropTypes.string,

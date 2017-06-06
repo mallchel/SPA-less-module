@@ -7,7 +7,7 @@ import ViewBody from './ViewBody'
 import styles from './view.less'
 
 class View extends Component {
-  static PropTypes = {
+  static propTypes = {
     catalog: PropTypes.object,
     viewId: PropTypes.string
   }

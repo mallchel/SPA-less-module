@@ -38,7 +38,7 @@ class RowRenderer extends Row {
 }
 
 class RecordsData extends Component {
-  static PropTypes = {
+  static propTypes = {
     fields: PropTypes.array,
     records: PropTypes.array
   }

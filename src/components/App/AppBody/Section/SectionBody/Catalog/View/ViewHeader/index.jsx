@@ -11,7 +11,7 @@ import RecordsActivities from './RecordsActivities'
 import styles from './viewHeader.less'
 
 class ViewHeader extends Component {
-  static PropTypes = {
+  static propTypes = {
     catalog: PropTypes.object,
     viewId: PropTypes.string
   }

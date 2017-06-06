@@ -9,9 +9,6 @@ import Profile from './Profile'
 import styles from './appHeader.less'
 
 class AppHeader extends Component {
-  static PropTypes = {
-    appState: PropTypes.object.isRequired
-  }
   componentDidMount() {
     apiActions.getFilterKeys();
     apiActions.getPrivileges();

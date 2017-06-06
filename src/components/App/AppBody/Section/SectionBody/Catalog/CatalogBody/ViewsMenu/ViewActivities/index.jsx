@@ -16,7 +16,7 @@ import { checkAccessOnObject } from '../../../../../../../../../utils/rights'
 import styles from './viewActivities.less'
 
 class ViewActivities extends Component {
-  static PropTypes = {
+  static propTypes = {
     view: PropTypes.object
   }
 
