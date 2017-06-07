@@ -39,8 +39,8 @@ class RowRenderer extends Row {
 
 class RecordsData extends Component {
   static propTypes = {
-    fields: PropTypes.array,
-    records: PropTypes.array
+    fields: PropTypes.object,
+    records: PropTypes.object
   }
 
   render() {

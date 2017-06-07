@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Menu as AntMenu, Dropdown, Icon } from 'antd';
-import NavLink from '../../../router/Link'
+import { Dropdown } from 'antd';
 import ButtonTransparent from '../../../elements/ButtonTransparent'
-import { Link } from 'react-router-dom'
 import cn from 'classnames'
+import _ from 'lodash'
+import Item from './Item'
 
 import styles from './OverlayDropdown.less'
 
@@ -54,20 +54,17 @@ class OverlayDropdown extends Component {
         </li>
         {
           filterData.map(item => {
-            return (
-              <NavLink key={item.get('id')} route={item.get('route') || this.props.route} params={{ [this.props.params]: item.get('id') }} render={props => {
-                return (
-                  <li className={cn(vertical.item, { [vertical.selected]: props.isActive })}>
-                    <Link to={props.link} className={cn(styles.link, vertical.link)}>
-                      {
-                        item.get('icon') ? <Icon type={`icon ${item.get('icon')}`} className={cn(vertical.icon)} /> : null
-                      }
-                      <div className={vertical.text}>{item.get('name')}</div>
-                    </Link>
-                  </li>
-                )
-              }} />
-            )
+            return <Item
+              key={item.get('id')}
+              item={item}
+              vertical={vertical}
+              route={this.props.route}
+              canDrag={this.props.canDrag}
+              onMoveItem={this.props.onMoveItem}
+              onDragEnd={this.props.onDragEnd}
+              dragType={this.props.dragType}
+              params={this.props.params}
+            />
           })
         }
       </ul>
@@ -78,6 +75,7 @@ class OverlayDropdown extends Component {
         overlay={menu}
         placement="bottomRight"
         trigger={['click']}
+        onVisibleChange={this.props.onVisibleChange}
       >
         <ButtonTransparent>...</ButtonTransparent>
       </Dropdown>

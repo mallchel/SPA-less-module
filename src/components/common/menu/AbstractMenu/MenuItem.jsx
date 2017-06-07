@@ -1,47 +1,13 @@
 import React, { Component } from 'react'
 import { Icon } from 'antd'
 import { Link } from 'react-router-dom'
-import { DragSource, DropTarget } from 'react-dnd'
 import _ from 'lodash'
 import cn from 'classnames'
 import PropTypes from 'prop-types'
 import NavLink from '../../router/Link'
-import dndTargets from '../../../../configs/dndTargets'
-import dragAndDropActions from '../../../../actions/dragAndDropActions'
+import { dragSource, dropTarget } from './dndSourceTarget'
 
 import styles from './abstractMenu.less'
-
-const dragSource = DragSource(dndTargets.SIDEBAR_ITEM, {
-  beginDrag(props) {
-    let item = { id: props.item.get('id') };
-    dragAndDropActions.beginDrag(dndTargets.SIDEBAR_ITEM, item);
-    return item;
-  },
-  endDrag(props) {
-    dragAndDropActions.endDrag();
-    props.onDragEnd(props.item.get('id'));
-  },
-  canDrag(props) {
-    return props.canDrag;
-  }
-}, function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
-  }
-});
-
-const dropTarget = DropTarget(dndTargets.SIDEBAR_ITEM, {
-  hover(props, monitor) {
-    const item = monitor.getItem();
-    props.onMoveItem(item.id, props.item.get('id'));
-  }
-}, function collect(connect, monitor) {
-  return {
-    connectDropTarget: connect.dropTarget()
-  };
-});
 
 class MenuItem extends Component {
   static propTypes = {
@@ -66,15 +32,15 @@ class MenuItem extends Component {
   }
 
   render() {
-    const { connectDragSource, connectDragPreview, connectDropTarget, isDragging, canDrag, item, horizontal, route, params } = this.props;
-
+    const { connectDragSource, connectDragPreview, connectDropTarget, isDragging, item, horizontal, route, params } = this.props;
     return (
       <NavLink route={item.get('route') || route} params={(params && { [params]: item.get('id') }) || {}} render={props => {
         return _.flow(connectDragSource, connectDragPreview, connectDropTarget)(
           <li
-            className={cn(horizontal.item, { [horizontal.selected]: props.isActive }, canDrag, { 'dragging': isDragging })}
+            className={cn(horizontal.item, { [horizontal.selected]: props.isActive }, { 'dragging': isDragging })}
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
+            style={isDragging ? { opacity: '0.1' } : null}
           >
             <Link to={props.link} className={cn(styles.link, horizontal.link)}>
               {

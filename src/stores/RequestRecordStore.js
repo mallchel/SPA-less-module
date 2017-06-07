@@ -35,20 +35,16 @@ const RequestRecordStore = Reflux.createStore({
     let sortParams = this.getSortParams(catalogId);
     request.searchText = AppState.getSearchText(catalogId);
 
-    let { viewId } = request;
-    viewId = viewId || 0;
-    // viewId = viewId || this.getCurrentViewId();
+    let { viewId = 0 } = request;
+    viewId = Number(viewId);
 
-    if (viewId) {
-      // ID virtual view = 0
-      // no filter, no viewId
-      request = Number(viewId) == 0 ?
-        _.extend(request, sortParams) :
-        _.extend(request, { viewId }, sortParams);
+    if (viewId === 0) {
+      delete request.viewId;
     } else {
-      let filterParams = this.getFilterParams(catalogId);
-      request = _.extend(request, sortParams, filterParams);
+      _.extend(request, this.getFilterParams(catalogId));
     }
+
+    _.extend(request, sortParams);
 
     //limit of records
     request.limit = DEFAULTS.RECORDS_LIMIT;
@@ -61,7 +57,6 @@ const RequestRecordStore = Reflux.createStore({
   requestForExportRecords({ catalogId, viewId }, request = {}) {
     if (!catalogId)
       throw new Error('Undefined catalogId for request records!');
-
     let sortParams = this.getSortParams(catalogId);
     request.searchText = AppState.getSearchText(catalogId);
 

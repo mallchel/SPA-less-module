@@ -31,7 +31,6 @@ const CatalogsMenu = React.createClass({
   componentWillReceiveProps(nextProps) {
     if (this.props.sectionId !== nextProps.sectionId) {
       apiActions.getCatalogs({ sectionId: nextProps.sectionId });
-      this.saveToServer();
     }
   },
 
@@ -46,7 +45,7 @@ const CatalogsMenu = React.createClass({
 
   render() {
     const sectionId = this.props.sectionId;
-    const catalogs = this.props.catalogs.valueSeq().filter(c => c.get('sectionId') === sectionId).toList().sortBy(c => c.get('index'));
+    const catalogs = this.props.catalogs.valueSeq().filter(c => c.get('sectionId') === sectionId).sortBy(c => c.get('index'));
 
     return (
       <div>
@@ -58,6 +57,7 @@ const CatalogsMenu = React.createClass({
           className={styles.shiftLeft}
           canDrag={this.props.isAccessAdmin}
           onDragEnd={this.saveToServer}
+          dragType='catalog'
         />
       </div>
     );

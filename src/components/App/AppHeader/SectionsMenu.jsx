@@ -13,7 +13,7 @@ class SectionsMenu extends Component {
   }
   render() {
     const hasAdd = false;
-    const sections = this.props.sections.sortBy(s => s.get('name').toLowerCase()).valueSeq().map(s => s.remove('icon'));
+    const sections = this.props.sections.valueSeq().sortBy(s => s.get('name').toLowerCase()).map(s => s.remove('icon'));
 
     return (
       <div>
@@ -24,6 +24,9 @@ class SectionsMenu extends Component {
           items={sections}
           buttons={[hasAdd && { text: '', icon: '', onClick() { } }]}
           className={`${styles.shiftLeft} ${styles.menu}`}
+          dragType='section'
+          canDrag={false}
+          onDragEnd={()=>console.log('oggo')}
         />
       </div>
     )

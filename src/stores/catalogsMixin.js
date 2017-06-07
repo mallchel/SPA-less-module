@@ -5,7 +5,6 @@ import router from '../router';
 import CatalogFactory from '../models/CatalogFactory';
 import FieldFactory from '../models/FieldFactory';
 import RecordFactory from '../models/RecordFactory';
-import changeMapOrder from '../utils/changeMapOrder';
 import apiActions from '../actions/apiActions';
 import Immutable from 'immutable';
 
@@ -50,11 +49,6 @@ export default {
 
   checkCreateCatalogPrivilegeCompleted(granted) {
     this.set('createCatalogAllowed', granted || false);
-    this.changed();
-  },
-
-  setCatalogOrderCompleted({ catalogId, index }) {
-    this.set('catalogs', changeMapOrder(this.get('catalogs'), catalogId, index));
     this.changed();
   },
 

@@ -42,11 +42,11 @@ const Records = React.createClass({
 
   componentDidMount() {
     const viewId = this.props.viewId;
-    recordActions.requestForRecords(this.catalogId(), Number(viewId) === 0 ? {} : { viewId }); // todo +viewId.
+    recordActions.requestForRecords(this.catalogId(), { viewId });
   },
 
   catalogId(catalog = this.props.catalog) {
-    return catalog && catalog.get('id');
+    return catalog.get('id');
   },
 
   componentWillReceiveProps(nextProps) {
@@ -54,25 +54,16 @@ const Records = React.createClass({
     const viewId = this.props.viewId;
     const newViewId = nextProps.viewId;
     const catalogId = this.catalogId();
-    const newCatalogId = nextProps.catalogId;
+    const newCatalogId = nextProps.catalog.get('id');
 
-    if (newViewId && newViewId !== viewId) {
-      recordActions.requestForRecords(catalogId, Number(newViewId) === 0 ? {} : { viewId: newViewId });
-    }
-
-    if (newCatalogId && newCatalogId !== catalogId) {
-      recordActions.requestForRecords(newCatalogId, Number(newViewId) === 0 ? {} : { viewId: newViewId });
+    if ((newViewId !== viewId) || newCatalogId !== catalogId) {
+      recordActions.requestForRecords(newCatalogId, { viewId: newViewId });
     }
   },
 
   render() {
     const catalog = this.props.catalog;
     let dropdownItemsById;
-
-    if (!catalog) {
-      return
-    }
-
     const records = catalog.get('records');
     const catalogId = catalog.get('id');
 
@@ -114,7 +105,6 @@ const Records = React.createClass({
 
     // get sort info from user settings.
     // let sortingRecordSetting = UserSettingsStore.getSortingRecords({ catalogId });
-
     return (
       fieldsToRender && records
         ?

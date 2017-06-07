@@ -15,8 +15,8 @@ import historyActions from './actions/historyActions'
 import reportsActions from './actions/reports'
 import linkedRecordActions from './actions/linkedRecord'
 
-// import UserSettingsStore from './stores/UserSettingsStore';
-// import RequestRecordStore from './stores/RequestRecordStore'
+import './stores/UserSettingsStore'
+import './stores/RequestRecordStore'
 // import ModalStore from './stores/ModalStore';
 
 import { DEFAULT } from './configs/appModes'
