@@ -174,43 +174,10 @@ export default {
   deleteCatalogFailed(err, { catalogId }) {
   },
 
-  changeSortIndex(catalogId, sortIndex) {
-    this.setIn(['catalogs', catalogId, 'index'], sortIndex);
-    this.changed();
-  },
-
-  /**
-   * Change Map order
-   */
-  // changeMapOrder(collection, id, newIndex) {
-  //   let oldIndex = collection.getIn([id, 'index']);
-
-  //   collection = collection.map(c => {
-  //     let idx = c.get('index');
-  //     if (newIndex < oldIndex) {
-  //       if (idx >= newIndex && idx < oldIndex) {
-  //         c = c.set('index', idx + 1);
-  //       }
-  //     } else {
-  //       if (idx > oldIndex && idx <= newIndex) {
-  //         c = c.set('index', idx - 1);
-  //       }
-  //     }
-
-  //     return c;
-  //   });
-
-  //   collection = collection.setIn([id, 'index'], newIndex);
-
-  //   this.set('catalogMapOrder', collection);
-  //   this.changed();
-  // },
-  /**
-   * Save Map Order
-   */
-  saveMapOrder(order) {
-    console.log(order, this)
-    this.set('catalogMapOrder', order);
+  changeSortIndex(order) {
+    order.forEach((id, index) => {
+      this.setIn(['catalogs', id, 'index'], index);
+    })
     this.changed();
   },
 

@@ -13,13 +13,11 @@ import styles from './abstractMenu.less'
 
 const dragSource = DragSource(dndTargets.SIDEBAR_ITEM, {
   beginDrag(props) {
-    console.log(111)
     let item = { id: props.item.get('id') };
     dragAndDropActions.beginDrag(dndTargets.SIDEBAR_ITEM, item);
     return item;
   },
   endDrag(props) {
-    console.log(222)
     dragAndDropActions.endDrag();
     props.onDragEnd(props.item.get('id'));
   },
