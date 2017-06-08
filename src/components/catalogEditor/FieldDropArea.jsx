@@ -7,7 +7,6 @@ import { DropTarget } from 'react-dnd';
 import dndTargets from '../../configs/dndTargets';
 import editorActions from '../../actions/editorActions';
 import router from '../../router';
-const log = require('debug')('CRM:Component:FieldDropArea');
 
 const dropTarget = DropTarget([dndTargets.FIELD_TYPE, dndTargets.FIELD], {
   drop: function (props, monitor, component) {

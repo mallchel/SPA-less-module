@@ -48,7 +48,7 @@ const CatalogEditor = React.createClass({
     let dropType = this.props.dropType;
     let dropInfo = this.props.dropInfo;
     let disabled = catalog && (catalog.get('updating') || catalog.get('creating'));
-    console.log(this.props)
+
     return (
       <div className="catalog-editor">
         <div className="catalog-form" style={{ marginTop: !catalog ? '0px' : null }}>

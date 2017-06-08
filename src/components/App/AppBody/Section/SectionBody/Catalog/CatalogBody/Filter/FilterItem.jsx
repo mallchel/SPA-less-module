@@ -1,15 +1,18 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { EventEmitter } from 'events'
+import PropTypes from 'prop-types'
+
+import styles from './filter.less'
 
 const FilterItem = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    opened: React.PropTypes.bool.isRequired,
-    name: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
-    onDrop: React.PropTypes.func.isRequired,
-    eventHub: React.PropTypes.objectOf(EventEmitter)
+    opened: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    onDrop: PropTypes.func.isRequired,
+    eventHub: PropTypes.objectOf(EventEmitter)
   },
 
   getInitialState() {
@@ -34,32 +37,32 @@ const FilterItem = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     // shouldn't hide filter item.
-    if (nextProps.value !== this.props.value ) { // && !nextProps.currentView.get('isNew')
+    if (nextProps.value !== this.props.value) {
       this.setState({ opened: nextProps.opened });
     }
   },
 
   render() {
     let name = this.props.name;
-    let header = <div className="filter-item__header" onClick={this.onHeaderClick} title={name}>
-      <span className="filter-item__fieldName">{name}</span>
+    let header = <div className={styles.itemHeader} onClick={this.onHeaderClick} title={name}>
+      <span className={styles.itemFieldName}>{name}</span>
     </div>;
 
-    let control = <div className="filter-item__control">
-      <div className="filter-item__control-header">
-        <label onClick={this.onClickClose} title={name}>{name}</label>
+    let control = <div>
+      <div className={styles.controlHeader}>
+        <label className={styles.controlLabel} onClick={this.onClickClose} title={name}>{name}</label>
 
-        <div title="clear" className="filter-item__close" onClick={this.onClickClose}>
-          <span className="icon icon--interface-74"></span>
+        <div title="clear" className={styles.controlClose} onClick={this.onClickClose}>
+          <span className="anticon-icon interface-74"></span>
         </div>
       </div>
-      <div className="filter-item__control-cnt">
+      <div className={styles.controlBody}>
         {this.props.children}
       </div>
     </div>;
 
     return (
-      <div className={'filter-item filter-item--' + this.props.type}>
+      <div className={styles.item}>
         {!this.state.opened ? header : control}
       </div>
     );

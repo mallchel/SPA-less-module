@@ -3,6 +3,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
 import _ from 'lodash'
 import trs from '../../../../../../../../../getTranslations'
+import { Input } from 'antd'
+
+import styles from './controls.less'
 
 const NumberRangeField = React.createClass({
   mixins: [PureRenderMixin],
@@ -13,7 +16,7 @@ const NumberRangeField = React.createClass({
   },
 
   getInitialState() {
-    return {value: this.props.value}
+    return { value: this.props.value }
   },
 
   componentDidMount() {
@@ -25,7 +28,7 @@ const NumberRangeField = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({value: nextProps.value});
+    this.setState({ value: nextProps.value });
   },
 
   // refactor.
@@ -37,13 +40,13 @@ const NumberRangeField = React.createClass({
       if (isNaN(Number(value)) && (value != '-')) {
         let $value = this.state.value || Immutable.Map();
         value = $value.set(pref, $value.get(pref) || '');
-        this.setState({value});
+        this.setState({ value });
         return;
       }
     }
     let $value = this.state.value || Immutable.Map();
     value = $value.set(pref, value);
-    this.setState({value}, () => {
+    this.setState({ value }, () => {
       this.onSave(value.toJS());
     });
   },
@@ -58,26 +61,25 @@ const NumberRangeField = React.createClass({
     }
 
     return (
-      <div className="input-range">
-
-        <span className="record-number">
-          <input
-            type="text"
-            className="debounced-input debounced-input--empty"
+      <div>
+        <span>
+          <Input
+            className={styles.numberFieldInput}
+            size="small"
             value={startNum}
             placeholder={trs('fieldTypes.number.fromText')}
             onChange={(e) => this.onSaveFrom('at', e)}
-            />
+          />
         </span>
-
-        <span className="record-number">
-          <input
-            type="text"
-            className="debounced-input debounced-input--empty"
+        <span> — </span>
+        <span>
+          <Input
+            className={styles.numberFieldInput}
+            size="small"
             value={endNum}
             placeholder={trs('fieldTypes.number.toText')}
             onChange={(e) => this.onSaveFrom('to', e)}
-            />
+          />
         </span>
 
         <span>{this.props.config.get('unit')}</span>

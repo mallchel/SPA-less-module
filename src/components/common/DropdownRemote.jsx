@@ -1,40 +1,38 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Reflux from 'reflux';
-import Immutable from 'immutable';
-import _ from 'lodash';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import Reflux from 'reflux'
+import _ from 'lodash'
+import PropTypes from 'prop-types'
 
-import appState from '../../appState';
-import Dropdown from './Dropdown';
-import dropdownActions from '../../actions/dropdownActions';
+import appState from '../../appState'
+import Dropdown from './Dropdown'
+import dropdownActions from '../../actions/dropdownActions'
 
 const log = require('debug')('CRM:Component:DropdownRemote');
 
 const DropdownRemote = React.createClass({
   mixins: [PureRenderMixin, Reflux.listenTo(appState, 'onAppStateChange')],
   propTypes: {
-    sortBy: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.func,
-      React.PropTypes.string
+    sortBy: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.func,
+      PropTypes.string
     ]),
 
-    type: React.PropTypes.string.isRequired,
-    cacheTime: React.PropTypes.number,
-    searchable: React.PropTypes.bool,
-    additionalItems: React.PropTypes.array,
-    onLoadItems: React.PropTypes.func,
-    filterFn: React.PropTypes.func,
-    itemsMapper: React.PropTypes.func,
-    inMapper: React.PropTypes.func,
-    outMapper: React.PropTypes.func,
-    requestParams: React.PropTypes.object,
-    blockForceUpdateForEmpty: React.PropTypes.bool
+    type: PropTypes.string.isRequired,
+    cacheTime: PropTypes.number,
+    searchable: PropTypes.bool,
+    additionalItems: PropTypes.array,
+    onLoadItems: PropTypes.func,
+    filterFn: PropTypes.func,
+    itemsMapper: PropTypes.func,
+    inMapper: PropTypes.func,
+    outMapper: PropTypes.func,
+    requestParams: PropTypes.object,
+    blockForceUpdateForEmpty: PropTypes.bool
   },
   hasChanges: false,
   onAppStateChange(state) {
-    // log('set state dropdown remote ' + this.rootId);
-
     let items = state.getIn(['dropdownCollections', this.props.type, 'items']);
     items = items ? items.toJS() : [];
 
@@ -54,7 +52,7 @@ const DropdownRemote = React.createClass({
     let noEmptyRemoteItems = !(items.length === 0 && this.state.items.length > 0) ||
       !this.props.blockForceUpdateForEmpty;
     if (!_.isEqual(this.state.items, items) && noEmptyRemoteItems) {
-      this.setState({items});
+      this.setState({ items });
     }
   },
 
@@ -74,14 +72,14 @@ const DropdownRemote = React.createClass({
   onOpenChange(isOpen) {
     if (isOpen && !this.hasChanges) {
       //this.setState({items: []}); //Из за этого глючит выбор в связаном списке в настройках каталога
-      let params = _.extend({title: this.state.text}, this.props.requestParams);
+      let params = _.extend({ title: this.state.text }, this.props.requestParams);
       dropdownActions.loadDropdownItems(this.props.type, params);
       this.setState({
         loading: true
       });
     } else if (isOpen && this.hasChanges) {
-      this.setState({items: []});
-      let params = _.extend({title: this.state.text}, this.props.requestParams);
+      this.setState({ items: [] });
+      let params = _.extend({ title: this.state.text }, this.props.requestParams);
       dropdownActions.loadDropdownItems(this.props.type, params);
     } else if (!isOpen) {
       dropdownActions.clearDropdownItems(this.props.type);
@@ -92,7 +90,7 @@ const DropdownRemote = React.createClass({
     if (this.props.searchable) {
       this.hasChanges = true;
       this.setState({ text });
-      let params = _.extend({title: this.state.text}, this.props.requestParams);
+      let params = _.extend({ title: this.state.text }, this.props.requestParams);
       dropdownActions.loadDropdownItems(this.props.type, params);
     }
   },
@@ -110,8 +108,7 @@ const DropdownRemote = React.createClass({
     }
   },
 
-  onBlurDropdown()
-  {
+  onBlurDropdown() {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
@@ -134,9 +131,9 @@ const DropdownRemote = React.createClass({
 
     let sortBy = this.props.sortBy;
     items = _.uniq(items, 'key');
-    if ( sortBy === undefined || sortBy === true ) {
+    if (sortBy === undefined || sortBy === true) {
       items = _.sortBy(items, 'text');
-    } else if ( sortBy ) {
+    } else if (sortBy) {
       items = _.sortBy(items, sortBy);
     }
 
@@ -152,7 +149,7 @@ const DropdownRemote = React.createClass({
       onBlur={this.onBlurDropdown}
       placeholder={this.props.placeholder}
       onTextChange={onTextChange}
-      onOpenChange={this.onOpenChange}/>;
+      onOpenChange={this.onOpenChange} />;
   }
 });
 

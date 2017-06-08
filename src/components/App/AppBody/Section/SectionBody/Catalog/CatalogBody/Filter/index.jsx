@@ -5,6 +5,8 @@ import trs from '../../../../../../../../getTranslations'
 import getFilterComponent from './getFilterComponent'
 import FilterBody from './FilterBody'
 
+import styles from './filter.less'
+
 const Filter = React.createClass({
   // mixins: [PureRenderMixin],
 
@@ -51,9 +53,10 @@ const Filter = React.createClass({
     }
 
     return (
-      <div>
-        <div>
+      <div className={styles.container}>
+        <div className={styles.header}>
           {trs('filter.header')}
+          <hr size="1" noshade />
         </div>
         <FilterBody
           filters={filters}

@@ -2,12 +2,10 @@ import _ from 'lodash'
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { EventEmitter } from 'events'
-import debug from 'debug'
-// import AppState from '../../../../../../../../appState'
 import getFilterComponent from './getFilterComponent'
 import FilterItem from './FilterItem'
 
-const log = debug('CRM:store:FilterList');
+import styles from './filter.less'
 
 const FilterList = React.createClass({
   mixins: [PureRenderMixin],
@@ -69,7 +67,7 @@ const FilterList = React.createClass({
 
 
     return (
-      <div>
+      <div className={styles.body}>
         {filterFields}
       </div>
     );

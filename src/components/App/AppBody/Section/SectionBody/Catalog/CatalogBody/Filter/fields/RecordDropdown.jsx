@@ -1,24 +1,27 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import DropdownRemote from '../../../../../../../../common/DropdownRemote'
-import trs from '../../../../../../../../../getTranslations'
 import Immutable from 'immutable'
 import classnames from 'classnames'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import DropdownRemote from '../../../../../../../../common/DropdownRemote'
+import trs from '../../../../../../../../../getTranslations'
+
+import styles from './controls.less'
 
 const log = require('debug')('CRM:Component:Record:RemoteDropdown');
 
 const RecordDropdown = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    value: React.PropTypes.object,
-    config: React.PropTypes.object,
-    remoteGroup: React.PropTypes.string.isRequired,
-    onSave: React.PropTypes.func,
-    requestParams: React.PropTypes.object,
-    inMapper: React.PropTypes.func.isRequired,
-    outMapper: React.PropTypes.func.isRequired,
-    additionalItems: React.PropTypes.array
+    value: PropTypes.object,
+    config: PropTypes.object,
+    remoteGroup: PropTypes.string.isRequired,
+    onSave: PropTypes.func,
+    requestParams: PropTypes.object,
+    inMapper: PropTypes.func.isRequired,
+    outMapper: PropTypes.func.isRequired,
+    additionalItems: PropTypes.array
   },
 
   getInitialState() {
@@ -35,7 +38,7 @@ const RecordDropdown = React.createClass({
   onClickRemoveUser(keyName) {
     let index = (this.state.values.toJS() || [])
       .map(this.props.inMapper)
-      .findIndex((u)=> u.key === keyName);
+      .findIndex((u) => u.key === keyName);
 
     let newValues = this.state.values.delete(index);
 
@@ -69,7 +72,7 @@ const RecordDropdown = React.createClass({
     log('add', item);
     let values = (this.state.values.toJS() || []).map(this.props.inMapper);
 
-    if (!_.find(values, (it)=> it.key === item.key)) {
+    if (!_.find(values, (it) => it.key === item.key)) {
       let newValues;
       if (this.props.config.get('multiselect')) {
         newValues = this.state.values.push(Immutable.fromJS(this.props.outMapper(item)));
@@ -112,7 +115,7 @@ const RecordDropdown = React.createClass({
     let firstValueKey = firstValue && firstValue.get('id');
     let selectedKeys = {};
     let cx = classnames({
-      'record-user': true,
+      // 'record-user': true,
       'record-user--with-dropdown': this.state.dropdownVisible,
       'record-user--multiselect': multiselect
     });
@@ -125,15 +128,15 @@ const RecordDropdown = React.createClass({
 
     return (
       <div className={cx}>
-        <div className="record-user__items">
+        <div>
           {
-            this.state.values.toJS().map(this.props.inMapper).map(item=> {
+            this.state.values.toJS().map(this.props.inMapper).map(item => {
               selectedKeys[item.key] = true;
               return (
-                <span key={item.key} className="record-user__item">
-                  <span className={'icon icon--' + item.icon}/>
+                <span key={item.key}>
+                  <span className={'anticon-icon ' + item.icon} />
                   <span>{item.text}</span>
-                  <span className="m-close" onClick={()=> this.onClickRemoveUser(item.key)}/>
+                  <span onClick={() => this.onClickRemoveUser(item.key)} />
                 </span>
               );
             })
@@ -141,14 +144,14 @@ const RecordDropdown = React.createClass({
 
           {
             multiselect || !firstValue ?
-              <span className="record-user__item record-user__item--add">
-                <span className="icon icon--users-1"/>
+              <span style={this.state.dropdownVisible ? { display: 'none' } : null}>
+                <span className={classnames('anticon-icon users-1', styles.spanIcon)} />
                 <a href="javascript:void(0)" onClick={this.onClickAdd}>{trs('record.fields.user.addUser')}</a>
               </span> :
               null
           }
 
-          { this.state.dropdownVisible && ( multiselect || !firstValue) ?
+          {this.state.dropdownVisible && (multiselect || !firstValue) ?
             <DropdownRemote
               type={this.props.remoteGroup}
               itemsMapper={this.props.itemsMapper}
@@ -166,7 +169,7 @@ const RecordDropdown = React.createClass({
               onSelectItems={this.onSelectItems}
               sortBy={this.props.sortFn}
             /> :
-            null }
+            null}
         </div>
       </div>
     );

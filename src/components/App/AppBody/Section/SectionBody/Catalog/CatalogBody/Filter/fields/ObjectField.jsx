@@ -1,24 +1,22 @@
-import _ from 'lodash';
-
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import RecordDropdown from './RecordDropdown.jsx';
-import Immutable from 'immutable';
-
-const log = require('debug')('CRM:Component:Record:ObjectField');
+import _ from 'lodash'
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import Immutable from 'immutable'
+import PropTypes from 'prop-types'
+import RecordDropdown from './RecordDropdown.jsx'
 
 const ObjectField = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    value: React.PropTypes.object,
-    config: React.PropTypes.object,
-    fieldId: React.PropTypes.string.isRequired,
-    catalogId: React.PropTypes.string.isRequired,
-    onSave: React.PropTypes.func.isRequired
+    value: PropTypes.object,
+    config: PropTypes.object,
+    fieldId: PropTypes.string.isRequired,
+    catalogId: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired
   },
 
   inMapper(item) {
-    if ( item.toJS ) {
+    if (item.toJS) {
       item = item.toJS();
     }
     return {
@@ -29,7 +27,7 @@ const ObjectField = React.createClass({
     };
   },
 
-  outMapper({key, text, item}) {
+  outMapper({ key, text, item }) {
     let d = key.split(':');
     return {
       recordId: d[0],
@@ -39,7 +37,7 @@ const ObjectField = React.createClass({
     };
   },
 
-  filterMapper({key}) {
+  filterMapper({ key }) {
     let d = key.split(':');
     return {
       recordId: d[0],
@@ -57,13 +55,13 @@ const ObjectField = React.createClass({
   },
 
   sortFn(items) {
-    if ( _.isArray(items) ) {
+    if (_.isArray(items)) {
       let orderedItems = _.sortBy(items, 'recordTitle');
       let dynamicItems = [];
       let otherItems = [];
 
-      items.forEach(item=> {
-        if ( item.catalogId === "USER_FIELD" ) {
+      items.forEach(item => {
+        if (item.catalogId === "USER_FIELD") {
           dynamicItems.push(item);
         } else {
           otherItems.push(item);
@@ -85,15 +83,15 @@ const ObjectField = React.createClass({
 
     return (
       <RecordDropdown
-          remoteGroup="linkedObjectsWithFilters"
-          requestParams={{fieldId: this.props.fieldId, catalogId: this.props.catalogId}}
-          {...this.props}
-          config={config}
-          inMapper={this.inMapper}
-          outMapper={this.outMapper}
-          itemsMapper={this.itemsMapper}
-          filterMapper={this.filterMapper}
-          sortFn={this.sortFn}
+        remoteGroup="linkedObjectsWithFilters"
+        requestParams={{ fieldId: this.props.fieldId, catalogId: this.props.catalogId }}
+        {...this.props}
+        config={config}
+        inMapper={this.inMapper}
+        outMapper={this.outMapper}
+        itemsMapper={this.itemsMapper}
+        filterMapper={this.filterMapper}
+        sortFn={this.sortFn}
       />
     );
   }
