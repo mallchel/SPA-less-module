@@ -61,7 +61,7 @@ const CatalogsMenu = React.createClass({
         }
       }
       if (chain > 0) {
-        return item.set('name', <div>{newname.map((t, i) => <span key={i}>{t}<br /></span>)}</div>);
+        return item.set('name', newname.map((item, i) => <span key={i}>{item}<br /></span>));
       }
       return item;
     });
