@@ -9,6 +9,8 @@ import Immutable from 'immutable'
 import MenuItem from './MenuItem'
 import dndContext from '../../../../services/dndContext'
 
+import styles from './abstractMenu.less'
+
 const EmptyList = Immutable.List()
 
 class AbstractMenu extends Component {
@@ -19,7 +21,7 @@ class AbstractMenu extends Component {
 
   state = {
     order: this.props.items,
-    index: -1
+    dropdownMenuItems: EmptyList
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,15 +50,17 @@ class AbstractMenu extends Component {
     const childrens = _.toArray(this.ul.children);
     const firstChild = childrens[0];
     if (firstChild) {
-      const topFirst = childrens[0].getBoundingClientRect().top;
+      const topFirst = firstChild.getBoundingClientRect().top;
       const index = childrens.findIndex(el => el.getBoundingClientRect().top > topFirst);
+      const newArr = index > -1 ? this.state.order.slice(index) : EmptyList;
       this.setState({
-        index: index
+        dropdownMenuItems: newArr
+      })
+    } else {
+      this.setState({
+        dropdownMenuItems: EmptyList
       })
     }
-    this.setState({
-      index: -1
-    })
   }
 
   render() {
@@ -68,40 +72,42 @@ class AbstractMenu extends Component {
       dragType,
       params,
       canDrag } = this.props;
-    const { order, index } = this.state;
+    const { order, dropdownMenuItems } = this.state;
     const items = order;
 
     return (
-      <Row type="flex" justify="space-between" align="middle" className={cn(className)}>
-        <ul className={cn(horizontal.menu)} ref={node => this.ul = node}>
-          {
-            items.map((item, i) => (
-              <MenuItem
-                key={item.get('id')}
-                item={item}
-                dragType={dragType}
-                onDragEnd={this.onDragEnd}
-                onMoveItem={this.onMoveItem}
-                horizontal={horizontal}
-                route={route}
-                params={params}
-                canDrag={canDrag}
-              />
-            ))
-          }
-        </ul>
-        <div>
-          <OverlayDropdown
-            items={index > -1 ? items.slice(index) : EmptyList}
-            route={route}
-            params={params}
-            dragType={dragType}
-            vertical={vertical}
-            onDragEnd={this.onDragEnd}
-            onMoveItem={this.onMoveItem}
-            canDrag={canDrag}
-            onVisibleChange={this.countVisibleChildrens}
-          />
+      <Row type="flex" justify="space-between" align="middle" className={cn(styles.container, className)}>
+        <div className={styles.wrapper}>
+          <ul className={cn(horizontal.menu)} ref={node => this.ul = node}>
+            {
+              items.map((item, i) => (
+                <MenuItem
+                  key={item.get('id')}
+                  item={item}
+                  dragType={dragType}
+                  onDragEnd={this.onDragEnd}
+                  onMoveItem={this.onMoveItem}
+                  horizontal={horizontal}
+                  route={route}
+                  params={params}
+                  canDrag={canDrag}
+                />
+              ))
+            }
+          </ul>
+          <div className={styles.overlayDropdown}>
+            <OverlayDropdown
+              items={dropdownMenuItems}
+              route={route}
+              params={params}
+              dragType={dragType}
+              vertical={vertical}
+              onDragEnd={this.onDragEnd}
+              onMoveItem={this.onMoveItem}
+              canDrag={canDrag}
+              onVisibleChange={this.countVisibleChildrens}
+            />
+          </div>
         </div>
       </Row>
     )

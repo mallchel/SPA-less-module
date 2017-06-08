@@ -45,7 +45,26 @@ const CatalogsMenu = React.createClass({
 
   render() {
     const sectionId = this.props.sectionId;
-    const catalogs = this.props.catalogs.valueSeq().filter(c => c.get('sectionId') === sectionId).sortBy(c => c.get('index'));
+    const catalogs = this.props.catalogs.valueSeq().filter(c => c.get('sectionId') === sectionId).sortBy(c => c.get('index')).map(item => {
+      let name = item.get('name');
+      let newname = [];
+      let chain = 0;
+      let nonSpaceChar = 0;
+      for (let i = 0; i < name.length; i++) {
+        if (name[i] === ' ' && nonSpaceChar >= 6) {
+          chain++;
+          nonSpaceChar = 0;
+        } else {
+          if (!newname[chain]) { newname[chain] = ''; }
+          newname[chain] += name[i];
+          nonSpaceChar++;
+        }
+      }
+      if (chain > 0) {
+        return item.set('name', <div>{newname.map((t, i) => <span key={i}>{t}<br /></span>)}</div>);
+      }
+      return item;
+    });
 
     return (
       <div>
