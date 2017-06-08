@@ -43,13 +43,15 @@ const ViewsMenuItem = React.createClass({
     return (
       <StateLink route={routes.view} params={{ viewId: view.get('id') }} render={props => {
         return (
-          <li className={cn('ant-menu-item', { 'ant-menu-item-selected': props.isActive }, styles.menuItem)}>
+          <li className={cn(styles.menuItem)}>
             {
               isNew ? <StateRedirect route={routes.view} params={{ viewId: view.get('id') }} /> : null
             }
-            <Link to={props.link}>
-              {name}
-            </Link>
+            <div className={cn('ant-menu-item', { 'ant-menu-item-selected': props.isActive }, styles.itemDiv)}>
+              <Link to={props.link}>
+                {name}
+              </Link>
+            </div>
             {
               (!filtersChanged && props.isActive && !(Number(view.get('id')) === 0)) &&
               <Route render={props => {
