@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import _ from 'lodash'
 import classnames from 'classnames'
+import { Input } from 'antd'
+import PropTypes from 'prop-types'
 
 import KEYS from '../../configs/keys'
 import InputFocusMixin from '../mixins/InputFocusMixin'
@@ -20,19 +22,19 @@ const DebouncedInput = React.createClass({
     })
   ],
   propTypes: {
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
     ]),
-    type: React.PropTypes.string,
-    onSave: React.PropTypes.func.isRequired,
-    onKeyDown: React.PropTypes.func,
-    wrapperClassName: React.PropTypes.string,
-    className: React.PropTypes.string,
-    multiline: React.PropTypes.bool,
-    disableDebounce: React.PropTypes.bool,
-    readOnly: React.PropTypes.bool,
-    error: React.PropTypes.string
+    type: PropTypes.string,
+    onSave: PropTypes.func.isRequired,
+    onKeyDown: PropTypes.func,
+    wrapperClassName: PropTypes.string,
+    className: PropTypes.string,
+    multiline: PropTypes.bool,
+    disableDebounce: PropTypes.bool,
+    readOnly: PropTypes.bool,
+    error: PropTypes.string
   },
 
   getInitialState() {
@@ -59,7 +61,7 @@ const DebouncedInput = React.createClass({
     if (this.props.disableDebounce) {
       this.save(val);
     } else {
-      this._saveTimer = setTimeout(()=> {
+      this._saveTimer = setTimeout(() => {
         this.save();
       }, 200);
     }
@@ -167,11 +169,11 @@ const DebouncedInput = React.createClass({
   render() {
     let props = {
       ...this.props,
-      className: classnames(this.props.className, 'debounced-input', {
-        'debounced-input--empty': _.isNull(this.state.value),
-        'debounced-input--number': (this.props.type == 'number'),
-        'debounced-input--inline': !this.props.multiline
-      }),
+      className: classnames(this.props.className), //'debounced-input', {
+      // 'debounced-input--empty': _.isNull(this.state.value),
+      // 'debounced-input--number': (this.props.type == 'number'),
+      // 'debounced-input--inline': !this.props.multiline
+      // }),
       type: this.props.type || 'text',
       value: this.state.value,
       onBlur: this.onBlur,
@@ -188,7 +190,8 @@ const DebouncedInput = React.createClass({
           <textarea ref="textArea" {...props} />
         </div>
       ) :
-      <input ref="input" step="any" {...props} />;
+      // <input ref="input" step="any" {...props} />;
+      <Input ref="input" {...props} />
   }
 });
 

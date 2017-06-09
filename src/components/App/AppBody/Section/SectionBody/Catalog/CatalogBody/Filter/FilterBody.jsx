@@ -67,7 +67,7 @@ const FilterList = React.createClass({
 
 
     return (
-      <div className={styles.body}>
+      <div>
         {filterFields}
       </div>
     );

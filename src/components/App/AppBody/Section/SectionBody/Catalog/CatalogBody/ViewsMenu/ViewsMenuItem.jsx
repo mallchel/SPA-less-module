@@ -25,7 +25,7 @@ const ViewsMenuItem = React.createClass({
 
   onModalNewView() {
     // implement:
-    let accessOnViewForRights = checkAccessOnObject(RESOURCE_TYPES.CATALOG,
+    const accessOnViewForRights = checkAccessOnObject(RESOURCE_TYPES.CATALOG,
       this.props.catalog,
       PRIVILEGE_CODES.ACCESS);
     modalsActions.openViewInputModal(this.props.catalog.get('id'), accessOnViewForRights);

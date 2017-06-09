@@ -14,7 +14,7 @@ const ViewInputModal = React.createClass({
     rights: React.PropTypes.bool,
     onOk: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func,
-    closeModal: React.PropTypes.func,
+    // closeModal: React.PropTypes.func,
     saveText: React.PropTypes.string,
     disabledChangeType: React.PropTypes.bool
   },
@@ -49,7 +49,7 @@ const ViewInputModal = React.createClass({
   },
 
   componentDidMount() {
-    let el = ReactDOM.findDOMNode(this.input);
+    const el = ReactDOM.findDOMNode(this.input);
     el.focus();
     el.setSelectionRange(0, el.value.length);
   },
@@ -117,7 +117,7 @@ const ViewInputModal = React.createClass({
                 name="name"
                 required="required"
                 value={this.state.name}
-                ref="input"
+                ref={node => this.input = node}
                 onChange={this.onChange} />
             </label>
           </div>
@@ -130,7 +130,7 @@ const ViewInputModal = React.createClass({
         maskClosable={false}
         closable={false}
         footer={[
-          <Button key="submit" type="primary" size="large" onClick={this.onSave}>{trs('buttons.save')}</Button>,
+          <Button key="submit" type="primary" size="large" disabled={!this.isValid()} onClick={this.onSave}>{saveButton}</Button>,
           <Button key="back" type="default" size="large" onClick={this.props.onCancel}>{trs('buttons.cancel')}</Button>,
         ]}
         width='60%'
@@ -173,13 +173,13 @@ const ViewInputModal = React.createClass({
               </form>
             </div>
           </div>
-          <footer className="modal-window__footer">
+          {/*<footer className="modal-window__footer">
             <button disabled={!this.isValid()} className="btn"
               onClick={this.onSave}>
               {saveButton}
             </button>
             <a className="m-like-button" onClick={this.props.dismissModal}>{trs('buttons.cancel')}</a>
-          </footer>
+          </footer>*/}
         </div>
       </Modal>
     );

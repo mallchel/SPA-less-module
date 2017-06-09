@@ -28,7 +28,7 @@ export function renderModaltoBody(Component, props) {
   }
 
   // const destroyFn = renderComponentToBody(Component, { ...props, onOk, onCancel, visible: true });
-  const destroyFn = renderComponentToBody(MemoryRouter, { children: <Component visible {...props} {...{ onOk, onCancel }} /> });
+  const destroyFn = renderComponentToBody(MemoryRouter, { children: <Component visible {...props} onOk={onOk} onCancel={onCancel} /> });
 }
 
 

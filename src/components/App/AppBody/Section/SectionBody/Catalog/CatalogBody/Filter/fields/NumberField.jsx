@@ -61,21 +61,19 @@ const NumberRangeField = React.createClass({
     }
 
     return (
-      <div>
-        <span>
+      <div className={styles.item}>
+        <span className={styles.rangeInput}>
           <Input
-            className={styles.numberFieldInput}
-            size="small"
+            size="default"
             value={startNum}
             placeholder={trs('fieldTypes.number.fromText')}
             onChange={(e) => this.onSaveFrom('at', e)}
           />
         </span>
-        <span> — </span>
-        <span>
+        <span className={styles.spanDash}>—</span>
+        <span className={styles.rangeInput}>
           <Input
-            className={styles.numberFieldInput}
-            size="small"
+            size="default"
             value={endNum}
             placeholder={trs('fieldTypes.number.toText')}
             onChange={(e) => this.onSaveFrom('to', e)}

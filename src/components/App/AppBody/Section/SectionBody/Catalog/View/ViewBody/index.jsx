@@ -13,9 +13,6 @@ class ViewBody extends Component {
   }
   render() {
     let viewId = this.props.viewId;
-    if (viewId == '$new') {
-      viewId = '0';
-    }
     const catalog = this.props.catalog;
 
     return (

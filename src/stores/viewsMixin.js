@@ -92,25 +92,25 @@ export default {
     // fast change views.
     // this.setIn(['route, params', 'viewId'], viewId);
 
-    switch (this.getIn(['routeParams', 'tabId'])) {
-      case 'records':
-        setTimeout(function () {
-          recordActions.requestForRecords(catalogId, Number(viewId) === 0 ? {} : { viewId });
-        });
-        break;
-      case 'history':
-        historyActions.clearHistory(catalogId);
-        historyActions.loadHistory(catalogId, null, Number(viewId) === 0 ? {} : { viewId });
-        break;
-      case 'reports':
-        break;
-      default:
-        break;
-    }
+    // switch (this.getIn(['routeParams', 'tabId'])) {
+    //   case 'records':
+    //     setTimeout(function () {
+    //       recordActions.requestForRecords(catalogId, Number(viewId) === 0 ? {} : { viewId });
+    //     });
+    //     break;
+    //   case 'history':
+    //     historyActions.clearHistory(catalogId);
+    //     historyActions.loadHistory(catalogId, null, Number(viewId) === 0 ? {} : { viewId });
+    //     break;
+    //   case 'reports':
+    //     break;
+    //   default:
+    //     break;
+    // }
 
     // router.go(null, { viewId, catalogId });
 
-    this.changed();
+    // this.changed();
   },
 
   createViewCompleted(res, params, data) {

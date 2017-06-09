@@ -1,13 +1,81 @@
+@import '../../../../../../../../../styles/helpers/index.less';
+
+/*
+ Common
+*/
+
+.rangeInput {
+  // max-width: 95px;
+  // display: inline-block;
+  flex-grow: 1;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.spanDash {
+  display: inline-block;
+  margin-left: @PADDING_BASE / 2;
+  margin-right: @PADDING_BASE / 2;
+}
+
+
 /*
   Number Field
 */
-.numberFieldInput {
-  max-width: 95px;
-}
+
 
 /*
   Record Dropdown
 */
+
+.baseSpan {
+  cursor: pointer;
+  color: @TEXT_EXTRA;
+  &:hover {
+    color: @TEXT_EXTRA_HOVER;
+  }
+}
+
 .spanIcon {
   margin-right: 4px;
 }
+
+.spanClose {
+  .baseSpan;
+  margin-left: @PADDING_BASE;
+  margin-right: @PADDING_BASE;
+  font-size: 1.2em;
+}
+
+.spanChoose {
+  .baseSpan;
+  display: block;
+  padding: 3px 1px;
+}
+
+.spanChooseText {
+  border-bottom: 1px solid fade(@TEXT_SUB, 20%);
+}
+
+.selectedItems {
+  display: flex;
+  align-items: center;
+  padding: 3px 1px;
+  max-height: 1
+}
+
+.selectedItemsText {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 1em;
+  line-height: 1em;
+}
+
+
+/*
+  Date Field
+*/

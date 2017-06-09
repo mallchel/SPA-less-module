@@ -31,17 +31,14 @@ const RequestRecordStore = Reflux.createStore({
     if (!catalogId) {
       throw new Error('Undefined catalogId for request records!');
     }
-
     let sortParams = this.getSortParams(catalogId);
     request.searchText = AppState.getSearchText(catalogId);
 
     let { viewId = 0 } = request;
-    viewId = Number(viewId);
 
-    if (viewId === 0) {
+    if (AppState.getIn(['catalogs', catalogId, 'views', viewId, 'filtersChanged']) || Number(viewId) === 0 || viewId === '$new') {
       delete request.viewId;
-    } else {
-      _.extend(request, this.getFilterParams(catalogId));
+      _.extend(request, this.getFilterParams(catalogId, viewId));
     }
 
     _.extend(request, sortParams);
@@ -54,22 +51,18 @@ const RequestRecordStore = Reflux.createStore({
   },
 
 
-  requestForExportRecords({ catalogId, viewId }, request = {}) {
+  requestForExportRecords({ catalogId, viewId = 0 }, request = {}) {
     if (!catalogId)
       throw new Error('Undefined catalogId for request records!');
     let sortParams = this.getSortParams(catalogId);
     request.searchText = AppState.getSearchText(catalogId);
 
-    if (viewId) {
-      // ID virtual view = 0
-      // no filter, no viewId
-      request = Number(viewId) == 0 ?
-        _.extend(request, sortParams) :
-        _.extend(request, { viewId }, sortParams);
-    } else {
-      let filterParams = this.getFilterParams(catalogId);
-      request = _.extend(request, sortParams, filterParams);
+    if (AppState.getIn(['catalogs', catalogId, 'views', viewId, 'filtersChanged']) || Number(viewId) === 0 || viewId === '$new') {
+      delete request.viewId;
+      _.extend(request, this.getFilterParams(catalogId, viewId));
     }
+
+    _.extend(request, sortParams);
 
     //limit of records
     request.limit = DEFAULTS.RECORDS_LIMIT;
@@ -97,8 +90,8 @@ const RequestRecordStore = Reflux.createStore({
   /**
    * @private
    */
-  getFilterParams(catalogId) {
-    let filters = AppState.getFiltersForRequest({ catalogId });
+  getFilterParams(catalogId, viewId) {
+    let filters = AppState.getFiltersForRequest({ catalogId, viewId });
     return {
       filters /*FiltersStore.getFiltersForRequest(catalogId)*/
     };

@@ -10,12 +10,15 @@ export default {
    *
    * @returns ['catalogs', '{catalogId}', 'filters', 'fields', '{fieldId}']
    */
-  getViewFilterPath({ catalogId, viewId, fieldId}) {
-
-    if ( Number(viewId) === 0 ) {
+  getViewFilterPath({ catalogId, viewId, fieldId }) {
+    if (Number(viewId) === 0) {
       viewId = "$new";
     }
     return ['catalogs', catalogId, 'views', viewId, 'filters', fieldId];
+  },
+
+  getViewFiltersPath({ catalogId, viewId }) {
+    return ['catalogs', catalogId, 'views', viewId, 'filters'];
   },
 
   // getCatalogFieldPath(path, catalogId) {
@@ -61,7 +64,7 @@ export default {
     let result = [];
     for (let key in filters) {
       if (filters.hasOwnProperty(key)) {
-        let value = filters[key];
+        let value = filters[key].value;
 
         let fieldFromCatalog = fields.find(f => f.get('id') == key);
         if (!fieldFromCatalog) {

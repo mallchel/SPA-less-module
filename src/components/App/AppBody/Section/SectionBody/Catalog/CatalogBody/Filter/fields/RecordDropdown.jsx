@@ -133,10 +133,10 @@ const RecordDropdown = React.createClass({
             this.state.values.toJS().map(this.props.inMapper).map(item => {
               selectedKeys[item.key] = true;
               return (
-                <span key={item.key}>
-                  <span className={'anticon-icon ' + item.icon} />
-                  <span>{item.text}</span>
-                  <span onClick={() => this.onClickRemoveUser(item.key)} />
+                <span key={item.key} className={styles.selectedItems} >
+                  <span className={classnames('anticon-icon ' + item.icon, styles.spanIcon)} />
+                  <span className={styles.selectedItemsText}>{item.text}</span>
+                  <span className={classnames('anticon-icon interface-74', styles.spanClose)} onClick={() => this.onClickRemoveUser(item.key)} />
                 </span>
               );
             })
@@ -144,9 +144,10 @@ const RecordDropdown = React.createClass({
 
           {
             multiselect || !firstValue ?
-              <span style={this.state.dropdownVisible ? { display: 'none' } : null}>
-                <span className={classnames('anticon-icon users-1', styles.spanIcon)} />
-                <a href="javascript:void(0)" onClick={this.onClickAdd}>{trs('record.fields.user.addUser')}</a>
+              <span onClick={this.onClickAdd} className={styles.spanChoose} style={this.state.dropdownVisible ? { display: 'none' } : null}>
+                <span className={classnames('anticon-icon edition-25', styles.spanIcon)} />
+                {/*<a className={styles.linkChoose} href="javascript:void(0)" >{trs('record.fields.user.addUser')}</a>*/}
+                <span className={styles.spanChooseText}>{trs('record.fields.user.addUser')}</span>
               </span> :
               null
           }

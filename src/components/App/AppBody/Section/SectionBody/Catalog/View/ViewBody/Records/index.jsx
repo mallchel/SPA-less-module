@@ -55,8 +55,10 @@ const Records = React.createClass({
     const newViewId = nextProps.viewId;
     const catalogId = this.catalogId();
     const newCatalogId = nextProps.catalog.get('id');
+    const filters = this.props.catalog.getIn(['views', viewId, 'filters']);
+    const newFilters = nextProps.catalog.getIn(['views', newViewId, 'filters']);
 
-    if ((newViewId !== viewId) || newCatalogId !== catalogId) {
+    if ((newViewId !== viewId) || newCatalogId !== catalogId || !_.isEqual(newFilters, filters)) {
       recordActions.requestForRecords(newCatalogId, { viewId: newViewId });
     }
   },

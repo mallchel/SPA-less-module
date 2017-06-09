@@ -1,23 +1,23 @@
 import _ from 'lodash'
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import ReactDOM from 'react-dom'
 import moment from 'moment'
-import $ from 'jquery'
 import Immutable from 'immutable'
+import { DatePicker, Select } from 'antd'
 
 import trs from '../../../../../../../../../getTranslations'
 import AppState from '../../../../../../../../../appState'
-
 import DebouncedInput from '../../../../../../../../common/DebouncedInput'
 
-const log = require('debug')('CRM:Component:Filter:DateField');
+import styles from './controls.less'
+
 const MOMENT_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
 const MOMENT_TIME_FORMAT = 'HH:mm';
 const MOMENT_DATE_FORMAT = 'DD.MM.YYYY';
 const DAY = 'day';
+const { Option } = Select;
 
-const DateField = React.createClass({
+/*const DateField = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     value: React.PropTypes.oneOfType([
@@ -56,7 +56,7 @@ const DateField = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value &&
-      ( !this.props.value || moment(new Date(this.props.value)).format(MOMENT_FORMAT) === this.state.value )) {
+      (!this.props.value || moment(new Date(this.props.value)).format(MOMENT_FORMAT) === this.state.value)) {
       this.setState({
         value: nextProps.value || ''
       });
@@ -67,9 +67,9 @@ const DateField = React.createClass({
   componentDidMount() {
     let dateEl = $(ReactDOM.findDOMNode(this.refs.date));
 
-    dateEl.datepicker({format: 'dd.mm.yyyy'});
+    dateEl.datepicker({ format: 'dd.mm.yyyy' });
 
-    dateEl.on('change changeDate', (e)=> {
+    dateEl.on('change changeDate', (e) => {
       let val = dateEl.val().trim();
 
       if (!_.isEmpty(val)) {
@@ -82,7 +82,7 @@ const DateField = React.createClass({
           });
         } else {
           // log('date invalid');
-          setTimeout(()=> {
+          setTimeout(() => {
             if (this.state.value) {
               dateEl.datepicker('setValue', new Date(this.state.value));
             }
@@ -135,11 +135,11 @@ const DateField = React.createClass({
   render() {
     return (
       <span className={'record-date' + (!this.state.value ? ' record-date--empty' : '')}>
-        <input className="record-date__date" ref="date" type="text" placeholder={this.props.placeholder}/>
+        <input className="record-date__date" ref="date" type="text" placeholder={this.props.placeholder} />
       </span>
     );
   }
-});
+});*/
 
 const FIXED = 'fixed';
 const RELATIVE = 'relative';
@@ -203,7 +203,6 @@ const DateRangeField = React.createClass({
     value = _.isEmpty(value) ? null : value;
 
     this.currentValue = value;
-
     this.props.onSave(this.props.fieldId, value);
   },
 
@@ -211,12 +210,12 @@ const DateRangeField = React.createClass({
     let keyRange = e.target.value;
     let saveValue = keyRange;
 
-    if ([FIXED, RELATIVE].indexOf(keyRange) > -1){
+    if ([FIXED, RELATIVE].indexOf(keyRange) > -1) {
       saveValue = null;
     }
 
     this.props.onSave(this.props.fieldId, this.currentValue = saveValue);
-    this.setState({keyRange});
+    this.setState({ keyRange });
   },
 
   render() {
@@ -247,39 +246,50 @@ const DateRangeField = React.createClass({
           <select value={this.state.keyRange} onChange={this.onSelectRange}>
             {selectItems.map((it, i) => <option key={i} value={it.key}>{it.value}</option>)}
           </select>
+          <Select value={this.state.keyRange} onChange={this.onSelectRange}>
+            {selectItems.map((it, i) => <Option key={i} value={it.key}>{it.value}</Option>)}
+          </Select>
         </div>
 
-        { (this.state.keyRange === FIXED) ?
-          <div className="input-range filter-date__item">
-            <DateField
-              value={startDate}
-              onSave={(value)=> this.onSave({at: value && moment(value).startOf(DAY).format(MOMENT_FORMAT)})}
-              placeholder={trs('fieldTypes.date.fromText')}/>
-            <DateField
-              value={endDate}
-              onSave={(value)=> this.onSave({to: value && moment(value).endOf(DAY).format(MOMENT_FORMAT)})}
-              placeholder={trs('fieldTypes.date.toText')}/>
+        {(this.state.keyRange === FIXED) ?
+          <div className={styles.item}>
+            <span className={styles.rangeInput}>
+              <DatePicker
+                value={startDate ? moment(startDate) : null}
+                format={MOMENT_DATE_FORMAT}
+                onChange={(value) => this.onSave({ at: value && moment(value).startOf(DAY).format(MOMENT_FORMAT) })}
+                placeholder={trs('fieldTypes.date.fromText')}
+              />
+            </span>
+            <span className={styles.spanDash}>—</span>
+            <span className={styles.rangeInput}>
+              <DatePicker
+                value={endDate ? moment(endDate) : null}
+                format={MOMENT_DATE_FORMAT}
+                onChange={(value) => this.onSave({ to: value && moment(value).endOf(DAY).format(MOMENT_FORMAT) })}
+                placeholder={trs('fieldTypes.date.toText')}
+              />
+            </span>
           </div>
           : null
         }
-        { (this.state.keyRange === RELATIVE) ?
-          <div className="input-range filter-date__item">
-            <span>
+        {(this.state.keyRange === RELATIVE) ?
+          <div className={styles.item}>
+            <span className={styles.rangeInput}>
               <DebouncedInput
                 type="number"
-                className="record-date__date"
                 value={startDate}
-                onSave={(value) => {this.onSave({at: value})}}
-                placeholder={trs('fieldTypes.date.fromRelativeText')}/>
+                onSave={(value) => { this.onSave({ at: value }) }}
+                placeholder={trs('fieldTypes.date.fromRelativeText')} />
             </span>
-            <span>
+            <span className={styles.spanDash}>—</span>
+            <span className={styles.rangeInput}>
               <DebouncedInput
                 type="number"
-                className="record-date__date"
                 value={endDate}
-                onSave={(value) => {this.onSave({to: value})}}
-                placeholder={trs('fieldTypes.date.toRelativeText')}/>
-              </span>
+                onSave={(value) => { this.onSave({ to: value }) }}
+                placeholder={trs('fieldTypes.date.toRelativeText')} />
+            </span>
           </div>
           : null
         }

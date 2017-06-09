@@ -63,16 +63,12 @@ export default {
   //   }
   // },
 
-  getCatalogFilters({ catalogId }) {
-    if (this.getIn(['catalogs', catalogId, 'filters'])) {
-      return this.getIn(filtersUtil.getCatalogFields());
-    } else {
-      return Immutable.List();
-    }
+  getCatalogFilters({ catalogId, viewId }) {
+    return this.getIn([...filtersUtil.getViewFiltersPath({ catalogId, viewId })]) || Immutable.List();
   },
 
-  getFiltersForRequest({ catalogId }) {
-    let catalogFilters = this.getCatalogFilters({ catalogId });
+  getFiltersForRequest({ catalogId, viewId }) {
+    let catalogFilters = this.getCatalogFilters({ catalogId, viewId });
     if (catalogFilters) {
       catalogFilters = catalogFilters.toJS();
       return filtersUtil.getFiltersForRequest(catalogFilters, this.getIn(['catalogs', catalogId, 'fields']));

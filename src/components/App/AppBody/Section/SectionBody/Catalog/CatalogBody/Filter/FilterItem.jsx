@@ -2,6 +2,8 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { EventEmitter } from 'events'
 import PropTypes from 'prop-types'
+import { Icon } from 'antd'
+import ButtonTransparent from '../../../../../../../common/elements/ButtonTransparent'
 
 import styles from './filter.less'
 
@@ -51,11 +53,14 @@ const FilterItem = React.createClass({
     let control = <div>
       <div className={styles.controlHeader}>
         <label className={styles.controlLabel} onClick={this.onClickClose} title={name}>{name}</label>
-
-        <div title="clear" className={styles.controlClose} onClick={this.onClickClose}>
-          <span className="anticon-icon interface-74"></span>
-        </div>
+        <ButtonTransparent
+          className={styles.controlClose}
+          onClick={this.onClickClose}
+        >
+        <Icon className={styles.controlCloseIcon} type="icon interface-74" />
+        </ButtonTransparent>
       </div>
+
       <div className={styles.controlBody}>
         {this.props.children}
       </div>

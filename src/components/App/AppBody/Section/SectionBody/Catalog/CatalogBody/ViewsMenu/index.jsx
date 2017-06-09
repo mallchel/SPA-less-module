@@ -43,7 +43,7 @@ const ViewsMenu = React.createClass({
     const firstView = viewsList.get(0);
 
     return (
-      <div>
+      <div className={styles.container}>
         <DefaultRedirect route={routes.view} params='viewId' object={firstView} />
         {
           <NavRoute route={routes.view}>

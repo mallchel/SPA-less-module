@@ -56,7 +56,6 @@ const Filter = React.createClass({
       <div className={styles.container}>
         <div className={styles.header}>
           {trs('filter.header')}
-          <hr size="1" noshade />
         </div>
         <FilterBody
           filters={filters}

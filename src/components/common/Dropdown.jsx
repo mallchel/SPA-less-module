@@ -1,7 +1,7 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
-import classNames from 'classnames'
+import cn from 'classnames'
 import $ from "jquery"
 import PropTypes from 'prop-types'
 import { Input } from 'antd'
@@ -11,11 +11,11 @@ import _ from 'lodash'
 import KEYS from '../../configs/keys'
 import LoadingSpinner from '../common/LoadingSpinner'
 
-import styles from './commonControls.less'
+import styles from './dropdown.less'
 
 const log = require('debug')('CRM:Component:Dropdown');
 
-const CURRENT_ITEM_CLASSNAME = 'dropdown__list-item--current';
+// const CURRENT_ITEM_CLASSNAME = 'dropdown__list-item--current';
 
 const DropdownItem = React.createClass({
   mixins: [PureRenderMixin],
@@ -30,6 +30,7 @@ const DropdownItem = React.createClass({
     ]).isRequired
   },
   onClick() {
+    console.log('onClick')
     this.props.onClick(this.props.itemKey);
   },
 
@@ -41,7 +42,8 @@ const DropdownItem = React.createClass({
     return (
       <div onClick={this.onClick}
         onMouseEnter={this.onMouseEnter}
-        className={'dropdown__list-item' + (this.props.selected ? ' ' + CURRENT_ITEM_CLASSNAME : '')}>
+        className={cn(styles.item, { [styles.itemCurrent]: this.props.selected })}
+      >
         {this.props.text}
       </div>
     );
@@ -62,6 +64,7 @@ const DropdownItemClick = React.createClass({
   },
 
   onClick(e) {
+    console.log('onClick')
     this.props.onClick();
   },
   onClickA(e) {
@@ -78,7 +81,7 @@ const DropdownItemClick = React.createClass({
         :
         <div onMouseEnter={this.onMouseEnter}
           onClick={this.onClick}
-          className={'dropdown__list-item dropdown__list-add-catalog' + (this.props.selected ? ' ' + CURRENT_ITEM_CLASSNAME : '')}
+          className={'dropdown__list-item dropdown__list-add-catalog' + (this.props.selected ? ' ' + styles.itemCurrent : '')}
         >
           <a onClick={this.onClickA} className="dropdown__list-add-catalog-link">
             {trs('fieldTypes.dropdown.AddInCatalog')} «{this.props.item.title}»</a>
@@ -271,11 +274,12 @@ const Dropdown = React.createClass({
   },
 
   setCurrentItemScrollPosition() {
+    console.log('setCurrentItemScrollPosition')
     let list = ReactDOM.findDOMNode(this.refs.list),
       $list = $(list),
       listH = list.offsetHeight,
       listScrollTop = list.scrollTop,
-      currentItem = $list.find('.' + CURRENT_ITEM_CLASSNAME)[0],
+      currentItem = $list.find('.' + styles.itemCurrent)[0],
       top = currentItem.offsetTop,
       height = currentItem.offsetHeight;
 
@@ -310,10 +314,12 @@ const Dropdown = React.createClass({
   },
 
   onClickWrapper() {
+    console.log('onClickWrapper')
     ReactDOM.findDOMNode(this.refs.input).focus();
   },
 
   onClickItem(item) {
+    console.log('onClickItem', item)
     this.selectItem(item);
     if (this.props.multiselect || this.props.clearOnSelect) {
       this.setState({
@@ -370,21 +376,24 @@ const Dropdown = React.createClass({
   },
 
   onClickButton(e) {
+    console.log('onClickButton')
     e.stopPropagation();
     this.toggleList();
   },
 
   onClickNoitems(e) {
+    console.log('onClickNoitems')
     e.stopPropagation();
     this.toggleList();
   },
 
   onOutsideClick(e) {
-    let node = ReactDOM.findDOMNode(this.refs.node);
+    const node = ReactDOM.findDOMNode(this.refs.node);
     if (e.target === node) {
       return this.toggleList(false);
     }
-    let parents = $(e.target).parents('.dropdown');
+
+    const parents = $(e.target).parents('.' + styles.dropdown);
     if (parents.size() === 0 || !_.find(parents.toArray(), (el) => el === node)) {
       return this.toggleList(false);
     }
@@ -532,7 +541,7 @@ const Dropdown = React.createClass({
     let inputProps = this.props.autocomplete ? { onChange: this.onChange } : { readOnly: 'true' };
     let inputValue = this.props.multiselect && !this.props.autocomplete ? undefined : this.state.inputText;
 
-    let classes = classNames({
+    let classes = cn({
       // 'dropdown': true,
       // [styles.open]: this.state.isOpen,
       // 'dropdown--empty': !inputValue,
@@ -555,13 +564,13 @@ const Dropdown = React.createClass({
     }
 
     return (
-      <div ref="node" className={classNames(classes, styles.dropdown)}>
+      <div ref="node" className={cn(classes, styles.dropdown)}>
         <div onClick={this.onClickWrapper}
-        //className={classNames('dropdown__input-wrapper', { 'dropdown__input-wrapper--focus': this.state.hasFocus })}
+        //className={cn('dropdown__input-wrapper', { 'dropdown__input-wrapper--focus': this.state.hasFocus })}
         >
           {selectedItems}
           <Input
-            size='small'
+            size='default'
             disabled={this.props.disabled}
             ref="input"
             onFocus={this.onFocusInput}
@@ -601,7 +610,7 @@ const Dropdown = React.createClass({
           null
         }
 
-        <div ref="list" className={classNames({ [styles.list]: this.state.isOpen }, (this.state.listAboveInput ? ' dropdown__list--above' : ''))}>
+        <div ref="list" className={cn({ [styles.list]: this.state.isOpen }, (this.state.listAboveInput ? ' dropdown__list--above' : ''))}>
           {items}
           {(this.props.showLoading || items.length === 0) && !this.props.withButton ?
             <span onClick={this.onClickNoitems} className="dropdown__noitems">

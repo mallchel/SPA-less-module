@@ -115,7 +115,7 @@ const ModalStore = Reflux.createStore({
     renderModaltoBody(ViewInputModal, {
       isNew: true,
       headerText: trs('modals.createNewView.headerText'),
-      onSave: (params) => viewsActions.createNewView(catalogId, params),
+      onOk: (params) => viewsActions.createNewView(catalogId, params),
       disabledChangeType: !accessOnViewForRights
     });
   },
