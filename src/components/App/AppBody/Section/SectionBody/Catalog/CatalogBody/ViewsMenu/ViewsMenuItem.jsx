@@ -38,7 +38,7 @@ const ViewsMenuItem = React.createClass({
       ? view.get('originName')
       : view.get('name');
     let filtersChanged = view.get('filtersChanged');
-    const isNew = view.get('id') == '$new';
+    const isNew = view.get('id') === '$new';
 
     return (
       <StateLink route={routes.view} params={{ viewId: view.get('id') }} render={props => {
@@ -55,7 +55,7 @@ const ViewsMenuItem = React.createClass({
             {
               (!filtersChanged && props.isActive && !(Number(view.get('id')) === 0)) &&
               <Route render={props => {
-                return <ViewActivities view={view} {...props} />
+                return <ViewActivities className={styles.viewsActivities} view={view} {...props} />
               }} />
             }
             {

@@ -80,7 +80,7 @@ const NumberRangeField = React.createClass({
           />
         </span>
 
-        <span>{this.props.config.get('unit')}</span>
+        <span className={styles.spanUnit}>{this.props.config.get('unit')}</span>
       </div>
     );
   }

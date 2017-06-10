@@ -53,6 +53,7 @@ class Catalog extends Component {
         {
           props => (
             <CSSTransitionGroup component={ROW}
+              className={styles.container}
               transitionName={{
                 enter: styles.leftEnter,
                 enterActive: styles.leftEnterActive,

@@ -41,6 +41,7 @@ const ViewsMenu = React.createClass({
 
     // get views from current Catalog.
     const firstView = viewsList.get(0);
+    const newView = views && views.filter(v => v.get('id') === '$new').size;
 
     return (
       <div className={styles.container}>
@@ -55,7 +56,7 @@ const ViewsMenu = React.createClass({
             }}
           </NavRoute>
         }
-        <ul className={cn('ant-menu-inline', styles.menu)}>
+        <ul className={cn('ant-menu-inline', styles.menu, { [styles.nonNewView]: !newView })}>
           {
             viewsList.size
               ? viewsList.map((view, i) => {

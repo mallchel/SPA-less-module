@@ -13,8 +13,6 @@ import PRIVILEGE_CODES from '../../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../../configs/resourceTypes'
 import { checkAccessOnObject } from '../../../../../../../../../utils/rights'
 
-import styles from './viewActivities.less'
-
 class ViewActivities extends Component {
   static propTypes = {
     view: PropTypes.object
@@ -112,7 +110,7 @@ class ViewActivities extends Component {
         trigger={['click']}
         placement="bottomRight"
       >
-        <ButtonTransparent className={styles.button}><Icon type="icon setting-10" /></ButtonTransparent>
+        <ButtonTransparent className={this.props.className}><Icon type="icon setting-10" /></ButtonTransparent>
       </Dropdown>
     )
   }

@@ -43,7 +43,7 @@ class Section extends Component {
     const isAccessAdmin = checkAccessOnObject(RESOURCE_TYPES.SECTION, section, PRIVILEGE_CODES.ADMIN);
 
     return (
-      <div>
+      <div className={styles.container}>
         <Row type="flex" justify="space-between" align="middle" className={styles.header}>
           <CatalogsMenu
             sectionId={sectionId}

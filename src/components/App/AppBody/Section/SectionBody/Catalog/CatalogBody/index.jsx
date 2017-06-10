@@ -4,10 +4,12 @@ import routes from '../../../../../../../routes'
 import ViewsMenu from './ViewsMenu'
 import Filter from './Filter'
 
+import styles from './catalogBody.less'
+
 const CatalogBody = function ({ ...props }) {
   const { catalog } = props;
   return (
-    <div>
+    <div className={styles.container}>
       <ViewsMenu
         catalog={props.catalog}
       />

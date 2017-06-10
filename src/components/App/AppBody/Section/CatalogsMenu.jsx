@@ -1,5 +1,5 @@
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin'
+// import PureRenderMixin from 'react-addons-pure-render-mixin'
 // import Immutable from 'immutable'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
@@ -15,7 +15,7 @@ import styles from './section.less'
 
 const CatalogsMenu = React.createClass({
   priorities: null,
-  mixins: [PureRenderMixin],
+  // mixins: [PureRenderMixin],
   propTypes: {
     sectionId: PropTypes.string,
     catalogs: PropTypes.object.isRequired,
