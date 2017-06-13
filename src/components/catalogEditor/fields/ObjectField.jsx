@@ -1,11 +1,9 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Immutable from 'immutable';
-import trs from '../../../getTranslations';
-import DropdownRemote from '../../common/DropdownRemote';
-import editorActions from '../../../actions/editorActions';
-
-const log = require('debug')('CRM:Component:ObjectField');
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Checkbox } from 'antd'
+import trs from '../../../getTranslations'
+import DropdownRemote from '../../common/DropdownRemote'
+import editorActions from '../../../actions/editorActions'
 
 const ObjectField = React.createClass({
   mixins: [PureRenderMixin],
@@ -20,10 +18,10 @@ const ObjectField = React.createClass({
   getInitialState() {
     let items = [];
     if (this.props.field.getIn(['config', 'catalogs'])) {
-      this.props.field.getIn(['config', 'catalogs']).toJS().map(c=> items.push({id: c.id, title: c.title}));
+      this.props.field.getIn(['config', 'catalogs']).toJS().map(c => items.push({ id: c.id, title: c.title }));
     }
     if (this.props.field.getIn(['config', 'views'])) {
-      this.props.field.getIn(['config', 'views']).toJS().map(v=> items.push({id: 'view:' + v.id, title: v.title}));
+      this.props.field.getIn(['config', 'views']).toJS().map(v => items.push({ id: 'view:' + v.id, title: v.title }));
     }
     return {
       values: items,
@@ -35,12 +33,12 @@ const ObjectField = React.createClass({
   onSelect(selectedItems) {
     let catalogs = [];
     let views = [];
-    selectedItems.map((item)=> {
+    selectedItems.map((item) => {
       let key = item.key.split(':');
       if (key[0] == 'view') {
-        views.push({id: key[1]});
+        views.push({ id: key[1] });
       } else {
-        catalogs.push({id: item.key});
+        catalogs.push({ id: item.key });
       }
     });
 
@@ -48,9 +46,9 @@ const ObjectField = React.createClass({
       catalogs, views
     });
     this.setState({
-      values : selectedItems.map(
+      values: selectedItems.map(
         item => ({
-          id : item.key,
+          id: item.key,
           title: item.text
         })
       )
@@ -70,31 +68,41 @@ const ObjectField = React.createClass({
   render() {
     let items = [];
     if (this.props.field.getIn(['config', 'catalogs'])) {
-      this.props.field.getIn(['config', 'catalogs']).toJS().map(c=> items.push({id: c.id, title: c.title}));
+      this.props.field.getIn(['config', 'catalogs']).toJS().map(c => items.push({ id: c.id, title: c.title }));
     }
     if (this.props.field.getIn(['config', 'views'])) {
-      this.props.field.getIn(['config', 'views']).toJS().map(v=> items.push({id: 'view:' + v.id, title: v.title}));
+      this.props.field.getIn(['config', 'views']).toJS().map(v => items.push({ id: 'view:' + v.id, title: v.title }));
     }
     return (
       <div className="field-type-object">
         <DropdownRemote
           type="catalogs"
           placeholder={trs('catalogEditor.field.object.namePlaceholder')}
-          additionalItems={this.state.values.map(c=> ({key: c.id, text: c.title, icon: c.icon}))}
+          additionalItems={this.state.values.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
           disabled={this.props.disabled}
           multiselect={true}
           autocomplete={true}
-          value={items.map(c=> ({key: c.id, text: c.title, icon: c.icon}))}
+          value={items.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
           withButton={false}
           onSelectItems={this.onSelect} />
-          <label className="checkbox">
-            <input disabled={this.props.disabled} type="checkbox" name="multiselect" checked={this.state.multiselect} onChange={this.onChangeCheckbox} />
-            <span>{trs('fieldTypes.object.multiselect')}</span>
-          </label>
-          <label className="checkbox">
-            <input disabled={this.props.disabled} type="checkbox" name="accessOnly" checked={this.state.accessOnly} onChange={this.onChangeCheckbox} />
-            <span>{trs('fieldTypes.object.accessOnly')}</span>
-          </label>
+        <Checkbox
+          disabled={this.props.disabled}
+          name="multiselect"
+          checked={this.state.multiselect}
+          onChange={this.onChangeCheckbox}
+          style={{ display: 'block' }}
+        >
+          {trs('fieldTypes.object.multiselect')}
+        </Checkbox>
+        <Checkbox
+          disabled={this.props.disabled}
+          name="accessOnly"
+          checked={this.state.accessOnly}
+          onChange={this.onChangeCheckbox}
+          style={{ display: 'block' }}
+        >
+          {trs('fieldTypes.object.accessOnly')}
+        </Checkbox>
       </div>
     );
   }

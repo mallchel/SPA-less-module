@@ -3,10 +3,13 @@ import trs from '../../../../../../../../../getTranslations'
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
+import { Tag } from 'antd'
+
+import styles from './controls.less'
 
 function getValuesMap(values) {
   let map = {};
-  (values || []).forEach((v)=> {
+  (values || []).forEach((v) => {
     map[v] = true;
   });
   return Immutable.fromJS(map);
@@ -36,7 +39,7 @@ const DropdownField = React.createClass({
     });
 
     let values = [];
-    newValues.forEach((v, id)=> {
+    newValues.forEach((v, id) => {
       if (v) {
         values.push(id);
       }
@@ -74,17 +77,25 @@ const DropdownField = React.createClass({
 
     return (
       <div className="record-dropdown">
-        {this.props.config.get('items').map((item)=> {
-          let id = item.get('id');
-          let selected = this.state.values.get(id);
+        {this.props.config.get('items').map((item) => {
+          const id = item.get('id');
+          const selected = this.state.values.get(id);
           return (
-            <span
+            <Tag
+              key={id}
+              onClick={_.bind(this.onClickItem, this, id)}
+              style={selected ? { backgroundColor: '#' + item.get('color') } : { backgroundColor: 'transparent' }}
+              className={styles.tags}
+            >
+              {item.get('name')}
+            </Tag>
+            /*<span
               key={id}
               onClick={_.bind(this.onClickItem, this, id)}
               className={'record-dropdown__item' + (selected ? ' record-dropdown__item--selected' : '')}
               style={{backgroundColor: '#' + item.get('color')}}>
               {item.get('name')}
-            </span>
+            </span>*/
           );
         })}
 

@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import trs from '../../../getTranslations'
 import editorActions from '../../../actions/editorActions'
 import { confirm } from '../../common/Modal'
+import { Checkbox } from 'antd'
 
 const DateField = React.createClass({
   mixins: [PureRenderMixin],
@@ -68,17 +69,23 @@ const DateField = React.createClass({
 
   render() {
     return (
-      <div className="field-type-date">
-
-        <label className="checkbox">
-          <input disabled={this.props.disabled} type="checkbox" checked={this.state.withTime} onChange={this.onChangeWithTime} />
-          <span>{trs('fieldTypes.date.withTime')}</span>
-        </label>
-        <label className="checkbox">
-          <input disabled={this.props.disabled} type="checkbox" checked={this.state.defaultValue} onChange={this.onChangeDefaultValue} />
-          <span>{trs('fieldTypes.date.default')}</span>
-        </label>
-
+      <div>
+        <Checkbox
+          disabled={this.props.disabled}
+          checked={this.state.withTime}
+          onChange={this.onChangeWithTime}
+          style={{ display: 'block' }}
+        >
+          {trs('fieldTypes.date.withTime')}
+        </Checkbox>
+        <Checkbox
+          disabled={this.props.disabled}
+          checked={this.state.defaultValue}
+          onChange={this.onChangeDefaultValue}
+          style={{ display: 'block' }}
+        >
+          {trs('fieldTypes.date.default')}
+        </Checkbox>
       </div>
     );
   }

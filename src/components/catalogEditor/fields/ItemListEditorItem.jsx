@@ -3,12 +3,16 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import classNames from 'classnames'
 import { DragSource, DropTarget } from 'react-dnd'
 import _ from 'lodash'
+import { Input, Icon } from 'antd'
 
 import dndTargets from '../../../configs/dndTargets'
 import dragAndDropActions from '../../../actions/dragAndDropActions'
 import ItemListEditorColorPicker from './ItemListEditorColorPicker'
 import { confirm } from '../../common/Modal'
 import trs from '../../../getTranslations'
+import ButtonTransparent from '../../common/elements/ButtonTransparent'
+
+import styles from './fields.less'
 
 const log = require('debug')('CRM:Component:ItemListEditorItem');
 
@@ -121,7 +125,7 @@ const ItemListEditorItem = React.createClass({
     const { connectDragSource, connectDragPreview, connectDropTarget, isDragging } = this.props;
 
     let classes = classNames({
-      'items-list__item': true,
+      [styles.list]: true,
       'dragging': isDragging,
       'items-list__item--colors': this.props.withColor
     });
@@ -131,23 +135,29 @@ const ItemListEditorItem = React.createClass({
         style={{ backgroundColor: '#' + this.props.color }}
         title={this.props.name}>
         {connectDragSource(
-          <div className="icon icon--interface-30" onMouseEnter={this.onMouseEnterIcon}
+          <div className="anticon-icon interface-30" onMouseEnter={this.onMouseEnterIcon}
             onMouseLeave={this.onMouseLeaveIcon}></div>
         )}
-        <input disabled={this.props.disabled} className="items-list__item-input" type="text"
+        <Input
+          disabled={this.props.disabled}
+          type="text"
           value={this.state.value}
           ref="nameInput"
           onBlur={this.onBlur}
-          onChange={this.onChangeName} />
-        {!this.props.disabled ?
-          <span className="m-close" onClick={this.onClickRemove} /> :
-          null
-        }
+          onChange={this.onChangeName}
+          className={styles.inputTags}
+        />
         {this.props.withColor && !this.props.disabled ?
           <ItemListEditorColorPicker
             disabled={this.props.disabled}
             onSelect={this.onSelectColor}
             currentColor={this.props.color} /> :
+          null
+        }
+        {!this.props.disabled ?
+          <ButtonTransparent onClick={this.onClickRemove}>
+            <Icon type='icon interface-74'></Icon>
+          </ButtonTransparent> :
           null
         }
       </div>

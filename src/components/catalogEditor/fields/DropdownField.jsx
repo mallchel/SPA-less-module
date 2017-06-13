@@ -1,10 +1,9 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import ItemListEditor from './ItemListEditor';
-import editorActions from '../../../actions/editorActions';
-
-const log = require('debug')('CRM:Component:DropdownField');
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import trs from '../../../getTranslations'
+import ItemListEditor from './ItemListEditor'
+import editorActions from '../../../actions/editorActions'
+import { Checkbox } from 'antd'
 
 const DropdownField = React.createClass({
   mixins: [PureRenderMixin],
@@ -14,7 +13,7 @@ const DropdownField = React.createClass({
     sectionId: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool
   },
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       multiselect: !!this.props.field.getIn(['config', 'multiselect']),
       defaultValue: !!this.props.field.getIn(['config', 'defaultValue']),
@@ -45,23 +44,30 @@ const DropdownField = React.createClass({
 
   render() {
     return (
-      <div className="field-type-dropdown">
+      <div>
         <ItemListEditor
-            disabled={this.props.disabled}
-            fieldIndex={this.props.fieldIndex}
-            sectionId={this.props.sectionId}
-            field={this.props.field}
-            withColor={true}/>
+          disabled={this.props.disabled}
+          fieldIndex={this.props.fieldIndex}
+          sectionId={this.props.sectionId}
+          field={this.props.field}
+          withColor={true} />
 
-        <label className="checkbox">
-          <input disabled={this.props.disabled} type="checkbox" checked={this.state.multiselect} onChange={this.onChangeMultiselect} />
-          <span>{trs('fieldTypes.dropdown.multiselect')}</span>
-        </label>
-        <label className="checkbox">
-          <input disabled={this.props.disabled} type="checkbox" checked={this.state.defaultValue} onChange={this.onChangeDefaultValue} />
-          <span>{trs('fieldTypes.dropdown.default')}</span>
-        </label>
-
+        <Checkbox
+          disabled={this.props.disabled}
+          checked={this.state.multiselect}
+          onChange={this.onChangeMultiselect}
+          style={{ display: 'block' }}
+        >
+          {trs('fieldTypes.dropdown.multiselect')}
+        </Checkbox>
+        <Checkbox
+          disabled={this.props.disabled}
+          checked={this.state.defaultValue}
+          onChange={this.onChangeDefaultValue}
+          style={{ display: 'block' }}
+        >
+          {trs('fieldTypes.dropdown.default')}
+        </Checkbox>
       </div>
     );
   }

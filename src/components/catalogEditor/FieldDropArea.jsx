@@ -1,17 +1,19 @@
-import _ from 'lodash';
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import classNames from 'classnames';
-import { DropTarget } from 'react-dnd';
+import _ from 'lodash'
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import classNames from 'classnames'
+import { DropTarget } from 'react-dnd'
 
-import dndTargets from '../../configs/dndTargets';
-import editorActions from '../../actions/editorActions';
-import router from '../../router';
+import dndTargets from '../../configs/dndTargets'
+// import editorActions from '../../actions/editorActions'
+// import router from '../../router'
+
+import styles from './catalogEditor.less'
 
 const dropTarget = DropTarget([dndTargets.FIELD_TYPE, dndTargets.FIELD], {
   drop: function (props, monitor, component) {
-    const item = monitor.getItem();
-    editorActions.dropField(router.currentParams.sectionId, item.fieldIndex, item.fieldType, component.props.prevFieldIndex);
+    // const item = monitor.getItem();
+    // editorActions.dropField(router.currentParams.sectionId, item.fieldIndex, item.fieldType, component.props.prevFieldIndex);
   },
   canDrop: function canDrop(props, monitor) {
     return !props.disabled;
@@ -33,7 +35,7 @@ const FieldDropArea = React.createClass({
   render() {
     const { connectDropTarget, isOver } = this.props;
 
-    let classes = classNames('field-drop-area', {
+    let classes = classNames(styles.fieldDropArea, {
       hovering: !this.props.disabled && isOver
     });
 

@@ -1,14 +1,15 @@
 import React from 'react'
 import FieldTypes from '../../fieldTypes/FieldTypes'
 import CatalogEditor from '../../catalogEditor/CatalogEditor'
+import CatalogEditorHeader from '../../catalogEditor/CatalogEditorHeader'
+import styles from './appBody.less'
 
-export default function LayoutCatalogEditor (props) {
+export default function LayoutCatalogEditor(props) {
   return (
-    <div>
-      <div>
+    <div className={styles.layoutCatalogEditor} >
+      <CatalogEditorHeader {...props} />
+      <div className={styles.bodyCatalogEditor}>
         <FieldTypes />
-      </div>
-      <div>
         <CatalogEditor {...props} />
       </div>
     </div>

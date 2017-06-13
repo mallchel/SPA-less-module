@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import { DragSource } from 'react-dnd'
 import _ from 'lodash'
+import { Input, Checkbox } from 'antd'
 
 import dndTargets from '../../configs/dndTargets'
 import dragAndDropActions from '../../actions/dragAndDropActions'
@@ -12,6 +13,7 @@ import fieldTypeIcons from '../../configs/fieldTypeIcons'
 import editorActions from '../../actions/editorActions'
 import FIELD_TYPES from '../../configs/fieldTypes'
 import autosize from 'autosize'
+import styles from './catalogEditor.less'
 
 const trs = require('../../getTranslations');
 
@@ -37,7 +39,7 @@ const dragSource = DragSource(dndTargets.FIELD, {
 
 const ApiOnlyIcon = function () {
   return (
-    <span className="icon icon--edition-55 m-text_light" />
+    <span className="anticon-icon edition-55 m-text_light" />
   )
 };
 
@@ -79,7 +81,7 @@ const FieldWrapper = React.createClass({
   },
 
   onChangeIsRequired(e) {
-    let isRequired = e.target.checked;
+    const isRequired = e.target.checked;
     this.setState({
       required: isRequired,
     });
@@ -144,28 +146,27 @@ const FieldWrapper = React.createClass({
     const { settingsOpened, value } = this.state;
 
     let fieldType = field.get('type');
-    let classes = classNames('field field--type-' + fieldNameByType[fieldType], {
+    let classes = classNames(styles.field, { [styles.fieldSection]: fieldNameByType[fieldType] === 'group' }, {
       'field--draggable-disabled': this.props.draggableDisabled,
       'dragging': isDragging
     });
-    let notGroup = (fieldType != 'group'); // Данный компонент не является заголовком секции
+    const notGroup = (fieldType != 'group'); // Данный компонент не является заголовком секции
     return connectDragPreview(
       <div className={classes}>
 
-        <div className="field__left-side field-left-side">
+        <div className={styles.fieldLeftSide} style={notGroup ? null : { width: '100%' }}>
           {connectDragSource(
-            <div className="field-left-side__left">
-              <span className={'field-left-side__icon icon icon--' + fieldTypeIcons[fieldType]}
+            <div className={styles.fieldIcon}>
+              <span className={classNames('anticon-icon ' + fieldTypeIcons[fieldType])}//{'field-left-side__icon anticon-icon ' + fieldTypeIcons[fieldType]}
                 onMouseEnter={this.onMouseEnterIcon}
                 onMouseLeave={this.onMouseLeaveIcon} />
             </div>
           )}
-          <div className="field-left-side__center field-left-side-center">
-            <input
+          <div className={styles.fieldLeftSideName}>
+            <Input
               ref="inputName"
               disabled={this.props.disabled}
               placeholder={trs(`fieldTypes.${fieldNameByType[fieldType]}.namePlaceholder`)}
-              className="w100"
               type="text"
               onChange={this.onChange}
               value={value} />
@@ -173,24 +174,24 @@ const FieldWrapper = React.createClass({
             {notGroup && (
               settingsOpened
                 ? (
-                  <ul className="field-left-side-center__config field-left-side-center__config--opened">
-                    <li className="field-left-side-center-section">
-                      <label>
-                        <div className="field-left-side-center-section__header">{trs('catalogEditor.field.config.code.title')}</div>
-                        <input type="text" className="w100" disabled value={field.get('id')} />
-                      </label>
+                  <ul className={styles.fieldConfigOpened}>
+                    <li>
+                      <div>
+                        <div>{trs('catalogEditor.field.config.code.title')}</div>
+                        <Input disabled value={field.get('id')} />
+                      </div>
                     </li>
-                    <li className="field-left-side-center-section">
-                      <div className="field-left-side-center-section__header">{trs('catalogEditor.field.config.edit.title')}</div>
-                      <label className="checkbox">
-                        <input type="checkbox" checked={field.get('apiOnly')} onChange={this.apiOnlyChanged} />
-                        {trs('catalogEditor.field.config.edit.apiOnly')}&nbsp;&nbsp;<ApiOnlyIcon />
-                      </label>
+                    <li className={styles.fieldConfigApiOnly}>
+                      <div>{trs('catalogEditor.field.config.edit.title')}</div>
+                      <div>
+                        <Checkbox checked={!!field.get('apiOnly')} onChange={this.apiOnlyChanged}>{trs('catalogEditor.field.config.edit.apiOnly')}</Checkbox>
+                        <ApiOnlyIcon />
+                      </div>
                     </li>
                   </ul>
                 )
                 : (
-                  <div className="m-text_light field-left-side-center__config">
+                  <div className={styles.fieldConfigClosed}>
                     <small>
                       {field.get('id') && (
                         <span>
@@ -205,38 +206,41 @@ const FieldWrapper = React.createClass({
           </div>
           {
             notGroup && (
-              <div className="field-left-side__right field-left-side-options">
-                <span className={'field-left-side-options__settings ' + (settingsOpened ? 'field-left-side-options__settings--opened' : '')}
+              <div className={styles.fieldLeftSideOptions}>
+                <span className={settingsOpened ? styles.fieldLeftSideSettingOpened : styles.fieldLeftSideSetting}
                   onClick={this.toggleFieldSettings}>
-                  <span className="icon icon--setting-13" />
+                  <span className="anticon-icon setting-13" />
                 </span>
                 <input
                   ref="isRequired"
-                  className="field-left-side-options__is-required"
+                  style={{ display: 'none' }}
                   type="checkbox"
                   id={"required_" + this.props.fieldIndex}
                   onChange={this.onChangeIsRequired}
                   checked={this.state.required}
                 />
-                <label className="field-left-side-options__is-required-label" htmlFor={"required_" + this.props.fieldIndex} title={trs(`isRequired`)}>
-                  <div className="icon icon--keyboard-10"></div>
+                <label className={this.state.required ? styles.fieldLabelRequired : styles.fieldLabel} htmlFor={"required_" + this.props.fieldIndex} title={trs(`isRequired`)}>
+                  <div className="anticon-icon keyboard-10"></div>
                 </label>
               </div>
             )
           }
         </div>
 
-        <div className="field__right-side">
+        <div className={styles.fieldRightSide} style={notGroup ? null : { display: 'none' }}>
           {this.props.children}
 
-          <aside className="field_hint">
-            <textarea
+          <aside className={styles.fieldHint}>
+            <Input
+              type="textarea"
               rows="1"
               placeholder={trs('catalogEditor.namePlaceholderHint')}
               ref="textArea"
               value={this.state.hint}
-              className="field_hint__input"
-              onChange={this.onChangeHint} />
+              onChange={this.onChangeHint}
+              style={{ resize: 'none' }}
+              className={styles.fieldHintInput}
+            />
           </aside>
         </div>
 

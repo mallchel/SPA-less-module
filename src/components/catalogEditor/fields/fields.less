@@ -1,0 +1,79 @@
+@import '../../../styles/helpers/index.less';
+
+/*
+  ItemListEditor
+*/
+
+.itemsList {
+  margin-top: @PADDING_BASE;
+}
+
+
+/*
+  ItemListEditorItem
+*/
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border: 1px solid @BORDER_BLOCK;
+  border-radius: 3px;
+  margin-bottom: @PADDING_BASE / 2;
+  padding-left: @PADDING_BASE / 2;
+}
+
+.inputTags {
+  border: 1px solid transparent;
+  background-color: transparent;
+  &:hover,
+  &:focus {
+    border: 1px solid transparent;
+    box-shadow: none;
+  }
+}
+
+
+/*
+  ItemListEditorColorPicker
+*/
+
+.colorPicker {
+  position: relative;
+}
+
+.colorPickerArrow {
+  display: flex;
+  align-items: baseline;
+  height: 14px;
+  margin-left: @PADDING_BASE / 2;
+  margin-right: @PADDING_BASE / 2;
+  cursor: pointer;
+  border: 1px solid @BORDER_BLOCK;
+  border-radius: 3px;
+  &:hover {
+    background-color: @BG_SELECTED;
+  }
+}
+
+.colorList {
+  position: absolute;
+  right: -10px;
+  top: 16px;
+  z-index: 10;
+  width: 100px;
+  background-color: @BG_CONTENT;
+  border: 1px solid @BORDER_BLOCK;
+  padding: 5px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, .2);
+}
+
+.itemColor {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 3px;
+  border-radius: 3px;
+  border: 1px solid @BORDER_BLOCK;
+}

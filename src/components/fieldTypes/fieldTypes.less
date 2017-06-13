@@ -1,0 +1,54 @@
+@import '../../styles/helpers/index.less';
+
+/*
+  Field Types
+*/
+
+.container {
+  .container--padding-horizontal;
+  width: 300px;
+  min-width: 300px;
+  background-color: @BG_PANELS;
+  display: inline-block;
+}
+
+.fieldInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/*
+  Filed Types Item
+*/
+
+.field {
+  cursor: move;
+  user-select: none;
+  border: 1px solid @BORDER_BLOCK;
+  margin-bottom: @PADDING_BASE;
+  background-color: @BG_CONTENT;
+  display: flex;
+  align-items: center;
+}
+
+.fieldIcon {
+  padding-bottom: @PADDING_BASE;
+  padding-top: @PADDING_BASE;
+  padding-left: @PADDING_BASE + 3px;
+  padding-right: @PADDING_BASE + 3px;
+}
+
+.fieldIconBorder {
+  height: 28px;
+  background-color: @BORDER_BLOCK;
+  width: 1px;
+}
+
+.fieldText {
+  margin-left: @PADDING_BASE;
+}
+
+.section {
+  background-color: @BG_WORKPALCE;
+}

@@ -8,7 +8,8 @@ import _ from 'lodash'
 import DROPDOWN_COLORS from '../../../configs/dropdownColors'
 import KEYS from '../../../configs/keys'
 import trs from '../../../getTranslations'
-// import changeMapOrder from '../../../utils/changeMapOrder';
+import { Input, Icon } from 'antd'
+import styles from './fields.less'
 
 const ItemListEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -138,14 +139,18 @@ const ItemListEditor = React.createClass({
     }
 
     return (
-      <div className="items-list">
-        <input type="text" disabled={this.props.disabled} value={this.state.value}
+      <div>
+        <Input
+          type="text"
+          disabled={this.props.disabled}
+          value={this.state.value}
           placeholder={trs('fieldTypes.dropdown.namePlaceholderItem')}
-          onChange={this.onChange} onKeyDown={this.onKeyDown} />
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
+          suffix={<Icon type='icon keyboard-20' />}
+        />
 
-        <i className="icon icon--keyboard-20"></i>
-
-        <div className="items-list__list" style={{ display: items.size === 0 ? 'none' : '' }}>
+        <div className={styles.itemsList} style={{ display: items.size === 0 ? 'none' : '' }}>
           {items}
         </div>
 

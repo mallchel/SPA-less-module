@@ -39,9 +39,9 @@ const FilterItem = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     // shouldn't hide filter item.
-    if (nextProps.value !== this.props.value) {
-      this.setState({ opened: nextProps.opened });
-    }
+    // if (nextProps.value !== this.props.value) {
+    //   this.setState({ opened: nextProps.opened });
+    // }
   },
 
   render() {

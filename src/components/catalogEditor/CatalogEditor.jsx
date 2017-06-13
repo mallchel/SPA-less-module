@@ -1,11 +1,12 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import FieldListEditor from './FieldListEditor'
-import CatalogEditorHeader from './CatalogEditorHeader'
 import Loading from '../common/Loading'
 import apiActions from '../../actions/apiActions'
 import { connect } from '../StateProvider'
 import catalogActions from '../../actions/catalogActions'
+
+import styles from './catalogEditor.less'
 
 const CatalogEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -50,15 +51,8 @@ const CatalogEditor = React.createClass({
     let disabled = catalog && (catalog.get('updating') || catalog.get('creating'));
 
     return (
-      <div className="catalog-editor">
-        <div className="catalog-form" style={{ marginTop: !catalog ? '0px' : null }}>
-          {catalog ?
-            <CatalogEditorHeader
-              disabled={disabled}
-              catalog={catalog}
-              sectionId={sectionId} /> :
-            null
-          }
+      <div className={styles.container}>
+        <div>
           {catalog ?
             <FieldListEditor
               disabled={disabled}

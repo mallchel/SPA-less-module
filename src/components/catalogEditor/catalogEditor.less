@@ -1,0 +1,116 @@
+@import '../../styles/helpers/index.less';
+
+/*
+  Catalod editor
+*/
+
+.container {
+  .container--padding-horizontal;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  background-color: @BG_CONTENT;
+  overflow: auto;
+}
+
+.field {
+  display: flex;
+}
+
+.fieldLeftSide {
+  display: flex;
+  align-items: baseline;
+  width: 40%;
+  border-right: 1px solid @BORDER_BLOCK;
+  margin: @PADDING_BASE 0 @PADDING_BASE 0;
+  padding: 0 @PADDING_BASE 0 @PADDING_BASE;
+}
+
+.fieldLeftSideName {
+  width: 100%;
+}
+
+.fieldLeftSideOptions {
+  display: flex;
+  align-items: baseline;
+}
+
+.fieldLeftSideSetting {
+  padding: @PADDING_BASE;
+  cursor: pointer;
+  color: @TEXT_EXTRA;
+  &:hover {
+    color: @TEXT_SUB;
+  }
+}
+
+.fieldLeftSideSettingOpened {
+  .fieldLeftSideSetting;
+  color: inherit;
+}
+
+.fieldLabel {
+  padding-left: @PADDING_BASE / 2;
+  cursor: pointer;
+  color: @TEXT_EXTRA;
+  &:hover {
+    color: @TEXT_SUB;
+  }
+}
+
+.fieldLabelRequired {
+  .fieldLabel;
+  color: @DANGER_BUTTON;
+  &:hover {
+    color: @DANGER_BUTTON;
+  }
+}
+
+.fieldConfigOpened {
+  margin-bottom: @PADDING_BASE;
+  margin-top: @PADDING_BASE;
+  color: @TEXT_DISABLED;
+}
+
+.fieldConfigApiOnly {
+  margin-top: @PADDING_BASE;
+}
+
+.fieldConfigClosed {
+  margin-top: @PADDING_BASE / 2;
+  color: @TEXT_DISABLED;
+}
+
+.fieldIcon {
+  cursor: move;
+  padding-right: @PADDING_BASE;
+}
+
+.fieldSection {
+  background-color: @BG_WORKPALCE;
+}
+
+.fieldRightSide {
+  width: 60%;
+  margin: @PADDING_BASE 0 @PADDING_BASE 0;
+  padding: 0 @PADDING_BASE 0 @PADDING_BASE;
+}
+
+.fieldHint {
+  margin-top: @PADDING_BASE / 2;
+}
+
+.fieldHintInput {
+  .input-transparent;
+}
+
+
+/*
+  fieldDropArea
+*/
+
+.fieldDropArea {
+  height: 20px;
+  margin-top: -5px;
+  margin-bottom: -5px;
+}

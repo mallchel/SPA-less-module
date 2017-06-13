@@ -146,7 +146,6 @@ const RecordDropdown = React.createClass({
             multiselect || !firstValue ?
               <span onClick={this.onClickAdd} className={styles.spanChoose} style={this.state.dropdownVisible ? { display: 'none' } : null}>
                 <span className={classnames('anticon-icon edition-25', styles.spanIcon)} />
-                {/*<a className={styles.linkChoose} href="javascript:void(0)" >{trs('record.fields.user.addUser')}</a>*/}
                 <span className={styles.spanChooseText}>{trs('record.fields.user.addUser')}</span>
               </span> :
               null

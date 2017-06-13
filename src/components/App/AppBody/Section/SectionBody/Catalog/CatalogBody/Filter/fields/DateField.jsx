@@ -206,8 +206,7 @@ const DateRangeField = React.createClass({
     this.props.onSave(this.props.fieldId, value);
   },
 
-  onSelectRange(e) {
-    let keyRange = e.target.value;
+  onSelectRange(keyRange) {
     let saveValue = keyRange;
 
     if ([FIXED, RELATIVE].indexOf(keyRange) > -1) {
@@ -243,10 +242,7 @@ const DateRangeField = React.createClass({
     return (
       <section className="filter-item__date-field__container filter-date">
         <div className="filter-date__item">
-          <select value={this.state.keyRange} onChange={this.onSelectRange}>
-            {selectItems.map((it, i) => <option key={i} value={it.key}>{it.value}</option>)}
-          </select>
-          <Select value={this.state.keyRange} onChange={this.onSelectRange}>
+          <Select className={styles.selectRange} value={this.state.keyRange} onChange={this.onSelectRange}>
             {selectItems.map((it, i) => <Option key={i} value={it.key}>{it.value}</Option>)}
           </Select>
         </div>

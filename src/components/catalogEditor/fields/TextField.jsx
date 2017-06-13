@@ -1,10 +1,8 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import Dropdown from '../../common/Dropdown';
-import editorActions from '../../../actions/editorActions';
-
-const fieldTypes = ['text', 'tel', 'mail', 'multiline'];
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import trs from '../../../getTranslations'
+import editorActions from '../../../actions/editorActions'
+import { Checkbox } from 'antd'
 
 const TextField = React.createClass({
   mixins: [PureRenderMixin],
@@ -35,14 +33,17 @@ const TextField = React.createClass({
   },
 
   render() {
-    let isMultiLine= this.getValue() === 'multiline';
+    let isMultiLine = this.getValue() === 'multiline';
 
     return (
-      <div className="field-type-text">
-        <label className="checkbox">
-          <input type="checkbox" checked={isMultiLine} onChange={this.onSelect}/>
+      <div>
+        <Checkbox
+          checked={isMultiLine}
+          onChange={this.onSelect}
+          style={{ display: 'block' }}
+        >
           {trs('fieldTypes.text.types.multiline')}
-        </label>
+        </Checkbox>
       </div>
     );
   }

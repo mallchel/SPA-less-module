@@ -30,7 +30,6 @@ const DropdownItem = React.createClass({
     ]).isRequired
   },
   onClick() {
-    console.log('onClick')
     this.props.onClick(this.props.itemKey);
   },
 
@@ -64,7 +63,6 @@ const DropdownItemClick = React.createClass({
   },
 
   onClick(e) {
-    console.log('onClick')
     this.props.onClick();
   },
   onClickA(e) {
@@ -274,7 +272,6 @@ const Dropdown = React.createClass({
   },
 
   setCurrentItemScrollPosition() {
-    console.log('setCurrentItemScrollPosition')
     let list = ReactDOM.findDOMNode(this.refs.list),
       $list = $(list),
       listH = list.offsetHeight,
@@ -314,12 +311,10 @@ const Dropdown = React.createClass({
   },
 
   onClickWrapper() {
-    console.log('onClickWrapper')
     ReactDOM.findDOMNode(this.refs.input).focus();
   },
 
   onClickItem(item) {
-    console.log('onClickItem', item)
     this.selectItem(item);
     if (this.props.multiselect || this.props.clearOnSelect) {
       this.setState({
@@ -376,13 +371,11 @@ const Dropdown = React.createClass({
   },
 
   onClickButton(e) {
-    console.log('onClickButton')
     e.stopPropagation();
     this.toggleList();
   },
 
   onClickNoitems(e) {
-    console.log('onClickNoitems')
     e.stopPropagation();
     this.toggleList();
   },

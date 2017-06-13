@@ -9,6 +9,7 @@ import FIELD_TYPES from '../../configs/fieldTypes'
 import dragAndDropActions from '../../actions/dragAndDropActions'
 import fieldTypeIcons from '../../configs/fieldTypeIcons'
 import trs from '../../getTranslations'
+import styles from './fieldTypes.less'
 
 const fieldNameByType = {};
 _.forEach(FIELD_TYPES, (id, name) => fieldNameByType[id] = name.toLowerCase());
@@ -46,18 +47,19 @@ const FieldTypesItem = React.createClass({
     const { connectDragSource, isDragging } = this.props;
 
     let classes = classNames({
-      'field-type': true,
+      [styles.field]: true,
       'field-type--margin': typesWithMargin[this.props.type],
-      'field-type--section': this.props.type === FIELD_TYPES.GROUP,
+      [styles.section]: this.props.type === FIELD_TYPES.GROUP,
       'dragging': isDragging
     });
 
     return connectDragSource(
       <div className={classes}>
-        <div className="field-type__icon">
-          <div className={'icon icon--' + (fieldTypeIcons[this.props.type] || 'programing-21')}></div>
+        <div className={styles.fieldIcon}>
+          <div className={'anticon-icon ' + (fieldTypeIcons[this.props.type] || 'programing-21')}></div>
         </div>
-        <span className="field-type__text">
+        <div className={styles.fieldIconBorder} />
+        <span className={styles.fieldText}>
           {trs(`fieldTypes.${fieldNameByType[this.props.type]}.name`)}
         </span>
       </div>

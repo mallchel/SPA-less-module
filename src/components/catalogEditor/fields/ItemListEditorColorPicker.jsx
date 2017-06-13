@@ -1,9 +1,12 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
-import classNames from 'classnames'
 import $ from 'jquery'
+import cn from 'classnames'
+import { Icon } from 'antd'
 import DROPDOWN_COLORS, { Labels as DROPDOWN_COLORS_LABELS } from '../../../configs/dropdownColors'
+
+import styles from './fields.less'
 
 const ItemListEditorColor = React.createClass({
   mixins: [PureRenderMixin],
@@ -24,7 +27,7 @@ const ItemListEditorColor = React.createClass({
       <div onClick={this.select}
         title={this.props.label}
         style={{ backgroundColor: '#' + this.props.color }}
-        className="items-list__color">
+        className={styles.itemColor}>
         {this.props.selected ? <div /> : null}
       </div>
     );
@@ -56,8 +59,9 @@ const ItemListEditorColorPicker = React.createClass({
     if (this.props.disabled) {
       return;
     }
+    const isOpen = this.state.isOpen;
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !isOpen
     });
   },
 
@@ -105,11 +109,11 @@ const ItemListEditorColorPicker = React.createClass({
         color={color} onSelect={this.onSelectColor} />);
 
     return (
-      <div className={classNames('items-list__color-picker', { 'items-list__color-picker--open': this.state.isOpen })}>
-        <div ref="arrow" onClick={this.onClickArrow} className="items-list__color-picker-arrow">
-          <div />
+      <div className={styles.colorPicker}>
+        <div className={styles.colorPickerArrow} ref="arrow" onClick={this.onClickArrow}>
+          <Icon className={this.state.isOpen ? 'fa-rotate-180' : null} type='icon arrows-chevron-medium-fat-4-01' />
         </div>
-        <div ref="list" className="items-list__color-list" title="">
+        <div ref="list" className={styles.colorList} style={this.state.isOpen ? null : { display: 'none' }} title="">
           {colors}
         </div>
       </div>

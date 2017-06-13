@@ -3,9 +3,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import $ from 'jquery'
-import is from '../../utils/is'
-
-const isIE10 = is.ie(10);
 
 const FixedHeader = React.createClass({
   mixins: [PureRenderMixin],
@@ -57,7 +54,7 @@ const FixedHeader = React.createClass({
         width: this.state.width || '',
         backgroundColor: this.state.bg
       }}
-        className={classNames('header', 'header--extra', this.props.className || '', { 'header--fixed': this.state.right !== null, 'header--ie10': isIE10 })}>
+        className={classNames(styles.header, 'header--extra', this.props.className || '', { 'header--fixed': this.state.right !== null })}>
         <div className="header__data">
           {this.props.children}
         </div>

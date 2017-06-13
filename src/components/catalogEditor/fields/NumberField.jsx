@@ -1,7 +1,8 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import editorActions from '../../../actions/editorActions';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import trs from '../../../getTranslations'
+import editorActions from '../../../actions/editorActions'
+import { Input } from 'antd'
 
 const NumberField = React.createClass({
   mixins: [PureRenderMixin],
@@ -36,13 +37,13 @@ const NumberField = React.createClass({
 
   render() {
     return (
-      <div className="field-type-number">
-        <input
-            type="text"
-            disabled={this.props.disabled}
-            value={this.state.value}
-            onChange={this.onChange}
-            placeholder={trs('fieldTypes.number.placeholder')}/>
+      <div>
+        <Input
+          type="text"
+          disabled={this.props.disabled}
+          value={this.state.value}
+          onChange={this.onChange}
+          placeholder={trs('fieldTypes.number.placeholder')} />
       </div>
     );
   }

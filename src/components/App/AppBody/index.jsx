@@ -25,7 +25,7 @@ const AppBody = function () {
         });
         if (matchEdit) {
           return <NavRoute route={routes.catalogEdit} render={props => {
-            return <LayoutCatalogEditor isStateEditCatalog={true} />
+            return <LayoutCatalogEditor isStateEditCatalog={true} {...props} />
           }} />
 
         } else if (matchAdd) {
