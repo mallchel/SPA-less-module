@@ -4,8 +4,8 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Select } from 'antd'
 
-import Dropdown from './Dropdown'
 import dropdownActions from '../../actions/dropdownActions'
+import trs from '../../getTranslations'
 import { connect } from '../StateProvider'
 
 const Option = Select.Option;
@@ -20,8 +20,6 @@ const SelectRemote = React.createClass({
     ]),
 
     type: PropTypes.string.isRequired,
-    cacheTime: PropTypes.number,
-    searchable: PropTypes.bool,
     additionalItems: PropTypes.array,
     onLoadItems: PropTypes.func,
     filterFn: PropTypes.func,
@@ -31,27 +29,10 @@ const SelectRemote = React.createClass({
     requestParams: PropTypes.object,
     blockForceUpdateForEmpty: PropTypes.bool
   },
-  hasChanges: false,
-  onAppStateChange(state) {
-    let items = state.getIn(['dropdownCollections', this.props.type, 'items']);
-    items = items ? items.toJS() : [];
-
-    if (typeof this.props.itemsMapper === 'function') {
-      items = items.map(this.props.itemsMapper);
-    }
-
-    // fixed:
-    this.updateStateItems(items);
-
-    this.setState({
-      loading: !!state.getIn(['dropdownCollections', this.props.type, 'loading'])
-    });
-  },
 
   componentWillReceiveProps(nextProps) {
     let items = nextProps.dropdownCollections.getIn([nextProps.type, 'items']);
-    items = items ? items.toJS() : [];    
-    console.log(items)
+    items = items ? items.toJS() : [];
     this.updateStateItems(items)
   },
 
@@ -59,7 +40,10 @@ const SelectRemote = React.createClass({
     let noEmptyRemoteItems = !(items.length === 0 && this.state.items.length > 0) ||
       !this.props.blockForceUpdateForEmpty;
     if (!_.isEqual(this.state.items, items) && noEmptyRemoteItems) {
-      this.setState({ items });
+      this.setState({
+        items,
+        loading: !!this.props.dropdownCollections.getIn([this.props.type, 'loading'])
+      });
     }
   },
 
@@ -72,42 +56,37 @@ const SelectRemote = React.createClass({
     return {
       text: '',
       loading: !!this.props.dropdownCollections.getIn([this.props.type, 'loading']),
-      items
+      items,
     };
   },
 
   onOpenChange(isOpen) {
-    if (isOpen && !this.hasChanges) {
-      //this.setState({items: []}); //Из за этого глючит выбор в связаном списке в настройках каталога
+    if (isOpen) {
       let params = _.extend({ title: this.state.text }, this.props.requestParams);
       dropdownActions.loadDropdownItems(this.props.type, params);
       this.setState({
         loading: true
       });
-    } else if (isOpen && this.hasChanges) {
-      this.setState({ items: [] });
-      let params = _.extend({ title: this.state.text }, this.props.requestParams);
-      dropdownActions.loadDropdownItems(this.props.type, params);
     } else if (!isOpen) {
       dropdownActions.clearDropdownItems(this.props.type);
     }
   },
 
-  onTextChange(text) {
-    if (this.props.searchable) {
-      this.hasChanges = true;
-      this.setState({ text });
-      let params = _.extend({ title: this.state.text }, this.props.requestParams);
-      dropdownActions.loadDropdownItems(this.props.type, params);
-    }
-  },
+  // onTextChange(text) {
+  //   if (this.props.searchable) {
+  //     this.hasChanges = true;
+  //     this.setState({ text });
+  //     let params = _.extend({ title: this.state.text }, this.props.requestParams);
+  //     dropdownActions.loadDropdownItems(this.props.type, params);
+  //   }
+  // },
 
-  onSelectItems(items) {
-    if (typeof this.props.outMapper === 'function') {
-      items = items.map(this.props.outMapper);
-    }
-    this.props.onSelectItems(items);
-  },
+  // onSelectItems(items) {
+  //   if (typeof this.props.outMapper === 'function') {
+  //     items = items.map(this.props.outMapper);
+  //   }
+  //   this.props.onSelectItems(items);
+  // },
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.onLoadItems && this.state.items.length && this.state.items !== prevState.items) {
@@ -115,10 +94,21 @@ const SelectRemote = React.createClass({
     }
   },
 
+  onChange(...args) {
+    console.log(args)
+  },
+
+  filterOption(inputValue, option) {
+    const searchText = inputValue.toLowerCase();
+    const res = option.props.children.toLowerCase().indexOf(searchText);
+    if (res !== -1) {
+      return option;
+    }
+  },
+
   render() {
     let items = this.state.items;
     let additionalItems = this.props.additionalItems;
-
     if (additionalItems) {
       if (typeof this.props.itemsMapper === 'function') {
         additionalItems = additionalItems.map(this.props.itemsMapper);
@@ -138,19 +128,19 @@ const SelectRemote = React.createClass({
       items = _.sortBy(items, sortBy);
     }
 
-    let onTextChange = _.debounce(this.onTextChange, 200);
-
     return <Select
       mode="multiple"
       style={{ width: '100%' }}
-      defaultValue={this.props.value.map(item => item.text)}
+      defaultValue={this.props.value.map(item => item.key)}
       onFocus={() => this.onOpenChange(true)}
       onBlur={() => this.onOpenChange(false)}
+      onChange={this.onChange}
+      filterOption={this.filterOption}
+      placeholder={this.props.placeholder}
+      notFoundContent={this.state.loading ? trs('dropdown.loading') : trs('dropdown.noitems')}
     >
       {
-        [<Option key='1'>asdd</Option>,
-        <Option key='2'>abdd</Option>]
-        /*items.map((item, i) => <Option key={item.key}>{item.text}</Option>)*/
+        items.map((item, i) => <Option key={item.key}>{item.text}</Option>)
       }
     </Select>
 

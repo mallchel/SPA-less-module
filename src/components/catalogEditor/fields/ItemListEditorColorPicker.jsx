@@ -2,7 +2,6 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
 import $ from 'jquery'
-import cn from 'classnames'
 import { Icon } from 'antd'
 import DROPDOWN_COLORS, { Labels as DROPDOWN_COLORS_LABELS } from '../../../configs/dropdownColors'
 
@@ -28,7 +27,7 @@ const ItemListEditorColor = React.createClass({
         title={this.props.label}
         style={{ backgroundColor: '#' + this.props.color }}
         className={styles.itemColor}>
-        {this.props.selected ? <div /> : null}
+        {this.props.selected ? <div className={styles.colorSelected} /> : null}
       </div>
     );
   }
@@ -59,9 +58,9 @@ const ItemListEditorColorPicker = React.createClass({
     if (this.props.disabled) {
       return;
     }
-    const isOpen = this.state.isOpen;
+    const isOpen = !this.state.isOpen;
     this.setState({
-      isOpen: !isOpen
+      isOpen: isOpen
     });
   },
 
@@ -70,8 +69,8 @@ const ItemListEditorColorPicker = React.createClass({
       arrow = ReactDOM.findDOMNode(this.refs.arrow),
       list = ReactDOM.findDOMNode(this.refs.list);
 
-    if (e.target !== list && el.parents('.items-list__color-list').toArray().indexOf(list) === -1 &&
-      e.target !== arrow && el.parents('.items-list__color-picker-arrow').toArray().indexOf(arrow) === -1) {
+    if (e.target !== list && el.parents('.' + styles.colorList).toArray().indexOf(list) === -1 &&
+      e.target !== arrow && el.parents('.' + styles.colorPickerArrow).toArray().indexOf(arrow) === -1) {
       this.setState({
         isOpen: false
       });

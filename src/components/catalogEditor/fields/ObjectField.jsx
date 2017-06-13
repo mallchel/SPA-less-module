@@ -2,9 +2,8 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { Checkbox } from 'antd'
 import trs from '../../../getTranslations'
-import DropdownRemote from '../../common/DropdownRemote'
 import editorActions from '../../../actions/editorActions'
-import SelectRemote from '../../common/SelectRemote'
+import SelectRemote from '../SelectRemote'
 
 const ObjectField = React.createClass({
   mixins: [PureRenderMixin],
