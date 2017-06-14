@@ -506,6 +506,18 @@ const Dropdown = React.createClass({
     $('body').off('mousedown', this.onOutsideClick);
   },
 
+  MyChange(e) {
+    console.log('MyChange', e)
+  },
+
+  onSelect(e) {
+    console.log('onSelect', e)
+  },
+
+  onSearch(e) {
+    console.log('onSearch', e)
+  },
+
   render() {
     let items = (this.props.additionalClickItems || []).map((item, i) =>
       <DropdownItemClick
@@ -566,6 +578,9 @@ const Dropdown = React.createClass({
               defaultValue={this.state.selectedItems.map(item => item.text)}
               onFocus={() => this.props.onOpenChange(true)}
               onBlur={() => this.props.onOpenChange(false)}
+              onChange={this.MyChange}
+              onSelect={this.onSelect}
+              onSearch={this.onSearch}
             >
               {
                 this.state.filteredItems.map((item, i) => <Option key={item.key}>{item.text}</Option>)

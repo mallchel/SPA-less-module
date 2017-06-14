@@ -4,6 +4,7 @@ import { Checkbox } from 'antd'
 import trs from '../../../getTranslations'
 import DropdownRemote from '../../common/DropdownRemote'
 import editorActions from '../../../actions/editorActions'
+import SelectRemote from '../../common/SelectRemote'
 
 const ObjectField = React.createClass({
   mixins: [PureRenderMixin],
@@ -75,7 +76,7 @@ const ObjectField = React.createClass({
     }
     return (
       <div className="field-type-object">
-        <DropdownRemote
+        {/*<DropdownRemote
           type="catalogs"
           placeholder={trs('catalogEditor.field.object.namePlaceholder')}
           additionalItems={this.state.values.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
@@ -84,7 +85,18 @@ const ObjectField = React.createClass({
           autocomplete={true}
           value={items.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
           withButton={false}
-          onSelectItems={this.onSelect} />
+          onSelectItems={this.onSelect} />*/}
+        <SelectRemote
+          type="catalogs"
+          placeholder={trs('catalogEditor.field.object.namePlaceholder')}
+          additionalItems={this.state.values.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
+          disabled={this.props.disabled}
+          multiselect={true}
+          autocomplete={true}
+          value={items.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
+          withButton={false}
+          onSelectItems={this.onSelect}
+        />
         <Checkbox
           disabled={this.props.disabled}
           name="multiselect"
