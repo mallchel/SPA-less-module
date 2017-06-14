@@ -67,29 +67,28 @@ export default {
    * Get Catalog
    */
 
-  getCatalogCompleted(data, { catalogId }) {
-    let sectionId = data.sectionId.toString();
+  getCatalogCompleted(data, { catalogId }, params, query, res, actionParams) {
+    const sectionId = data.sectionId.toString();
 
-    if (catalogId && this.getIn(['editingCatalogs', sectionId]) == null) {
+    if (actionParams === 'catalogEdit' && this.getIn(['editingCatalogs', sectionId]) == null) {
       let catalog = CatalogFactory.create(data);
       catalog = catalog.set('originalFields', catalog.get('fields'));
       this.setIn(['editingCatalogs', sectionId], catalog);
       this.changed();
     }
 
-    // if (router.includes('main.section.catalogData') &&
-    // this.getIn(['routeParams', 'catalogId']) === catalogId) {
+    if (actionParams !== 'catalogEdit') {
+      if (!this.getIn(['catalogs', catalogId])) {
+        const catalog = CatalogFactory.create(data);
+        this.setIn(['catalogs', catalogId], catalog);
 
-    if (!this.getIn(['catalogs', catalogId])) {
-      let catalog = CatalogFactory.create(data);
-      this.setIn(['catalogs', catalogId], catalog);
-    } else {
-      let fields = new Immutable.List(data.fields.map(f => FieldFactory.create(f)));
-      this.mergeIn(['catalogs', catalogId], data);
-      this.setIn(['catalogs', catalogId, 'fields'], fields);
+      } else {
+        const fields = new Immutable.List(data.fields.map(f => FieldFactory.create(f)));
+        this.mergeIn(['catalogs', catalogId], data);
+        this.setIn(['catalogs', catalogId, 'fields'], fields);
+      }
+      this.changed();
     }
-    this.changed();
-    //}
   },
 
   /* ============================

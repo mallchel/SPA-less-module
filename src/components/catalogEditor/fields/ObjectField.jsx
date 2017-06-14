@@ -90,7 +90,6 @@ const ObjectField = React.createClass({
           name="multiselect"
           checked={this.state.multiselect}
           onChange={this.onChangeCheckbox}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.object.multiselect')}
         </Checkbox>
@@ -99,7 +98,6 @@ const ObjectField = React.createClass({
           name="accessOnly"
           checked={this.state.accessOnly}
           onChange={this.onChangeCheckbox}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.object.accessOnly')}
         </Checkbox>

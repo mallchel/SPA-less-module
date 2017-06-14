@@ -40,7 +40,6 @@ const TextField = React.createClass({
         <Checkbox
           checked={isMultiLine}
           onChange={this.onSelect}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.text.types.multiline')}
         </Checkbox>

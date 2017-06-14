@@ -49,7 +49,6 @@ const UserField = React.createClass({
           disabled={this.props.disabled}
           checked={this.state.multiselect}
           onChange={this.onChangeMultiselect}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.user.canSelectMultiple')}
         </Checkbox>
@@ -57,7 +56,6 @@ const UserField = React.createClass({
           disabled={this.props.disabled}
           checked={this.state.defaultValue}
           onChange={this.onChangeDefaultValue}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.user.default')}
         </Checkbox>

@@ -74,7 +74,6 @@ const DateField = React.createClass({
           disabled={this.props.disabled}
           checked={this.state.withTime}
           onChange={this.onChangeWithTime}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.date.withTime')}
         </Checkbox>
@@ -82,7 +81,6 @@ const DateField = React.createClass({
           disabled={this.props.disabled}
           checked={this.state.defaultValue}
           onChange={this.onChangeDefaultValue}
-          style={{ display: 'block' }}
         >
           {trs('fieldTypes.date.default')}
         </Checkbox>

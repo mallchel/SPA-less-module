@@ -4,7 +4,7 @@ import { matchPath } from 'react-router'
 import NavRoute from '../../common/router/Route'
 import routes from '../../../routes'
 import Section from './Section'
-import LayoutCatalogEditor from './LayoutCatalogEditor'
+import CatalogEditor from './CatalogEditor'
 
 import styles from './appBody.less'
 
@@ -25,12 +25,12 @@ const AppBody = function () {
         });
         if (matchEdit) {
           return <NavRoute route={routes.catalogEdit} render={props => {
-            return <LayoutCatalogEditor isStateEditCatalog={true} {...props} />
+            return <CatalogEditor isStateEditCatalog={true} {...props} />
           }} />
 
         } else if (matchAdd) {
           return <NavRoute route={routes.catalogAdd} render={props => {
-            return <LayoutCatalogEditor isStateAddCatalog={true} />
+            return <CatalogEditor isStateAddCatalog={true} />
           }} />
         } else {
           return <NavRoute route={routes.section} component={Section} />

@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import cn from 'classnames'
 import $ from "jquery"
 import PropTypes from 'prop-types'
-import { Input } from 'antd'
+import { Input, Select } from 'antd'
 
 import trs from '../../getTranslations'
 import _ from 'lodash'
@@ -13,9 +13,9 @@ import LoadingSpinner from '../common/LoadingSpinner'
 
 import styles from './dropdown.less'
 
-const log = require('debug')('CRM:Component:Dropdown');
+const Option = Select.Option;
 
-// const CURRENT_ITEM_CLASSNAME = 'dropdown__list-item--current';
+const log = require('debug')('CRM:Component:Dropdown');
 
 const DropdownItem = React.createClass({
   mixins: [PureRenderMixin],
@@ -88,27 +88,27 @@ const DropdownItemClick = React.createClass({
   }
 });
 
-const DropdownSelectedItem = React.createClass({
-  mixins: [PureRenderMixin],
-  propTypes: {
-    item: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
-    onRemove: PropTypes.func.isRequired
-  },
-  onClickRemove(e) {
-    e.stopPropagation();
-    this.props.onRemove(this.props.item);
-  },
+// const DropdownSelectedItem = React.createClass({
+//   mixins: [PureRenderMixin],
+//   propTypes: {
+//     item: PropTypes.object.isRequired,
+//     disabled: PropTypes.bool,
+//     onRemove: PropTypes.func.isRequired
+//   },
+//   onClickRemove(e) {
+//     e.stopPropagation();
+//     this.props.onRemove(this.props.item);
+//   },
 
-  render() {
-    return (
-      <div className="dropdown__selected-item">
-        <span>{this.props.item.text}</span>
-        {!this.props.disabled ? <i className="m-close" onClick={this.onClickRemove}>&times;</i> : null}
-      </div>
-    );
-  }
-});
+//   render() {
+//     return (
+//       <div className="dropdown__selected-item">
+//         <span>{this.props.item.text}</span>
+//         {!this.props.disabled ? <i className="m-close" onClick={this.onClickRemove}>&times;</i> : null}
+//       </div>
+//     );
+//   }
+// });
 
 
 const Dropdown = React.createClass({
@@ -520,7 +520,6 @@ const Dropdown = React.createClass({
         }}
         text={item.component || item.text} />
     );
-
     items = items.concat(this.state.filteredItems.map((item, i) =>
       <DropdownItem
         key={item.key}
@@ -543,73 +542,79 @@ const Dropdown = React.createClass({
     });
 
 
-    let selectedItems;
-    if (this.props.multiselect) {
-      selectedItems = this.state.selectedItems.map((item) =>
-        <DropdownSelectedItem item={item} disabled={this.props.disabled} key={item.key}
-          onRemove={this.removeSelectedItem} />);
-    }
+    // let selectedItems;
+    // if (this.props.multiselect) {
+    //   selectedItems = this.state.selectedItems.map((item) =>
+    //     <DropdownSelectedItem item={item} disabled={this.props.disabled} key={item.key}
+    //       onRemove={this.removeSelectedItem} />);
+    // }
 
     // check css
-    let css = {};
-    if (!this.state.inputText && this.state.selectedItems.length > 0) {
-      css['width'] = Math.max(5) + 'px';
-    }
+    // let css = {};
+    // if (!this.state.inputText && this.state.selectedItems.length > 0) {
+    //   css['width'] = Math.max(5) + 'px';
+    // }
 
     return (
       <div ref="node" className={cn(classes, styles.dropdown)}>
-        <div onClick={this.onClickWrapper}
-        //className={cn('dropdown__input-wrapper', { 'dropdown__input-wrapper--focus': this.state.hasFocus })}
-        >
-          {selectedItems}
-          <Input
-            size='default'
-            disabled={this.props.disabled}
-            ref="input"
-            onFocus={this.onFocusInput}
-            onBlur={this.onBlurInput}
-            {...inputProps}
-            style={css}
-            placeholder={css.width ? '' : this.props.placeholder}
-            value={inputValue}
-            onKeyDown={this.onKeyDown}
-          />
-          {/*<input
-            disabled={this.props.disabled}
-            ref="input"
-            onFocus={this.onFocusInput}
-            onBlur={this.onBlurInput}
-            className="dropdown__input" type="text"
-            {...inputProps}
-            style={css}
-            placeholder={css.width ? '' : this.props.placeholder}
-            value={inputValue}
-            onKeyDown={this.onKeyDown} />*/}
+        {
+          this.props.type === 'catalogs' ?
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder={this.props.placeholder}
+              defaultValue={this.state.selectedItems.map(item => item.text)}
+              onFocus={() => this.props.onOpenChange(true)}
+              onBlur={() => this.props.onOpenChange(false)}
+            >
+              {
+                this.state.filteredItems.map((item, i) => <Option key={item.key}>{item.text}</Option>)
+              }
+            </Select>
 
-          <span ref="hidden"
-            className={styles.hiddenText}>{this.state.inputText ? '_' + this.state.inputText + '_' : ''}</span>
-        </div>
+            :
 
-        {this.props.withButton && !this.props.showLoading ?
-          <span className="dropdown__button" onClick={this.onClickButton}>
-            <i></i>
-          </span> :
-          null
+            <div onClick={this.onClickWrapper}>
+              <Input
+                size='default'
+                disabled={this.props.disabled}
+                ref="input"
+                onFocus={this.onFocusInput}
+                onBlur={this.onBlurInput}
+                {...inputProps}
+                placeholder={this.props.placeholder}
+                value={inputValue}
+                onKeyDown={this.onKeyDown}
+              />
+              <span ref="hidden"
+                className={styles.hiddenText}>{this.state.inputText ? '_' + this.state.inputText + '_' : ''}</span>
+
+
+              {this.props.withButton && !this.props.showLoading ?
+                <span className="dropdown__button" onClick={this.onClickButton}>
+                  <i></i>
+                </span> :
+                null
+              }
+              {this.props.withButton && this.props.showLoading ?
+                <span className="dropdown__button" onClick={this.onClickButton}>
+                  <LoadingSpinner />
+                </span> :
+                null
+              }
+
+
+              <div ref="list" className={cn({ [styles.list]: this.state.isOpen }, (this.state.listAboveInput ? ' dropdown__list--above' : ''))}>
+                {items}
+                {(this.props.showLoading || items.length === 0) && !this.props.withButton ?
+                  <span onClick={this.onClickNoitems} className="dropdown__noitems">
+                    {this.props.showLoading ? trs('dropdown.loading') : trs('dropdown.noitems')}
+                  </span> : null}
+              </div>
+
+            </div>
         }
-        {this.props.withButton && this.props.showLoading ?
-          <span className="dropdown__button" onClick={this.onClickButton}>
-            <LoadingSpinner />
-          </span> :
-          null
-        }
 
-        <div ref="list" className={cn({ [styles.list]: this.state.isOpen }, (this.state.listAboveInput ? ' dropdown__list--above' : ''))}>
-          {items}
-          {(this.props.showLoading || items.length === 0) && !this.props.withButton ?
-            <span onClick={this.onClickNoitems} className="dropdown__noitems">
-              {this.props.showLoading ? trs('dropdown.loading') : trs('dropdown.noitems')}
-            </span> : null}
-        </div>
       </div>
     );
   }

@@ -83,10 +83,10 @@ const ItemListEditorItem = React.createClass({
         text: trs('modals.removeDropdownItemConfirm.text'),
         okText: trs('modals.removeDropdownItemConfirm.okText'),
         cancelText: trs('modals.removeDropdownItemConfirm.cancelText'),
-        useRedOk: true
-      }).result.then(() => {
-        this.props.onRemove(this.props.itemIndex);
-      });
+        onOk: () => {
+          this.props.onRemove(this.props.itemIndex)
+        }
+      })
     } else {
       this.props.onRemove(this.props.itemIndex);
     }

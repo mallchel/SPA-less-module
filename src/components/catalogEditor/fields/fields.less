@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  border: 1px solid @BORDER_BLOCK;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   margin-bottom: @PADDING_BASE / 2;
   padding-left: @PADDING_BASE / 2;
@@ -45,12 +45,13 @@
 .colorPickerArrow {
   display: flex;
   align-items: baseline;
-  height: 14px;
   margin-left: @PADDING_BASE / 2;
   margin-right: @PADDING_BASE / 2;
   cursor: pointer;
-  border: 1px solid @BORDER_BLOCK;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.10);
+  padding: 2px;
   &:hover {
     background-color: @BG_SELECTED;
   }
