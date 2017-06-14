@@ -1,9 +1,8 @@
 @import (reference) '../../../../../styles/helpers/index.less';
-
 .body {
   background: @BG_CONTENT;
   border: 1px solid @BORDER_BLOCK;
   border-bottom: none;
-  height: 100%;
+  height: calc(~'100%' - @HEADER_BASE *2);
   overflow: hidden;
 }

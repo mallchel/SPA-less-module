@@ -1,11 +1,12 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import classnames from 'classnames'
+import cn from 'classnames'
+import { Row } from 'antd'
 import FIELD_TYPES from '../../../../../../../../../configs/fieldTypes'
 
-import Hint from './hint'
+import styles from './mainTab.less'
 
-const log = require('debug')('CRM:Component:Record:Field');
+import Hint from './hint'
 
 const Field = React.createClass({
   mixins: [PureRenderMixin],
@@ -19,15 +20,15 @@ const Field = React.createClass({
 
   render() {
     let requiredAsterisk = this.props.required ? (<span className="record-field__required-asterisk">*</span>) : null;
-    let labelClass = classnames('record-field__header', {
+    let labelClass = cn('record-field__header', {
       'record-field__header-error': this.props.error
     });
     return (
-      <tr className={' record-field record-field--' + this.props.type + (this.props.error ? ' record-field__error' : '')}>
-        <td className={labelClass} title={this.props.name}>
+      <Row type="flex" justify="space-between" className={cn({ 'record-field__error': this.props.error }, styles.field)}>
+        <div className={labelClass} title={this.props.name}>
           {this.props.name}
           {requiredAsterisk}
-        </td>
+        </div>
 
         {(() => {
           switch (this.props.type) {
@@ -35,15 +36,15 @@ const Field = React.createClass({
             case FIELD_TYPES.TEXT:
             case FIELD_TYPES.NUMBER:
               // hide span-hint, if have value.
-              return <td className="record-field__body">{this.props.children}</td>;
+              return <div className="record-field__body">{this.props.children}</div>;
 
             case FIELD_TYPES.DATE:
             case FIELD_TYPES.PROGRESS:
             case FIELD_TYPES.STARS:
-              return <td className="record-field__body">
+              return <div className="record-field__body">
                 {this.props.children}
                 <Hint className="record-field__body__hint--in-top" text={this.props.hint} readOnly={this.props.readOnly} />
-              </td>;
+              </div>;
 
             case FIELD_TYPES.DROPDOWN:
             case FIELD_TYPES.CHECKBOXES:
@@ -51,13 +52,15 @@ const Field = React.createClass({
             case FIELD_TYPES.USER:
             case FIELD_TYPES.OBJECT:
             case FIELD_TYPES.FILE:
-              return <td className="record-field__body">
+              return <div className="record-field__body">
                 <Hint className="record-field__body__hint--in-top" text={this.props.hint} readOnly={this.props.readOnly} />
                 {this.props.children}
-              </td>;
+              </div>;
+            default:
+              break;
           }
         })()}
-      </tr>
+      </Row>
     );
   }
 

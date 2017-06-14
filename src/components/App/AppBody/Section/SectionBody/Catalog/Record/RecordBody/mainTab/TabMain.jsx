@@ -93,9 +93,9 @@ const TabMain = React.createClass({
 
     return (
       <div className={containerClasses}>
-        <ul>
+        <div>
           {sectionsComponents}
-        </ul>
+        </div>
 
         {tabLinkedData}
       </div>

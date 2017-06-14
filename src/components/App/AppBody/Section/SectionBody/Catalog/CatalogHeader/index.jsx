@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu as AntMenu, Row, Dropdown, Icon } from 'antd'
+import _ from 'lodash'
 import ButtonTransparent from '../../../../../../common/elements/ButtonTransparent'
 import { checkAccessOnObject } from '../../../../../../../utils/rights'
 import PRIVILEGE_CODES from '../../../../../../../configs/privilegeCodes'
@@ -25,26 +26,27 @@ class CatalogHeader extends Component {
     }
   }
 
-  onOk = (e) => {
-    apiActions.deleteCatalog({
-      catalogId: this.props.catalog.get('id')
-    });
-  }
-
-  remove = (e) => {
+  remove = (history, sectionId) => {
     confirm({
       headerText: trs('modals.removeConfirm.headerText'),
       text: trs('modals.removeConfirm.text'),
       okText: trs('modals.removeConfirm.okText'),
       cancelText: trs('modals.removeConfirm.cancelText'),
-      onOk: this.onOk
+      onOk: () => {
+        apiActions.deleteCatalog({
+          catalogId: this.props.catalog.get('id')
+        }).then(() => {
+          history.push(`/section/${sectionId}`);
+        });
+      }
     })
   }
 
   render() {
     let menu = {};
-    let catalog = this.props.catalog;
-    let isAccessAdmin = checkAccessOnObject(RESOURCE_TYPES.CATALOG, catalog, PRIVILEGE_CODES.ADMIN);
+    const catalog = this.props.catalog;
+    const isAccessAdmin = checkAccessOnObject(RESOURCE_TYPES.CATALOG, catalog, PRIVILEGE_CODES.ADMIN);
+    const sectionId = this.props.match.params.sectionId;
 
     if (isAccessAdmin) {
       menu = (
@@ -56,7 +58,7 @@ class CatalogHeader extends Component {
             <Link to={`/section/${catalog.get('sectionId')}/catalog/${catalog.get('id')}/edit`}>{trs('buttons.configureCatalog')}</Link>
           </AntMenu.Item>
           <AntMenu.Item>
-            <a rel="noopener noreferrer" onClick={this.remove}>{trs('buttons.removeCatalog')}</a>
+            <a rel="noopener noreferrer" onClick={() => this.remove(this.props.history, sectionId)}>{trs('buttons.removeCatalog')}</a>
           </AntMenu.Item>
         </AntMenu>
       );
@@ -64,13 +66,19 @@ class CatalogHeader extends Component {
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <h2 className={styles.catalogName}>{catalog && catalog.get('name')}</h2>
-        <Dropdown
-          overlay={menu}
-          trigger={['click']}
-          placement="bottomRight"
-        >
-          <ButtonTransparent className={styles.icon}><Icon type="icon setting-10" /></ButtonTransparent>
-        </Dropdown>
+        {
+          !_.isEmpty(menu)
+            ?
+            <Dropdown
+              overlay={menu}
+              trigger={['click']}
+              placement="bottomRight"
+            >
+              <ButtonTransparent className={styles.icon}><Icon type="icon setting-10" /></ButtonTransparent>
+            </Dropdown>
+            :
+            <Icon className={styles.disabledSetting} type="icon setting-10" />
+        }
       </Row>
     )
   }

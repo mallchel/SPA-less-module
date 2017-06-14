@@ -1,7 +1,7 @@
 import debug from 'debug';
 import _ from 'lodash';
 import guid from 'guid';
-import router from '../router';
+// import router from '../router';
 import CatalogFactory from '../models/CatalogFactory';
 import FieldFactory from '../models/FieldFactory';
 import RecordFactory from '../models/RecordFactory';
@@ -102,13 +102,13 @@ export default {
   },
 
   createCatalogCompleted({ id: catalogId }, { sectionId }) {
-    if (router.includes('main.section.addCatalog') && this.getIn(['routeParams', 'sectionId']) === sectionId) {
-      router.go('main.section.catalogData', {
-        sectionId: sectionId,
-        catalogId: catalogId
-      });
-      apiActions.getCatalogs();
-    }
+    // if (router.includes('main.section.addCatalog') && this.getIn(['routeParams', 'sectionId']) === sectionId) {
+    // router.go('main.section.catalogData', {
+    //   sectionId: sectionId,
+    //   catalogId: catalogId
+    // });
+    apiActions.getCatalogs();
+    // }
   },
 
   createCatalogFailed(err, { sectionId }) {
@@ -127,21 +127,21 @@ export default {
   },
 
   updateCatalogCompleted(res, { catalogId, sectionId }) {
-    if (router.includes('main.section.editCatalog') &&
-      this.getIn(['routeParams', 'sectionId']) === sectionId &&
-      this.getIn(['routeParams', 'catalogId']) === catalogId) {
-      let newRecordId = guid.raw();
-      this.setIn(['records', catalogId, newRecordId], RecordFactory.create({
-        id: newRecordId,
-        isNew: true
-      }));
-      this.setIn(['newRecordId', catalogId], newRecordId);
-      router.go('main.section.catalogData', {
-        sectionId: sectionId,
-        catalogId: catalogId
-      });
-      apiActions.getCatalogs();
-    }
+    // if (router.includes('main.section.editCatalog') &&
+    // this.getIn(['routeParams', 'sectionId']) === sectionId &&
+    // this.getIn(['routeParams', 'catalogId']) === catalogId) {
+    // let newRecordId = guid.raw();
+    // this.setIn(['records', catalogId, newRecordId], RecordFactory.create({
+    //   id: newRecordId,
+    //   isNew: true
+    // }));
+    // this.setIn(['newRecordId', catalogId], newRecordId);
+    // router.go('main.section.catalogData', {
+    //   sectionId: sectionId,
+    //   catalogId: catalogId
+    // });
+    apiActions.getCatalogs();
+    // }
   },
 
   updateCatalogFailed(err, { sectionId }) {
@@ -156,11 +156,6 @@ export default {
   deleteCatalog({ catalogId }) { },
 
   deleteCatalogCompleted(res, { catalogId }) {
-    if (router.includes('main.section.editCatalog', { catalogId }) ||
-      router.includes('main.section.catalogData', { catalogId })) {
-      router.go('main.section');
-    }
-
     apiActions.getCatalogs();
   },
 

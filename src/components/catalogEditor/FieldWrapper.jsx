@@ -152,7 +152,7 @@ const FieldWrapper = React.createClass({
       'field--draggable-disabled': this.props.draggableDisabled,
       'dragging': isDragging
     });
-    const notGroup = (fieldType != 'group'); // Данный компонент не является заголовком секции
+    const notGroup = (String(fieldType) !== 'group'); // Данный компонент не является заголовком секции
     return connectDragPreview(
       <div className={classes}>
 
@@ -216,7 +216,7 @@ const FieldWrapper = React.createClass({
                 </ButtonTransparent>
                 <ButtonTransparent
                   onClick={this.onChangeIsRequired}
-                  className={this.state.required ? styles.fieldLabelRequired : null}
+                  className={this.state.required ? styles.fieldLabelRequired : styles.fieldLabelNotRequired}
                   title={trs(`isRequired`)}
                 >
                   <Icon type="icon keyboard-10" />
@@ -237,18 +237,20 @@ const FieldWrapper = React.createClass({
               ref="textArea"
               value={this.state.hint}
               onChange={this.onChangeHint}
-              style={{ resize: 'none' }}
               className={styles.fieldHintInput}
             />
           </aside>
         </div>
 
         {!this.props.hideCross && !this.props.disabled ?
-          <FieldRemoveCross
-            sectionId={this.props.sectionId}
-            fieldIndex={this.props.fieldIndex}
-            fieldId={field.get('id')} /> : null}
-
+          <div className={styles.fieldRightSideRemove}>
+            <FieldRemoveCross
+              sectionId={this.props.sectionId}
+              fieldIndex={this.props.fieldIndex}
+              fieldId={field.get('id')} />
+          </div>
+          : null
+        }
       </div>
     );
 

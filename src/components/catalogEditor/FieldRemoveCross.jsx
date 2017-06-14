@@ -1,9 +1,8 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import { Icon } from 'antd'
 import editorActions from '../../actions/editorActions'
 import { confirm } from '../common/Modal'
-import ButtonTransparent from '../common/elements/ButtonTransparent'
+import ButtonClose from '../common/elements/ButtonClose'
 import trs from '../../getTranslations'
 
 const FieldRemoveCross = React.createClass({
@@ -36,10 +35,10 @@ const FieldRemoveCross = React.createClass({
 
   render() {
     return (
-      <ButtonTransparent onClick={this.onClick}>
-        <Icon type='icon interface-74'></Icon>
-      </ButtonTransparent>
-      // <span className="field-cross m-close" onClick={this.onClick}></span>
+      <ButtonClose
+        onClick={this.onClick}
+        small
+      />
     );
   }
 

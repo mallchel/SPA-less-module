@@ -8,6 +8,8 @@ import dropdownActions from '../../actions/dropdownActions'
 import trs from '../../getTranslations'
 import { connect } from '../StateProvider'
 
+import styles from './catalogEditor.less'
+
 const Option = Select.Option;
 
 const SelectRemote = React.createClass({
@@ -20,7 +22,7 @@ const SelectRemote = React.createClass({
     ]),
 
     type: PropTypes.string.isRequired,
-    additionalItems: PropTypes.array,
+    // additionalItems: PropTypes.array,
     onLoadItems: PropTypes.func,
     filterFn: PropTypes.func,
     itemsMapper: PropTypes.func,
@@ -37,8 +39,7 @@ const SelectRemote = React.createClass({
   },
 
   updateStateItems(items) {
-    let noEmptyRemoteItems = !(items.length === 0 && this.state.items.length > 0) ||
-      !this.props.blockForceUpdateForEmpty;
+    let noEmptyRemoteItems = !(items.length === 0 && this.state.items.length > 0);
     if (!_.isEqual(this.state.items, items) && noEmptyRemoteItems) {
       this.setState({
         items,
@@ -94,8 +95,18 @@ const SelectRemote = React.createClass({
     }
   },
 
-  onChange(...args) {
-    console.log(args)
+  onChange(itemsKey) {
+    let items = this.state.items.concat(this.props.value);
+    items = _.uniq(items, 'key');
+    let selectedItems = [];
+    items.forEach(item => {
+      itemsKey.forEach((key) => {
+        if (item.key === key) {
+          selectedItems.push(item);
+        }
+      })
+    })
+    this.props.onSelectItems(selectedItems);
   },
 
   filterOption(inputValue, option) {
@@ -107,14 +118,7 @@ const SelectRemote = React.createClass({
   },
 
   render() {
-    let items = this.state.items;
-    let additionalItems = this.props.additionalItems;
-    if (additionalItems) {
-      if (typeof this.props.itemsMapper === 'function') {
-        additionalItems = additionalItems.map(this.props.itemsMapper);
-      }
-      items = items.concat(additionalItems);
-    }
+    let items = this.state.items.concat(this.props.value);
 
     if (this.props.filterFn) {
       items = items.filter(this.props.filterFn);
@@ -130,14 +134,14 @@ const SelectRemote = React.createClass({
 
     return <Select
       mode="multiple"
-      style={{ width: '100%' }}
+      className={styles.selectRemote}
       defaultValue={this.props.value.map(item => item.key)}
       onFocus={() => this.onOpenChange(true)}
       onBlur={() => this.onOpenChange(false)}
       onChange={this.onChange}
       filterOption={this.filterOption}
       placeholder={this.props.placeholder}
-      notFoundContent={this.state.loading ? trs('dropdown.loading') : trs('dropdown.noitems')}
+      notFoundContent={trs('dropdown.noitems')}
     >
       {
         items.map((item, i) => <Option key={item.key}>{item.text}</Option>)

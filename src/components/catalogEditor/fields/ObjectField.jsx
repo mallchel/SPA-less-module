@@ -33,6 +33,14 @@ const ObjectField = React.createClass({
   onSelect(selectedItems) {
     let catalogs = [];
     let views = [];
+    // selectedItemsKey.map((key) => {
+    //   let subKey = key.split(':');
+    //   if (subKey[0] == 'view') {
+    //     views.push({ id: subKey[1] });
+    //   } else {
+    //     catalogs.push({ id: key });
+    //   }
+    // });
     selectedItems.map((item) => {
       let key = item.key.split(':');
       if (key[0] == 'view') {
@@ -74,21 +82,10 @@ const ObjectField = React.createClass({
       this.props.field.getIn(['config', 'views']).toJS().map(v => items.push({ id: 'view:' + v.id, title: v.title }));
     }
     return (
-      <div className="field-type-object">
-        {/*<DropdownRemote
-          type="catalogs"
-          placeholder={trs('catalogEditor.field.object.namePlaceholder')}
-          additionalItems={this.state.values.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
-          disabled={this.props.disabled}
-          multiselect={true}
-          autocomplete={true}
-          value={items.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
-          withButton={false}
-          onSelectItems={this.onSelect} />*/}
+      <div>
         <SelectRemote
           type="catalogs"
           placeholder={trs('catalogEditor.field.object.namePlaceholder')}
-          additionalItems={this.state.values.map(c => ({ key: c.id, text: c.title, icon: c.icon }))}
           disabled={this.props.disabled}
           multiselect={true}
           autocomplete={true}

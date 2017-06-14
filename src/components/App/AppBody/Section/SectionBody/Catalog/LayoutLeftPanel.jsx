@@ -10,7 +10,7 @@ class LayoutLeftPanel extends Component {
       <div className={styles.container}>
         <div className={styles.header}>
           <CatalogHeader
-            catalog={this.props.catalog}
+            {...this.props}
           />
         </div>
 

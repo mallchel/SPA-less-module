@@ -1,6 +1,16 @@
 @import '../../../styles/helpers/index.less';
 
 /*
+  common
+*/
+
+.grayBlock {
+  margin-top: @PADDING_BASE / 2;
+  color: @TEXT_DISABLED;
+}
+
+
+/*
   ItemListEditor
 */
 
@@ -24,13 +34,7 @@
 }
 
 .inputTags {
-  border: 1px solid transparent;
-  background-color: transparent;
-  &:hover,
-  &:focus {
-    border: 1px solid transparent;
-    box-shadow: none;
-  }
+  .input-transparent;
 }
 
 
@@ -85,4 +89,29 @@
   height: 6px;
   border-radius: 3px;
   margin: 4px;
+}
+
+
+/*
+  Progress Field
+*/
+
+.typeProgress {
+  .grayBlock;
+}
+
+
+/*
+  Stars Field
+*/
+
+.typeStars {
+  .grayBlock;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.typeStarsItem {
+  font-size: 17px;
+  margin-right: @PADDING_BASE / 2;
 }

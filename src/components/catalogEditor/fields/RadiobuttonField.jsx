@@ -1,8 +1,9 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import ItemListEditor from './ItemListEditor';
-import editorActions from '../../../actions/editorActions';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Checkbox } from 'antd'
+import trs from '../../../getTranslations'
+import ItemListEditor from './ItemListEditor'
+import editorActions from '../../../actions/editorActions'
 
 const RadiobuttonField = React.createClass({
   mixins: [PureRenderMixin],
@@ -13,7 +14,7 @@ const RadiobuttonField = React.createClass({
     disabled: React.PropTypes.bool
   },
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       defaultValue: !!this.props.field.getIn(['config', 'defaultValue']),
     };
@@ -31,12 +32,15 @@ const RadiobuttonField = React.createClass({
 
   render() {
     return (
-      <div className="field-type-radiobutton">
+      <div>
         <ItemListEditor fieldIndex={this.props.fieldIndex} disabled={this.props.disabled} sectionId={this.props.sectionId} field={this.props.field} />
-        <label className="checkbox">
-          <input disabled={this.props.disabled} type="checkbox" checked={this.state.defaultValue} onChange={this.onChangeDefaultValue} />
-          <span>{trs('fieldTypes.radiobutton.default')}</span>
-        </label>
+        <Checkbox
+          disabled={this.props.disabled}
+          checked={this.state.defaultValue}
+          onChange={this.onChangeDefaultValue}
+        >
+          {trs('fieldTypes.radiobutton.default')}
+        </Checkbox>
       </div>
     );
   }

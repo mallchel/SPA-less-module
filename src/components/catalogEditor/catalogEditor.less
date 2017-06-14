@@ -14,6 +14,20 @@
   padding-bottom: 250px
 }
 
+.header {
+  .header-base;
+}
+
+.headerIcon {
+  margin-right: @PADDING_BASE;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.headerClose {
+  .shift-right;
+}
+
 .field {
   display: flex;
 }
@@ -36,22 +50,19 @@
   align-items: baseline;
 }
 
-// .fieldLeftSideSetting {
-//   // padding: @PADDING_BASE;
-//   // cursor: pointer;
-//   // color: @TEXT_EXTRA;
-//   &:hover {
-//     color: @TEXT_SUB;
-//   }
-// }
-
-// .fieldLeftSideSettingOpened {
-//   .fieldLeftSideSetting;
-//   color: inherit;
-// }
+.fieldLabelNotRequired {
+  color: @TEXT_DISABLED !important;
+  padding-left: @PADDING_BASE / 2;
+  padding-right: @PADDING_BASE / 2;
+  &:hover {
+    color: fade(@DANGER_BUTTON, 50%) !important;
+  }
+}
 
 .fieldLabelRequired {
   color: @DANGER_BUTTON !important;
+  padding-left: @PADDING_BASE / 2;
+  padding-right: @PADDING_BASE / 2;
   &:hover {
     color: @DANGER_BUTTON !important;
   }
@@ -79,12 +90,17 @@
 
 .fieldSection {
   background-color: @BG_WORKPALCE;
+  border: 1px solid @BORDER_BLOCK;
 }
 
 .fieldRightSide {
   width: 60%;
   margin: @PADDING_BASE 0 @PADDING_BASE 0;
-  padding: 0 @PADDING_BASE 0 @PADDING_BASE;
+  padding: 0 @PADDING_BASE 0 @PADDING_BASE * 2;
+}
+
+.fieldRightSideRemove {
+  margin: @PADDING_BASE 0 @PADDING_BASE 0;
 }
 
 .fieldHint {
@@ -93,6 +109,9 @@
 
 .fieldHintInput {
   .input-transparent;
+  resize: none;
+  color: @TEXT_EXTRA;
+  padding-left: 0px;
 }
 
 
@@ -104,4 +123,14 @@
   height: 20px;
   margin-top: -5px;
   margin-bottom: -5px;
+}
+
+
+/*
+  SelectRemote
+*/
+
+.selectRemote {
+  width: 100%;
+  margin-bottom: @PADDING_BASE;
 }

@@ -1,7 +1,8 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import editorActions from '../../../actions/editorActions';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Checkbox } from 'antd'
+import trs from '../../../getTranslations'
+import editorActions from '../../../actions/editorActions'
 
 const FileField = React.createClass({
   mixins: [PureRenderMixin],
@@ -11,7 +12,7 @@ const FileField = React.createClass({
     sectionId: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool
   },
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       multiselect: !!this.props.field.getIn(['config', 'multiselect'])
     };
@@ -29,15 +30,15 @@ const FileField = React.createClass({
 
   render() {
     return (
-      <div className="field-type-file">
-        <label className="checkbox">
-          <input
-              disabled={this.props.disabled}
-              type="checkbox"
-              checked={this.state.multiselect}
-              onChange={this.onChangeMultiselect} />
-          <span>{trs('fieldTypes.file.canSelectMultiple')}</span>
-        </label>
+      <div>
+        <Checkbox
+          disabled={this.props.disabled}
+          name="multiselect"
+          checked={this.state.multiselect}
+          onChange={this.onChangeMultiselect}
+        >
+          {trs('fieldTypes.file.canSelectMultiple')}
+        </Checkbox>
       </div>
     );
   }

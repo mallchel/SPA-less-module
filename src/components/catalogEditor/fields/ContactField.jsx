@@ -1,11 +1,12 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import Dropdown from '../../common/Dropdown';
-import editorActions from '../../../actions/editorActions';
-import {EMAIL, PHONE, SITE} from '../../../configs/contactFieldSubTypes';
-import {CONTACT} from '../../../configs/fieldTypes';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Select } from 'antd'
+import trs from '../../../getTranslations'
+// import Dropdown from '../../common/Dropdown'
+import editorActions from '../../../actions/editorActions'
+import { EMAIL, PHONE, SITE } from '../../../configs/contactFieldSubTypes'
 
+const Option = Select.Option;
 const fieldTypes = [PHONE, EMAIL, SITE];
 
 const TextField = React.createClass({
@@ -18,7 +19,7 @@ const TextField = React.createClass({
   },
   getInitialState() {
     return {
-      items: fieldTypes.map((type)=> {
+      items: fieldTypes.map((type) => {
         return {
           key: type,
           text: trs(`fieldTypes.${this.props.field.get('type')}.types.` + type)
@@ -27,21 +28,21 @@ const TextField = React.createClass({
     };
   },
 
-  onSelect(items) {
+  onSelect(itemKey) {
     editorActions.changeFieldConfig(this.props.sectionId, this.props.fieldIndex, {
-      type: items[0] && items[0].key
+      type: itemKey
     });
   },
 
   render() {
     return (
-      <div className="field-type-text">
-        <Dropdown
-          disabled={this.props.disabled}
-          items={this.state.items}
-          value={this.props.field.getIn(['config', 'type'])}
-          withButton={true}
-          onSelectItems={this.onSelect} />
+      <div>
+        <Select
+          style={{ width: '100%' }}
+          children={this.state.items.map(item => <Option key={item.key}>{item.text}</Option>)}
+          defaultValue={this.props.field.getIn(['config', 'type'])}
+          onChange={this.onSelect}
+        />
       </div>
     );
   }

@@ -1,28 +1,31 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import { Icon } from 'antd'
+import { Icon, Input, Button, Row } from 'antd'
+import PropTypes from 'prop-types'
 
-import router from '../../router'
 import trs from '../../getTranslations'
-import DropdownButton from '../common/DropdownButton'
-import { base, alert } from '../common/Modal'
+import { alert } from '../common/Modal'
 import IconsModal from '../common/IconsModal'
 import editorActions from '../../actions/editorActions'
 import apiActions from '../../actions/apiActions'
 import { connect } from '../StateProvider'
 import ButtonTransparent from '../common/elements/ButtonTransparent'
+import ButtonClose from '../common/elements/ButtonClose'
+import { renderModaltoBody } from '../common/Modal'
+import catalogActions from '../../actions/catalogActions'
+
+import styles from './catalogEditor.less'
 
 const CatalogEditorHeader = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    // catalog: React.PropTypes.object.isRequired,
-    // sectionId: React.PropTypes.string.isRequired,
-    // disabled: React.PropTypes.bool
+    catalog: PropTypes.object.isRequired,
+    disabled: PropTypes.bool
   },
 
   getInitialState() {
     return {
-      name: ''
+      name: this.props.catalog.get('name') || ''
     };
   },
 
@@ -31,31 +34,30 @@ const CatalogEditorHeader = React.createClass({
     this.setState({
       name: newName
     });
-    editorActions.setCatalogName(this.props.sectionId, newName);
+    editorActions.setCatalogName(this.props.match.params.sectionId, newName);
   },
 
   onChangeIcon(icon) {
-    editorActions.setCatalogIcon(this.props.sectionId, icon);
+    editorActions.setCatalogIcon(this.props.match.params.sectionId, icon);
   },
 
   changeIcon() {
-    const catalog = this.props.catalogs.get(this.props.match.params.catalogId);
-    base(IconsModal, {
+    const catalog = this.props.catalog;
+    renderModaltoBody(IconsModal, {
       header: catalog.get('name'),
       currentIcon: catalog.get('icon'),
       onSave: this.onChangeIcon
-    }, {
-        css: 'icons-modal'
-      });
+    })
   },
 
-  save() {
+  save(history) {
     // need refactor, take out to BL.
     let c = this.props.catalog.toJS();
+    const sectionId = this.props.match.params.sectionId;
     let data = {
       name: c.name,
       icon: c.icon,
-      sectionId: this.props.sectionId,
+      sectionId: sectionId,
       fields: c.fields.map(f => ({
         id: f.id,
         name: f.name,
@@ -70,12 +72,15 @@ const CatalogEditorHeader = React.createClass({
     if (c.id) {
       apiActions.updateCatalog({
         catalogId: c.id,
-        sectionId: this.props.sectionId
+        sectionId: sectionId
       }, data);
+      history.push(`/section/${sectionId}/catalog/${c.id}`);
     } else {
       apiActions.createCatalog({
-        sectionId: this.props.sectionId
-      }, data);
+        sectionId: sectionId
+      }, data).then((result) => {
+        history.push(`/section/${sectionId}/catalog/${result.id}`);
+      });
     }
   },
 
@@ -83,18 +88,16 @@ const CatalogEditorHeader = React.createClass({
 
   },
 
-  changeRouteOnClose() {
+  changeRouteOnClose(history) {
     if (this.props.catalog.get('isNew')) {
-      router.go('main.section');
+      history.push(`/section/${this.props.match.params.sectionId}`);
     } else {
-      router.go('main.section.catalogData', {
-        catalogId: this.props.catalog.get('id')
-      });
+      history.push(`/section/${this.props.match.params.sectionId}/catalog/${this.props.catalog.get('id')}`);
     }
   },
 
-  close() {
-    this.changeRouteOnClose();
+  close(history) {
+    this.changeRouteOnClose(history);
   },
 
   componentDidMount() {
@@ -134,35 +137,31 @@ const CatalogEditorHeader = React.createClass({
 
   render() {
     const icon = (this.props.catalog && this.props.catalog.get('icon')) || 'content-11';
+
     return (
-      <div>
-        <ButtonTransparent
-          onClick={this.changeIcon}
-          disabled={this.props.disabled}
-        >
-          <Icon type={`icon ${icon}`} />
-        </ButtonTransparent>
-        {/*<button disabled={this.props.disabled} className="btn editor-header__icon-btn" onClick={this.changeIcon}>
-          <div className={'anticon-icon ' + icon}></div>
-        </button>*/}
-        <input ref="inputText" type="text" disabled={this.props.disabled}
-          className="editor-header__input"
-          onChange={this.onChangeName}
-          value={this.state.name} />
-
-        {/*<h1 className="header__data__title">
-          <span>&nbsp;</span>
-        </h1>*/}
-
-        <DropdownButton
-          disabled={this.props.disabled}
-          items={[]}
-          text={this.props.disabled ? trs('buttons.saving') : trs('buttons.save')}
-          type="success"
-          onClick={this.save} />
-
-        <span onClick={this.close} className="m-close"></span>
-      </div>
+      <Row type="flex" justify="space-between" align="middle" className={styles.header}>
+        <Row type="flex">
+          <Button
+            onClick={this.changeIcon}
+            disabled={this.props.disabled}
+            className={styles.headerIcon}
+          >
+            <Icon style={{ fontSize: '1.43em' }} type={`icon ${icon}`} />
+          </Button>
+          <Input
+            ref="inputText"
+            disabled={this.props.disabled}
+            onChange={this.onChangeName}
+            defaultValue={this.state.name} />
+        </Row>
+        <Row type="flex" align="middle">
+          <Button type="primary" disabled={this.props.disabled} onClick={() => this.save(this.props.history)}>{this.props.disabled ? trs('buttons.saving') : trs('buttons.save')}</Button>
+          <ButtonClose
+            onClick={() => this.close(this.props.history)}
+            className={styles.headerClose}
+          />
+        </Row>
+      </Row>
     );
   }
 

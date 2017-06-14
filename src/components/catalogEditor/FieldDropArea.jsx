@@ -5,15 +5,15 @@ import classNames from 'classnames'
 import { DropTarget } from 'react-dnd'
 
 import dndTargets from '../../configs/dndTargets'
-// import editorActions from '../../actions/editorActions'
+import editorActions from '../../actions/editorActions'
 // import router from '../../router'
 
 import styles from './catalogEditor.less'
 
 const dropTarget = DropTarget([dndTargets.FIELD_TYPE, dndTargets.FIELD], {
   drop: function (props, monitor, component) {
-    // const item = monitor.getItem();
-    // editorActions.dropField(router.currentParams.sectionId, item.fieldIndex, item.fieldType, component.props.prevFieldIndex);
+    const item = monitor.getItem();
+    editorActions.dropField(props.sectionId, item.fieldIndex, item.fieldType, component.props.prevFieldIndex);
   },
   canDrop: function canDrop(props, monitor) {
     return !props.disabled;

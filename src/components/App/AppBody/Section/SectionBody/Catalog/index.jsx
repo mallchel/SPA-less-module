@@ -63,11 +63,12 @@ class Catalog extends Component {
               transitionEnterTimeout={ANIMATION_DELAY} transitionLeaveTimeout={ANIMATION_DELAY} transitionLeave={true}
             >
               {!props.match && (
-                <Route
-                  path={'/section/:sectionId/catalog/:catalogId'}
+                <NavRoute
+                  route={routes.catalog}
                   render={props => (
                     <LayoutLeftPanel
                       catalog={catalog}
+                      {...props}
                     />
                   )}
                 />

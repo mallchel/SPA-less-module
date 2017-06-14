@@ -2,6 +2,7 @@ import React from 'react'
 // import PureRenderMixin from 'react-addons-pure-render-mixin'
 import { Menu as AntMenu, Dropdown, Icon } from 'antd'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import modalsActions from '../../../../actions/modalsActions'
 import apiActions from '../../../../actions/apiActions'
 import trs from '../../../../getTranslations'
@@ -94,13 +95,19 @@ const SettingSection = React.createClass({
     return (
       <div>
         <span>{this.props.section && this.props.section.get('name')}</span>
-        <Dropdown
-          overlay={menu}
-          trigger={['click']}
-          disabled={!this.props.isAccessAdmin ? true : false}
-        >
-          <ButtonTransparent className={styles.shiftRight}><Icon type="icon setting-10" /></ButtonTransparent>
-        </Dropdown>
+        {
+          !_.isEmpty(menu)
+            ?
+            <Dropdown
+              overlay={menu}
+              trigger={['click']}
+              disabled={!this.props.isAccessAdmin ? true : false}
+            >
+              <ButtonTransparent className={styles.shiftRight}><Icon type="icon setting-10" /></ButtonTransparent>
+            </Dropdown>
+            :
+            <Icon className={styles.disabledSetting} type="icon setting-10" />
+        }
       </div>
     );
   }

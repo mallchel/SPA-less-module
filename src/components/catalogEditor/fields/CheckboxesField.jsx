@@ -1,8 +1,9 @@
-import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import trs from '../../../getTranslations';
-import ItemListEditor from './ItemListEditor';
-import editorActions from '../../../actions/editorActions';
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Checkbox } from 'antd'
+import trs from '../../../getTranslations'
+import ItemListEditor from './ItemListEditor'
+import editorActions from '../../../actions/editorActions'
 
 const CheckboxesField = React.createClass({
   mixins: [PureRenderMixin],
@@ -14,7 +15,7 @@ const CheckboxesField = React.createClass({
     disabled: React.PropTypes.bool
   },
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       defaultValue: !!this.props.field.getIn(['config', 'defaultValue']),
     };
@@ -32,17 +33,21 @@ const CheckboxesField = React.createClass({
 
   render() {
     return (
-      <div className="field-type-checkboxes">
+      <div>
         <ItemListEditor
-            disabled={this.props.disabled}
-            fieldIndex={this.props.fieldIndex}
-            sectionId={this.props.sectionId}
-            catalogId={this.props.catalogId}
-            field={this.props.field} />
-        <label className="checkbox">
-          <input disabled={this.props.disabled} type="checkbox" checked={this.state.defaultValue} onChange={this.onChangeDefaultValue} />
-          <span>{trs('fieldTypes.checkboxes.default')}</span>
-        </label>
+          disabled={this.props.disabled}
+          fieldIndex={this.props.fieldIndex}
+          sectionId={this.props.sectionId}
+          catalogId={this.props.catalogId}
+          field={this.props.field} />
+
+        <Checkbox
+          disabled={this.props.disabled}
+          checked={this.state.defaultValue}
+          onChange={this.onChangeDefaultValue}
+        >
+          {trs('fieldTypes.checkboxes.default')}
+        </Checkbox>
       </div>
     );
   }

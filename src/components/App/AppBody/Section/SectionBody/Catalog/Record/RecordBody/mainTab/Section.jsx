@@ -3,12 +3,15 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Reflux from 'reflux'
 import classNames from 'classnames'
 import _ from 'lodash'
+import { Row } from 'antd'
 import trs from '../../../../../../../../../getTranslations'
 import FIELD_TYPES from '../../../../../../../../../configs/fieldTypes'
 import FieldErrorsStore from '../../../../../../../../../stores/FieldErrorsStore'
 import appState from '../../../../../../../../../appState'
 import apiActions from '../../../../../../../../../actions/apiActions'
 import recordActions from '../../../../../../../../../actions/recordActions'
+
+import styles from './mainTab.less'
 
 import Field from './Field'
 
@@ -33,7 +36,7 @@ const fieldComponentsByType = {
 };
 
 const Section = React.createClass({
-  mixins: [Reflux.listenTo(FieldErrorsStore, 'updateErrorFields')],
+  mixins: [PureRenderMixin, Reflux.listenTo(FieldErrorsStore, 'updateErrorFields')],
   propTypes: {
     record: React.PropTypes.object,
     recordId: React.PropTypes.string,
@@ -185,20 +188,15 @@ const Section = React.createClass({
     });
 
     return (
-      <li className={classNames({ 'record-section': true, 'record-section--open': this.state.open })}>
-        <div className="record-section__header" onClick={this.toggleList}>
-          <span className="record-section__header-text">{this.props.section.get('name')}</span>
-          {!this.state.open ? <span
-            className="record-section__header-count">{trs('record.groupFieldsCount', this.props.fields.length)}</span> : null}
+      <div>
+        <Row type="flex" justify="space-between" className={styles.sectionHeader} onClick={this.toggleList}>
+          <span className={styles.headerText}>{this.props.section.get('name')}</span>
+          {!this.state.open ? <span className={styles.headerCount}>{trs('record.groupFieldsCount', this.props.fields.length)}</span> : null}
+        </Row>
+        <div style={!this.state.open ? { display: 'none' } : null} className="record-section__fields">
+          {fieldItems}
         </div>
-        <div className="record-section__fields">
-          <table className="record-section__table">
-            <tbody>
-              {fieldItems}
-            </tbody>
-          </table>
-        </div>
-      </li>
+      </div>
     );
   }
 });

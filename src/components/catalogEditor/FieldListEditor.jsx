@@ -79,7 +79,7 @@ const FieldListEditor = React.createClass({
 
       if (i === 0) {
         fieldComponents.push(
-          <FieldDropArea key={'drop'} disabled={disableDropArea} prevFieldIndex={-1} />
+          <FieldDropArea key={'drop'} disabled={disableDropArea} prevFieldIndex={-1} sectionId={this.props.sectionId}/>
         );
       }
 
@@ -110,7 +110,7 @@ const FieldListEditor = React.createClass({
 
 
       fieldComponents.push(
-        <FieldDropArea key={i + 'drop'} disabled={disableDropArea} prevFieldIndex={i} />
+        <FieldDropArea key={i + 'drop'} disabled={disableDropArea} prevFieldIndex={i} sectionId={this.props.sectionId} />
       );
     });
 

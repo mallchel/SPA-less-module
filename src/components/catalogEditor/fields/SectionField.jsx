@@ -5,7 +5,7 @@ const SectionField = React.createClass({
   mixins: [PureRenderMixin],
   render() {
     return (
-      <div className="field-type-section">
+      <div>
 
       </div>
     );

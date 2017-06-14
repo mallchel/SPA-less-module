@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import _ from 'lodash'
+import { Row } from 'antd'
 import trs from '../../../../../../../../getTranslations'
 import apiActions from '../../../../../../../../actions/apiActions'
 import recordActions from '../../../../../../../../actions/recordActions'
@@ -14,6 +15,7 @@ import routes from '../../../../../../../../routes'
 import TabsMenu from '../../../../../../../common/menu/TabsMenu'
 import RecordActivities from './RecordActivities'
 import getLink from '../../../../../../../common/router/getLink'
+import ButtonClose from '../../../../../../../common/elements/ButtonClose'
 
 import PRIVILEGE_CODES from '../../../../../../../../configs/privilegeCodes'
 import RESOURCE_TYPES from '../../../../../../../../configs/resourceTypes'
@@ -56,8 +58,8 @@ const RecordHeader = React.createClass({
     }
   },
 
-  onClickClose() {
-    // router.go('main.section.catalogData');
+  onClickClose({ history, linkToRecords }) {
+    history.push(linkToRecords);
   },
 
   onRemove() {
@@ -103,7 +105,7 @@ const RecordHeader = React.createClass({
     const headerText = isNew ? trs('record.newRecord') : record.get('title');
 
     return (
-      <div className={styles.container}>
+      <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <NavRoute route={routes.record} exact render={props => {
           return <NavRedirect route={tabs.getIn([0, 'route'])} />
         }} />
@@ -120,22 +122,30 @@ const RecordHeader = React.createClass({
         <NavRoute route={routes.record} render={
           ({ match, location, history }) => {
             const link = getLink(location, routes.record, { recordId: '$new' });
-            return <RecordActivities
-              record={record}
-              catalog={this.props.catalog}
-              viewId={match.params.viewId}
-              hasBeenEdit={this.props.hasBeenEdit}
-              onClone={() => this.onClone({ history, link })}
-              onRemove={this.onRemove}
-              onClickCreate={this.onClickCreate}
-              onClickAccess={this.onClickAccess}
-              onSave={this.props.onSave}
-            />
+            const linkToRecords = getLink(location, routes.records);
+            return (
+              <Row type="flex" align="middle">
+                <RecordActivities
+                  record={record}
+                  catalog={this.props.catalog}
+                  viewId={match.params.viewId}
+                  hasBeenEdit={this.props.hasBeenEdit}
+                  onClone={() => this.onClone({ history, link })}
+                  onRemove={this.onRemove}
+                  onClickCreate={this.onClickCreate}
+                  onClickAccess={this.onClickAccess}
+                  onSave={this.props.onSave}
+                />
+
+                <ButtonClose
+                  onClick={() => this.onClickClose({ history, linkToRecords })}
+                  className={styles.close}
+                />
+              </Row>
+            )
           }
         } />
-
-        {/*<span onClick={this.onClickClose}></span>*/}
-      </div>
+      </Row>
     );
   }
 

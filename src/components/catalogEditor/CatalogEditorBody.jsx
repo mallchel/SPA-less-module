@@ -43,12 +43,12 @@ const CatalogEditorBody = React.createClass({
   // },
 
   render() {
-    let sectionId = this.props.match.params.sectionId;
-    let catalog = this.props.editingCatalogs.get(sectionId);
-    let catalogs = this.props.catalogs;
-    let dropType = this.props.dropType;
-    let dropInfo = this.props.dropInfo;
-    let disabled = catalog && (catalog.get('updating') || catalog.get('creating'));
+    const sectionId = this.props.match.params.sectionId;
+    const catalog = this.props.catalog;
+    const catalogs = this.props.catalogs;
+    const dropType = this.props.dropType;
+    const dropInfo = this.props.dropInfo;
+    const disabled = this.props.disabled;
 
     return (
       <div className={styles.container}>
@@ -60,7 +60,8 @@ const CatalogEditorBody = React.createClass({
               dropInfo={dropInfo}
               catalog={catalog}
               sectionId={sectionId}
-              catalogs={catalogs} /> :
+              catalogs={catalogs}
+            /> :
             null
           }
         </div>
@@ -72,5 +73,5 @@ const CatalogEditorBody = React.createClass({
 
 });
 
-export default connect(CatalogEditorBody, ['editingCatalogs', 'catalogs', 'dropType', 'dropInfo']);
+export default CatalogEditorBody;
 // export default CatalogEditorBody;

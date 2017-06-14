@@ -4,7 +4,7 @@ import CatalogEditorBody from '../../catalogEditor/CatalogEditorBody'
 import CatalogEditorHeader from '../../catalogEditor/CatalogEditorHeader'
 import apiActions from '../../../actions/apiActions'
 import catalogActions from '../../../actions/catalogActions'
-// import { connect } from '../../StateProvider'
+import { connect } from '../../StateProvider'
 
 import styles from './appBody.less'
 
@@ -42,16 +42,42 @@ class CatalogEditor extends Component {
   }
 
   render() {
+    const catalog = this.props.editingCatalogs.get(this.props.match.params.sectionId);
+    const catalogs = this.props.catalogs;
+    const dropType = this.props.dropType;
+    const dropInfo = this.props.dropInfo;
+    const disabled = catalog && (catalog.get('updating') || catalog.get('creating'));
     return (
       <div className={styles.catalogEditor} >
-        <CatalogEditorHeader {...this.props} />
-        <div className={styles.catalogEditorBody}>
-          <FieldTypes />
-          <CatalogEditorBody {...this.props} />
-        </div>
+        {
+          catalog ?
+            <CatalogEditorHeader
+              {...this.props}
+              catalog={catalog}
+              disabled={disabled}
+            />
+            :
+            null
+        }
+        {
+          catalog ?
+            <div className={styles.catalogEditorBody}>
+              <FieldTypes />
+              <CatalogEditorBody
+                {...this.props}
+                dropType={dropType}
+                dropInfo={dropInfo}
+                catalog={catalog}
+                catalogs={catalogs}
+                disabled={disabled}
+              />
+            </div>
+            :
+            null
+        }
       </div>
     )
   }
 }
 
-export default CatalogEditor;
+export default connect(CatalogEditor, ['catalogs', 'editingCatalogs', 'dropType', 'dropInfo']);

@@ -573,7 +573,7 @@ const Dropdown = React.createClass({
           this.props.type === 'catalogs' ?
             <Select
               mode="multiple"
-              style={{ width: '100%' }}
+              className={styles.select}
               placeholder={this.props.placeholder}
               defaultValue={this.state.selectedItems.map(item => item.text)}
               onFocus={() => this.props.onOpenChange(true)}

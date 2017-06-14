@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import { Prompt } from 'react-router-dom'
 import Immutable from 'immutable'
 import _ from 'lodash'
 import appState from '../../../../../../../appState'
@@ -143,10 +142,6 @@ class Record extends Component {
 
     return (
       <div className={styles.container}>
-        {/*<Prompt
-          when={true}
-          message={e => 'asdasdasd'}
-        />*/}
         <RecordHeader
           catalog={catalog}
           hasBeenEdit={this.state.hasBeenEdit}
