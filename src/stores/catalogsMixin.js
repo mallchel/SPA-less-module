@@ -156,6 +156,7 @@ export default {
   deleteCatalog({ catalogId }) { },
 
   deleteCatalogCompleted(res, { catalogId }) {
+    this.deleteIn(['catalogs', catalogId]);
     apiActions.getCatalogs();
   },
 

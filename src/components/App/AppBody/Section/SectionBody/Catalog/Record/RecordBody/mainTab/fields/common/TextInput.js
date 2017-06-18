@@ -80,8 +80,8 @@ export default class TextInput extends Component {
     const inProcess = updateProcess && updateProcess.get('inProcess');
 
     const statusCN = cn('record-text-input__status icon', {
-      'icon--edition-66': shouldProcess && !inProcess,
-      'icon--transfers-74 record-text-input__status--spin spin': inProcess
+      'anticon-icon edition-66': shouldProcess && !inProcess,
+      'anticon-icon transfers-74 record-text-input__status--spin spin': inProcess
     });
 
     const newActions = [...(actions || [])];

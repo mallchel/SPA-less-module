@@ -1,12 +1,13 @@
 import _ from 'lodash'
-import trs from '../../../../../../../../../getTranslations'
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
+import { Checkbox } from 'antd'
+import trs from '../../../../../../../../../getTranslations'
 
 function getValuesMap(values) {
   var map = {};
-  (values || []).forEach((v)=>{
+  (values || []).forEach((v) => {
     map[v] = true;
   });
   return Immutable.fromJS(map);
@@ -33,8 +34,8 @@ const CheckboxesField = React.createClass({
     });
 
     var values = [];
-    newValues.forEach((v, id)=> {
-      if ( v ) {
+    newValues.forEach((v, id) => {
+      if (v) {
         values.push(id);
       }
     });
@@ -43,7 +44,7 @@ const CheckboxesField = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if ( !Immutable.is(nextProps.value, this.props.value) ) {
+    if (!Immutable.is(nextProps.value, this.props.value)) {
       this.setState({
         values: getValuesMap(nextProps.value)
       });
@@ -71,17 +72,18 @@ const CheckboxesField = React.createClass({
 
     return (
       <div className="record-radio">
-        {this.props.config.get('items').map((item)=> {
+        {this.props.config.get('items').map((item) => {
           var id = item.get('id');
           var selected = this.state.values.get(id);
           return (
-            <label
-                key={id}
-                className={'checkbox record-radio__item' + (selected ? ' record-radio__item--selected' : '')}
-                style={{backgroundColor: '#' + item.get('color')}}>
-              <input type="checkbox" checked={selected} onChange={_.bind(this.onChangeItem, this, id)} />
-              <span>{item.get('name')}</span>
-            </label>
+            <Checkbox
+              key={id}
+              disabled={this.props.readOnly}
+              checked={selected}
+              onChange={_.bind(this.onChangeItem, this, id)}
+            >
+              {item.get('name')}
+            </Checkbox>
           );
         })}
 

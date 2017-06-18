@@ -76,7 +76,7 @@ const DropdownField = React.createClass({
     }
 
     return (
-      <div className="record-dropdown">
+      <div className={styles.dropdownContainer}>
         {this.props.config.get('items').map((item) => {
           const id = item.get('id');
           const selected = this.state.values.get(id);
@@ -89,13 +89,6 @@ const DropdownField = React.createClass({
             >
               {item.get('name')}
             </Tag>
-            /*<span
-              key={id}
-              onClick={_.bind(this.onClickItem, this, id)}
-              className={'record-dropdown__item' + (selected ? ' record-dropdown__item--selected' : '')}
-              style={{backgroundColor: '#' + item.get('color')}}>
-              {item.get('name')}
-            </span>*/
           );
         })}
 

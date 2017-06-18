@@ -1,5 +1,4 @@
 @import (reference) '../../../../../../../../../styles/helpers/index.less';
-
 .sectionHeader {
   cursor: pointer;
   padding: @PADDING_BASE @PADDING_BASE * 2;
@@ -14,8 +13,45 @@
   color: @TEXT_DISABLED;
 }
 
-.field {
+.sectionFields {
+  margin-top: @PADDING_BASE * 1.5;
+  margin-bottom: @PADDING_BASE * 1.5;
+}
+
+.fieldHeader {
+  .container--padding-horizontal;
+  padding-top: @PADDING_BASE + @PADDING_INPUT;
+  padding-bottom: @PADDING_BASE;
+  border-right: 1px solid @BORDER_BLOCK;
+  width: 25%;
+  min-width: 25%;
+  color: @TEXT_EXTRA;
+  text-align: right;
+  word-wrap: break-word;
+}
+
+.fieldBody {
   .container--padding-horizontal;
   padding-top: @PADDING_BASE;
   padding-bottom: @PADDING_BASE;
+  width: 75%;
+  flex-basis: 75%;
+}
+
+
+/*
+  addBtn
+*/
+
+.addButton {
+  .paddingsLikeInput;
+  color: @TEXT_EXTRA;
+  cursor: pointer;
+  &:hover {
+    color: @TEXT_EXTRA_HOVER;
+  }
+}
+
+.addButtonText {
+  border-bottom: 1px solid fade(@TEXT_SUB, 20%);
 }

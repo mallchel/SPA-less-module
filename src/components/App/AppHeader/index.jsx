@@ -16,8 +16,6 @@ class AppHeader extends Component {
   }
 
   render() {
-    // const sections = this.props.appState.get('sections').sortBy(s => s.get('name').toLowerCase()).valueSeq().map(s => s.remove('icon'));
-
     return (
       <Row type="flex" justify="space-between" align="middle" className={styles.container}>
         <Col>

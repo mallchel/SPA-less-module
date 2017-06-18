@@ -2,6 +2,7 @@
 @import '../../node_modules/fotorama/fotorama.css';
 @import './antd/antd.less';
 @import '../icons/index.less';
+@import '~rc-slider/assets/index.css';
 
 h1, h2, h3 {
   font-weight: normal;
@@ -15,6 +16,18 @@ h2 {
 #root {
   height: 100%;
   overflow: hidden;
+}
+
+/* Slider in Filters */
+.rc-slider-handle{
+  border-color: fade(@TEXT_ACCENT, 70%);
+  &:hover {
+    border-color: @TEXT_ACCENT;
+  }
+}
+
+.rc-slider-track {
+  background-color: fade(@TEXT_ACCENT, 60%);
 }
 
 ::selection {

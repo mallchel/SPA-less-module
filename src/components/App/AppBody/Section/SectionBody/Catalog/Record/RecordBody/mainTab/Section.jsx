@@ -193,7 +193,7 @@ const Section = React.createClass({
           <span className={styles.headerText}>{this.props.section.get('name')}</span>
           {!this.state.open ? <span className={styles.headerCount}>{trs('record.groupFieldsCount', this.props.fields.length)}</span> : null}
         </Row>
-        <div style={!this.state.open ? { display: 'none' } : null} className="record-section__fields">
+        <div style={!this.state.open ? { display: 'none' } : null} className={styles.sectionFields}>
           {fieldItems}
         </div>
       </div>

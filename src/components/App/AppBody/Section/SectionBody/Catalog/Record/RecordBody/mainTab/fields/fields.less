@@ -1,0 +1,117 @@
+@import (reference) '../../../../../../../../../../styles/helpers/index.less';
+
+/*
+  Common
+*/
+
+/*
+  Stars Field
+*/
+
+.starsContainer {
+  .paddingsLikeInput;
+}
+
+.starsField {
+  font-size: 18px;
+  color: @TEXT_MUTED;
+  margin-right: @PADDING_BASE / 2;
+}
+
+.nonReadOnly {
+  cursor: pointer;
+}
+
+.starsFieldSelected {
+  color: rgb(228, 164, 64);
+}
+
+
+/*
+  Checkbox
+*/
+
+.checkboxReadOnly {
+  color: @TEXT_DISABLED;
+}
+
+
+/*
+  Radio Button
+*/
+
+.radioItem {
+  .paddingsLikeInput;
+  display: block;
+  min-height: @HEIGHT_INPUT;
+}
+
+
+/*
+  Progress bar
+*/
+
+.progressContainer {
+  .paddingsLikeInput;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progressText {
+  min-width: 50px;
+}
+
+.progressBar {
+  width: 100%;
+  background-color: #f7f7f8;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressSlider {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #dbe8ed;
+  z-index: 1;
+}
+
+.progressDivider {
+  width: 10%;
+  border-right: 1px solid #a2c9d6;
+  height: 10px;
+  margin-top: 5px;
+  float: left;
+  position: relative;
+  z-index: 2;
+}
+
+
+/*
+  Record Dropdown
+*/
+
+
+.dropdownItemRowDisabled {
+  color: @TEXT_DISABLED;
+}
+
+.dropdownItemIcon {
+  margin-right: 4px;
+}
+
+.dropdownLink {
+  .paddingsLikeInput;
+  display: inline-block;
+}
+
+.dropdownItemText {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 1em;
+  line-height: 1em;
+  margin-right: 4px;
+  word-break: break-all;
+}

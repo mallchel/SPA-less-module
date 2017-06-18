@@ -20,11 +20,11 @@ const Field = React.createClass({
 
   render() {
     let requiredAsterisk = this.props.required ? (<span className="record-field__required-asterisk">*</span>) : null;
-    let labelClass = cn('record-field__header', {
+    let labelClass = cn(styles.fieldHeader, {
       'record-field__header-error': this.props.error
     });
     return (
-      <Row type="flex" justify="space-between" className={cn({ 'record-field__error': this.props.error }, styles.field)}>
+      <Row type="flex" justify="start" className={cn({ 'record-field__error': this.props.error })}>
         <div className={labelClass} title={this.props.name}>
           {this.props.name}
           {requiredAsterisk}
@@ -36,12 +36,12 @@ const Field = React.createClass({
             case FIELD_TYPES.TEXT:
             case FIELD_TYPES.NUMBER:
               // hide span-hint, if have value.
-              return <div className="record-field__body">{this.props.children}</div>;
+              return <div className={styles.fieldBody}>{this.props.children}</div>;
 
             case FIELD_TYPES.DATE:
             case FIELD_TYPES.PROGRESS:
             case FIELD_TYPES.STARS:
-              return <div className="record-field__body">
+              return <div className={styles.fieldBody}>
                 {this.props.children}
                 <Hint className="record-field__body__hint--in-top" text={this.props.hint} readOnly={this.props.readOnly} />
               </div>;
@@ -52,7 +52,7 @@ const Field = React.createClass({
             case FIELD_TYPES.USER:
             case FIELD_TYPES.OBJECT:
             case FIELD_TYPES.FILE:
-              return <div className="record-field__body">
+              return <div className={styles.fieldBody}>
                 <Hint className="record-field__body__hint--in-top" text={this.props.hint} readOnly={this.props.readOnly} />
                 {this.props.children}
               </div>;

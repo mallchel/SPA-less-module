@@ -3,6 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
 import Slider from 'rc-slider'
 
+import styles from './controls.less'
+
 const MIN = 0;
 const MAX = 100;
 
@@ -50,10 +52,10 @@ const ProgressRangeField = React.createClass({
     const [min, max] = value;
 
     return (
-      <div className="progress-range">
-        <div className="progress-range__number progress-range__number--min">{min}</div>
+      <div className={styles.progressBar}>
+        <div className={styles.rangeNumber}>{min}</div>
         <Slider range
-          className="progress-range__slider"
+          className={styles.rangeSlider}
           min={MIN}
           max={MAX}
           step={1}
@@ -61,7 +63,7 @@ const ProgressRangeField = React.createClass({
           onChange={this.onChange}
           onAfterChange={this.onSave}
         />
-        <div className="progress-range__number progress-range__number--max">{max}</div>
+        <div className={styles.rangeNumber}>{max}</div>
       </div>
     );
   }

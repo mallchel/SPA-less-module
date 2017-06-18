@@ -49,7 +49,6 @@ const TextField = React.createClass({
       <div className="record-text">
         <TextInput
           disableDebounce={true}
-          type="text"
           value={this.props.value}
           onSave={this.onSave}
           onBlur={this.onBlur}

@@ -4,9 +4,12 @@ import ReactDOM from 'react-dom'
 import Immutable from 'immutable'
 import classNames from 'classnames'
 import _ from 'lodash'
+import { Checkbox } from 'antd'
 
 import InputFocusMixin from '../../../../../../../../../mixins/InputFocusMixin'
 import recordActions from '../../../../../../../../../../actions/recordActions'
+
+import styles from './fields.less'
 
 function getValuesMap(values) {
   var map = {};
@@ -70,26 +73,21 @@ const CheckboxesField = React.createClass({
           var id = item.get('id');
           var ref = (key) ? 'input' : 'inputFirst';
           var selected = this.state.values.get(id);
-          let itemClasses = classNames('checkbox record-radio__item', {
-            'record-radio__item--selected': selected,
-            'record-radio__item--disabled': this.props.readOnly
+          let itemClasses = classNames({
+            [styles.checkboxReadOnly]: this.props.readOnly
           });
 
           return (
-            <label
+            <Checkbox
               key={id}
+              disabled={this.props.readOnly}
+              ref={ref}
+              checked={selected}
+              onChange={_.bind(this.onChangeItem, this, id)}
               className={itemClasses}
-              style={{ backgroundColor: '#' + item.get('color') }}>
-              <input
-                ref={ref}
-                className="checkbox record-radio__input"
-                type="checkbox"
-                checked={selected}
-                onChange={_.bind(this.onChangeItem, this, id)}
-                disabled={this.props.readOnly}
-              />
-              <span>{item.get('name')}</span>
-            </label>
+            >
+              {item.get('name')}
+            </Checkbox>
           );
         })}
       </div>

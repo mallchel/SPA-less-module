@@ -2,6 +2,10 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import debug from 'debug'
 import _ from 'lodash'
+import cn from 'classnames'
+import { Icon } from 'antd'
+
+import styles from './controls.less'
 
 const log = debug('CRM:filters:StarsField')
 
@@ -20,7 +24,6 @@ const StarsField = React.createClass({
   },
 
   onClickStar(newVal) {
-    //
     let value = this.state.value;
     if (value.indexOf(newVal) == -1) {
       value.push(newVal);
@@ -33,7 +36,7 @@ const StarsField = React.createClass({
     this.setState({
       value: value
     }, () => {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.onSave(value);
       }, 0);
     });
@@ -48,16 +51,21 @@ const StarsField = React.createClass({
 
     for (var i = 1; i <= 5; i++) {
       stars.push(
-        <span key={i}
-              className={"icon icon--vote-38 " + (this.state.value.indexOf(i) != -1 ? 'active' : '') }
-              onClick={_.bind(this.onClickStar, this, i)} />
+        <Icon
+          key={i}
+          type="icon vote-38"
+          className={cn(styles.starsField, {
+            [styles.starsFieldSelected]: this.state.value.indexOf(i) !== -1
+          })}
+          onClick={_.bind(this.onClickStar, this, i)}
+        />
       );
     }
 
     return (
-      <span className={'record-stars stars-field stars-field'}>
+      <div className={styles.starsContainer}>
         {stars}
-      </span>
+      </div>
     );
   }
 });

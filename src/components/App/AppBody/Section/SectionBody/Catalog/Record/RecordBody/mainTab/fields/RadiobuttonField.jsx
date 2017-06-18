@@ -1,17 +1,19 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
-import classNames from 'classnames'
 import _ from 'lodash'
+import { Radio } from 'antd'
+import styles from './fields.less'
 
 import InputFocusMixin from '../../../../../../../../../mixins/InputFocusMixin'
 import recordActions from '../../../../../../../../../../actions/recordActions'
 
+const RadioGroup = Radio.Group;
 const RadiobuttonField = React.createClass({
   mixins: [
     PureRenderMixin,
     InputFocusMixin(function () {
-      return (this.refs.inputFirst)? ReactDOM.findDOMNode(this.refs.inputFirst): null
+      return (this.refs.inputFirst) ? ReactDOM.findDOMNode(this.refs.inputFirst) : null
     })
   ],
   propTypes: {
@@ -28,7 +30,8 @@ const RadiobuttonField = React.createClass({
     };
   },
 
-  onChangeItem(itemId) {
+  onChangeItem(e) {
+    const itemId = e.target.value;
     this.setState({
       value: itemId
     });
@@ -48,28 +51,29 @@ const RadiobuttonField = React.createClass({
 
   render() {
     return (
-      <div className="record-radio">
-        { this.props.config.get('items').map((item, key)=> {
-            let ref = (key)?'input':'inputFirst';
-            let itemClasses = classNames('radio record-radio__item', {
-              'record-radio__item--disabled': this.props.readOnly
-            });
+      <RadioGroup
+        onChange={this.onChangeItem}
+      >
+        {
+          this.props.config.get('items').map((item, key) => {
+            let ref = (key) ? 'input' : 'inputFirst';
+            const id = item.get('id');
 
             return (
-              <label key={item.get('id')} className={itemClasses}>
-                <input
-                    ref={ref}
-                    className="radio record-radio__input"
-                    type="radio"
-                    checked={this.state.value === item.get('id')}
-                    onChange={_.bind(this.onChangeItem, this, item.get('id'))}
-                    disabled={this.props.readOnly} />
-                <span className="record-radio__text">{item.get('name')}</span>
-              </label>
+              <Radio
+                key={id}
+                className={styles.radioItem}
+                ref={ref}
+                checked={this.state.value === id}
+                disabled={this.props.readOnly}
+                value={id}
+              >
+                {item.get('name')}
+              </Radio>
             );
           })
         }
-      </div>
+      </RadioGroup>
     );
   }
 });

@@ -9,6 +9,8 @@ import routes from '../../../../../../../../routes'
 import TabMain from './mainTab/TabMain'
 import TabHistory from './historyTab/TabHistory'
 
+import styles from './recordBody.less'
+
 // import RecordTabItem from './RecordTabItem'
 import Loading from '../../../../../../../common/Loading'
 
@@ -96,11 +98,7 @@ const RecordBody = React.createClass({
     // });
 
     return (
-      <div className="record-data">
-        {/*<ul className="tabs--record-tab">
-          {tabItems}
-        </ul>*/}
-
+      <div className={styles.container}>
         <ReactCSSTransitionGroup
           transitionName="record-data-saving"
           transitionEnterTimeout={100}

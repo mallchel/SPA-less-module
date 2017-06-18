@@ -1,7 +1,10 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import classNames from 'classnames'
+import cn from 'classnames'
 import _ from 'lodash'
+import { Icon } from 'antd'
+
+import styles from './fields.less'
 
 const StarsField = React.createClass({
   mixins: [PureRenderMixin],
@@ -44,23 +47,26 @@ const StarsField = React.createClass({
   },
 
   render() {
-
     var stars = [];
 
     for (var i = 0; i < 5; i++) {
       stars.push(
-        <span key={i} className="icon icon--vote-38" onClick={_.bind(this.onClickStar, this, i + 1)} />
+        <Icon
+          key={i}
+          type="icon vote-38"
+          className={cn(styles.starsField, {
+            [styles.starsFieldSelected]: i < this.state.value,
+            [styles.nonReadOnly]: !this.props.readOnly
+          })}
+          onClick={_.bind(this.onClickStar, this, i + 1)}
+        />
       );
     }
 
-    let classes = classNames('record-stars stars-field stars-field--' + this.state.value, {
-      'stars-field--hand': !this.props.readOnly
-    });
-
     return (
-      <span className={classes}>
+      <div className={styles.starsContainer}>
         {stars}
-      </span>
+      </div>
     );
   }
 });

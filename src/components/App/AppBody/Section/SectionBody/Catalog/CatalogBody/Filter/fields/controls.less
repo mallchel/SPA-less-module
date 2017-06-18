@@ -56,8 +56,8 @@
 
 .spanChoose {
   .baseSpan;
+  .paddingsLikeInput;
   display: block;
-  padding: 3px 1px;
 }
 
 .spanChooseText {
@@ -67,8 +67,6 @@
 .selectedItems {
   display: flex;
   align-items: center;
-  padding: 3px 1px;
-  max-height: 1
 }
 
 .selectedItemsText {
@@ -93,8 +91,62 @@
   DropdownField
 */
 
+.dropdownContainer {
+  .paddingsLikeInput;
+}
+
 .tags {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+
+/*
+  Radio Field
+*/
+
+.radioItem {
+  .paddingsLikeInput;
+  display: block;
+  min-height: @HEIGHT_INPUT;
+}
+
+
+/*
+  Stars Field
+*/
+
+.starsField {
+  font-size: 18px;
+  color: @TEXT_MUTED;
+  margin-right: @PADDING_BASE / 2;
+}
+
+.starsFieldSelected {
+  color: rgb(228, 164, 64);
+}
+
+.starsContainer {
+  .paddingsLikeInput;
+}
+
+
+/*
+  Progress bar
+*/
+
+.progressBar {
+  .paddingsLikeInput;
+  display: flex;
+  align-items: center;
+}
+
+.rangeNumber {
+  width: 20px;
+}
+
+.rangeSlider {
+  margin-left: @PADDING_BASE / 2;
+  margin-right: @PADDING_BASE * 1.5;
 }

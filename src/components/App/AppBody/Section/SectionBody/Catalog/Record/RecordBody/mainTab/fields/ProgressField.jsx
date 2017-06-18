@@ -2,6 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
 import $ from 'jquery'
+import styles from './fields.less'
 
 const ProgressField = React.createClass({
   mixins: [PureRenderMixin],
@@ -84,19 +85,19 @@ const ProgressField = React.createClass({
   render() {
     let val = Math.round(this.state.value) + '%';
     return (
-      <div className="record-progress">
-        <div className="record-progress__value">{val}</div>
-        <div ref="bar" className="record-progress__bar" onMouseDown={this.onMouseDown} >
-          <div className="record-progress__slider" style={{ width: val }} />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
-          <div className="record-progress__divider" />
+      <div className={styles.progressContainer}>
+        <div className={styles.progressText}>{val}</div>
+        <div ref="bar" className={styles.progressBar} onMouseDown={this.onMouseDown} >
+          <div className={styles.progressSlider} style={{ width: val }} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
+          <div className={styles.progressDivider} />
         </div>
       </div>
     );

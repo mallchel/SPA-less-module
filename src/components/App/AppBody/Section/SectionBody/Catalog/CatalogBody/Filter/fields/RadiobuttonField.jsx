@@ -1,6 +1,10 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Radio } from 'antd'
 
+import styles from './controls.less'
+
+const RadioGroup = Radio.Group;
 const RadiobuttonField = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
@@ -15,7 +19,8 @@ const RadiobuttonField = React.createClass({
     };
   },
 
-  onChangeItem(itemId) {
+  onChangeItem(e) {
+    const itemId = e.target.value;
     this.setState({
       value: itemId
     });
@@ -30,21 +35,42 @@ const RadiobuttonField = React.createClass({
 
   render() {
     return (
-      <div className="record-radio">
-        { this.props.config.get('items').map((item)=> {
+      <RadioGroup
+        onChange={this.onChangeItem}
+      >
+        {
+          this.props.config.get('items').map((item) => {
+            const id = item.get('id');
+
             return (
-              <label key={item.get('id')} className="radio record-radio__item">
-                <input
-                    className="checkbox record-radio__input"
-                    type="radio"
-                    checked={this.state.value === item.get('id')}
-                    onChange={_.bind(this.onChangeItem, this, item.get('id'))} />
-                <span className="record-radio__text">{item.get('name')}</span>
-              </label>
+              <Radio
+                key={id}
+                className={styles.radioItem}
+                checked={this.state.value === id}
+                disabled={this.props.readOnly}
+                value={id}
+              >
+                {item.get('name')}
+              </Radio>
             );
           })
         }
-      </div>
+      </RadioGroup>
+      // <div className="record-radio">
+      //   { this.props.config.get('items').map((item)=> {
+      //       return (
+      //         <label key={item.get('id')} className="radio record-radio__item">
+      //           <input
+      //               className="checkbox record-radio__input"
+      //               type="radio"
+      //               checked={this.state.value === item.get('id')}
+      //               onChange={_.bind(this.onChangeItem, this, item.get('id'))} />
+      //           <span className="record-radio__text">{item.get('name')}</span>
+      //         </label>
+      //       );
+      //     })
+      //   }
+      // </div>
     );
   }
 });

@@ -618,14 +618,16 @@ const Dropdown = React.createClass({
                 null
               }
 
-
-              <div ref="list" className={cn({ [styles.list]: this.state.isOpen }, (this.state.listAboveInput ? ' dropdown__list--above' : ''))}>
-                {items}
-                {(this.props.showLoading || items.length === 0) && !this.props.withButton ?
-                  <span onClick={this.onClickNoitems} className="dropdown__noitems">
-                    {this.props.showLoading ? trs('dropdown.loading') : trs('dropdown.noitems')}
-                  </span> : null}
-              </div>
+              {
+                this.state.isOpen &&
+                <div ref="list" className={cn(styles.list, (this.state.listAboveInput ? ' dropdown__list--above' : ''))}>
+                  {items}
+                  {(this.props.showLoading || items.length === 0) && !this.props.withButton ?
+                    <span onClick={this.onClickNoitems}>
+                      {this.props.showLoading ? trs('dropdown.loading') : trs('dropdown.noitems')}
+                    </span> : null}
+                </div>
+              }
 
             </div>
         }

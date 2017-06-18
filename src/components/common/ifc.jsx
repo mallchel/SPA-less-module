@@ -21,7 +21,7 @@ export class If extends React.Component {
         }
       });
     }
-    return (<span>{(condition) ? thenBranch : elseBranch}</span>);
+    return (<div>{(condition) ? thenBranch : elseBranch}</div>);
   }
 }
 

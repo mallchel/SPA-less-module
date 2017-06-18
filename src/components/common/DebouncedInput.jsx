@@ -174,7 +174,6 @@ const DebouncedInput = React.createClass({
       // 'debounced-input--number': (this.props.type == 'number'),
       // 'debounced-input--inline': !this.props.multiline
       // }),
-      type: this.props.type || 'text',
       value: this.state.value,
       onBlur: this.onBlur,
       onChange: this.onChange,
@@ -187,10 +186,15 @@ const DebouncedInput = React.createClass({
     return this.props.multiline ?
       (
         <div ref="textAreaWrapper" className={wrapperClassName}>
-          <textarea ref="textArea" {...props} />
+          <Input
+            ref="textArea"
+            type="textarea"
+            {...props}
+            style={{ resize: 'none' }}
+          />
         </div>
-      ) :
-      // <input ref="input" step="any" {...props} />;
+      )
+      :
       <Input ref="input" {...props} />
   }
 });

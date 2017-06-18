@@ -3,14 +3,19 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Reflux from 'reflux'
 import Immutable from 'immutable'
-import classnames from 'classnames'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import DropdownRemote from '../../../../../../../../../common/DropdownRemote'
 import { If } from '../../../../../../../../../common/ifc'
+import ButtonClose from '../../../../../../../../../common/elements/ButtonClose'
 import trs from '../../../../../../../../../../getTranslations'
 import modalsActions from '../../../../../../../../../../actions/modalsActions'
 import AddBtn from '../addBtn'
 import recordActions from '../../../../../../../../../../actions/recordActions'
 import FieldErrorsStore from '../../../../../../../../../../stores/FieldErrorsStore'
+
+import styles from './fields.less'
 
 const log = require('debug')('CRM:Component:Record:RemoteDropdown');
 
@@ -18,17 +23,17 @@ const RecordDropdown = React.createClass({
   mixins: [PureRenderMixin, Reflux.listenTo(FieldErrorsStore, "onFocusEvent")],
 
   propTypes: {
-    value: React.PropTypes.object,
-    config: React.PropTypes.object,
-    searchable: React.PropTypes.bool,
-    clickable: React.PropTypes.bool,
-    remoteGroup: React.PropTypes.string.isRequired,
-    onSave: React.PropTypes.func,
-    onClickAddLinkedItem: React.PropTypes.func,
-    requestParams: React.PropTypes.object,
-    inMapper: React.PropTypes.func.isRequired,
-    outMapper: React.PropTypes.func.isRequired,
-    readOnly: React.PropTypes.bool
+    value: PropTypes.object,
+    config: PropTypes.object,
+    searchable: PropTypes.bool,
+    clickable: PropTypes.bool,
+    remoteGroup: PropTypes.string.isRequired,
+    onSave: PropTypes.func,
+    onClickAddLinkedItem: PropTypes.func,
+    requestParams: PropTypes.object,
+    inMapper: PropTypes.func.isRequired,
+    outMapper: PropTypes.func.isRequired,
+    readOnly: PropTypes.bool
   },
 
   getInitialState() {
@@ -126,6 +131,7 @@ const RecordDropdown = React.createClass({
     if (!item.item.sectionId) {
       return;
     }
+    console.log(item)
     let { recordId, catalogId, recordTitle } = item.item;
     modalsActions.openRecordModal(catalogId, recordId, recordTitle);
   },
@@ -159,9 +165,8 @@ const RecordDropdown = React.createClass({
     let firstValue = (this.state.values.size > 0) ? this.state.values.get(0) : null;
     let firstValueKey = firstValue && firstValue.get('id');
     let selectedKeys = {};
-    let cx = classnames({
-      'record-user': true,
-      'record-user--with-dropdown': this.state.dropdownVisible,
+    let cx = cn({
+      // 'record-user--with-dropdown': this.state.dropdownVisible,
       'record-user--multiselect': multiselect,
       'record-dropdown--readonly': this.props.readOnly
     });
@@ -170,6 +175,7 @@ const RecordDropdown = React.createClass({
     if (this.props.value && this.props.value.toJS) {
       values = this.props.value.toJS();
     }
+
     return (
       <div className={cx}>
         <div className="record-user__items">
@@ -186,23 +192,28 @@ const RecordDropdown = React.createClass({
                 );
               }
               return (
-                <span key={item.key} className={"record-user__item" + (disabled ? ' record-user__item-disabled' : '')}>
-                  <span className={'icon icon--' + item.icon} />
+                <div key={item.key} className={cn(disabled ? styles.dropdownItemRowDisabled : '')}>
                   {
-                    this.props.clickable && !disabled ?
-                      <a className="clickable" onClick={this.openObjectInModal.bind(this, item)}>{item.text}</a> :
-                      <a >{item.text}</a>
+                    <Link to="/123" className={styles.dropdownLink} onClick={this.props.clickable && !disabled && this.openObjectInModal.bind(this, item)}>
+                      <span className={cn('anticon-icon ' + item.icon, styles.dropdownItemIcon)} />
+                      <span className={styles.dropdownItemText}>{item.text}</span>
+                    </Link>
                   }
-                  <span className="m-close record-dropdown__remove-item"
-                    onClick={() => this.onClickRemoveUser(item.key)} />
-                </span>
+                  {
+                    !disabled && <ButtonClose
+                      onClick={() => this.onClickRemoveUser(item.key)}
+                      small
+                    />
+                  }
+                </div>
               );
             })
           }
           <If condition={!this.props.readOnly && (multiselect || !firstValue)}>
             <AddBtn
-              className="record-user__item record-user__item--add"
-              icon="edition-25 record-user__item-icon--add"
+              style={this.state.dropdownVisible ? { display: 'none' } : null}
+              //className="record-user__item record-user__item--add"
+              icon="edition-25"
               caption={trs('record.fields.user.addUser')}
               onClick={this.onClickAdd} />
           </If>
