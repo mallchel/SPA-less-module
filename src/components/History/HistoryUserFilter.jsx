@@ -35,17 +35,13 @@ const HistoryUserFilter = React.createClass({
       sort: ~~v.sort
     };
   },
-  onSelectUser(item) {
-    item = item[0];
-    if (!item) {
-      return;
-    }
+  onSelectUser(itemId) {
     const catalogId = this.props.catalogId;
     const recordId = this.props.recordId;
-    if (item.id == 'all') {
+    if (itemId === 'all') {
       historyActions.setFilter({}, { catalogId, recordId });
     } else {
-      historyActions.setFilter({ userId: item.id }, { catalogId, recordId });
+      historyActions.setFilter({ userId: itemId }, { catalogId, recordId });
     }
   },
 

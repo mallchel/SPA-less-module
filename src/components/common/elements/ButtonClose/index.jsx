@@ -12,7 +12,7 @@ export default function ButtonClose(props) {
   }
   return (
     <ButtonTransparent onClick={props.onClick} className={props.className}>
-      <span className={className}>&#x2715;</span>
+      <span title={props.title} className={className}>&#x2715;</span>
     </ButtonTransparent>
   )
 }

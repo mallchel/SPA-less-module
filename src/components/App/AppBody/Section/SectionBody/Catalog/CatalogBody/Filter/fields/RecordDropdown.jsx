@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import DropdownRemote from '../../../../../../../../common/DropdownRemote'
 import ButtonClose from '../../../../../../../../common/elements/ButtonClose'
 import trs from '../../../../../../../../../getTranslations'
+import LinkedItem from '../../../../../../../../common/LinkedItem'
 
 import styles from './controls.less'
 
@@ -52,7 +53,6 @@ const RecordDropdown = React.createClass({
   },
 
   onClickAdd(e) {
-    e && e.preventDefault();
     this.setState({
       dropdownVisible: true
     });
@@ -134,21 +134,26 @@ const RecordDropdown = React.createClass({
             this.state.values.toJS().map(this.props.inMapper).map(item => {
               selectedKeys[item.key] = true;
               return (
-                <span key={item.key} className={styles.selectedItems} >
-                  <span className={classnames('anticon-icon ' + item.icon, styles.spanIcon)} />
-                  <span className={styles.selectedItemsText}>{item.text}</span>
-                  <ButtonClose onClick={() => this.onClickRemoveUser(item.key)} small />
-                </span>
+                <LinkedItem
+                  key={item.key}
+                  onClickRemove={() => this.onClickRemoveUser(item.key)}
+                  item={item}
+                  removable={true}
+                />
               );
             })
           }
 
           {
-            multiselect || !firstValue ?
-              <span onClick={this.onClickAdd} className={styles.spanChoose} style={this.state.dropdownVisible ? { display: 'none' } : null}>
-                <span className={classnames('anticon-icon edition-25', styles.spanIcon)} />
-                <span className={styles.spanChooseText}>{trs('record.fields.user.addUser')}</span>
-              </span> :
+            (multiselect || !firstValue) && !this.state.dropdownVisible ?
+              <LinkedItem
+                onClick={this.onClickAdd}
+                item={{
+                  icon: 'edition-25',
+                  text: trs('record.fields.user.addUser')
+                }}
+              />
+              :
               null
           }
 

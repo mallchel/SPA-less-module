@@ -13,7 +13,7 @@ import TabLinkedData from '../linkedDataTab/TabLinkedData'
 const log = require('debug')('CRM:Component:Record:TabMain');
 
 const TabMain = React.createClass({
-  // mixins: [PureRenderMixin],
+  mixins: [PureRenderMixin],
   propTypes: {
     record: PropTypes.object.isRequired,
     catalog: PropTypes.object,

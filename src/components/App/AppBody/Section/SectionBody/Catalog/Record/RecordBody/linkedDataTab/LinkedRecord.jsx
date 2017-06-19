@@ -1,6 +1,9 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Row } from 'antd'
 import { formatDate } from '../../../../../../../../../utils/formatDate'
+
+import styles from './linkedData.less'
 
 const LinkedRecord = React.createClass({
   mixins: [PureRenderMixin],
@@ -16,19 +19,14 @@ const LinkedRecord = React.createClass({
 
   render() {
     let record = this.props.record;
-    return (<tr onClick={this.onClickName} className={'linked-catalog__record unit-list__row'}>
-      <td className="linked-catalog__record-index">
-        {record.get('id')}
-      </td>
-      <td className="linked-catalog__record-name">
-        {record.get('title')}
-      </td>
-      <td className="linked-catalog__record-date">
-        <small>
-          {formatDate(record.get('created'))}
-        </small>
-      </td>
-    </tr>
+    return (
+      <Row type="flex" justify="space-between" align="middle" onClick={this.onClickName} className={styles.linkedRecordContainer}>
+        <div>
+          <span className={styles.linkedRecordId}>{record.get('id')}</span>
+          <span>{record.get('title')}</span>
+        </div>
+        <span><small>{formatDate(record.get('created'))}</small></span>
+      </Row>
     );
   }
 

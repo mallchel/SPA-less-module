@@ -4,6 +4,12 @@
   Common
 */
 
+.fieldInfo {
+  color: @TEXT_MUTED;
+  margin-left: @PADDING_BASE;
+}
+
+
 /*
   Stars Field
 */
@@ -14,7 +20,7 @@
 
 .starsField {
   font-size: 18px;
-  color: @TEXT_MUTED;
+  color: @TEXT_PLACEHOLDER;
   margin-right: @PADDING_BASE / 2;
 }
 
@@ -93,6 +99,9 @@
   Record Dropdown
 */
 
+.dropdownItemRow {
+  display: flex;
+}
 
 .dropdownItemRowDisabled {
   color: @TEXT_DISABLED;
@@ -104,7 +113,8 @@
 
 .dropdownLink {
   .paddingsLikeInput;
-  display: inline-block;
+  display: flex;
+  align-items: baseline;
 }
 
 .dropdownItemText {
@@ -114,4 +124,72 @@
   line-height: 1em;
   margin-right: 4px;
   word-break: break-all;
+}
+
+
+/*
+  Dropdown field
+*/
+
+.tags {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/*
+  Contact field
+*/
+
+.contactComment {
+  .input-transparent;
+  color: @TEXT_EXTRA;
+}
+
+.contactDataAction {
+  padding: 0px @PADDING_BASE;
+}
+
+.contactItem:not(:last-child) {
+  margin-bottom: @PADDING_BASE;
+}
+
+
+/* Text Input */
+
+.textInputContainer {
+  position: relative;
+}
+
+.textInputActions {
+  .paddingsLikeInput;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+/* File viewer/ viewers/ default */
+
+.uploadError {
+  color: @COLOR_ERROR;
+}
+
+.gifLoader {
+  .gif-loader;
+}
+
+
+/*
+  Date Field
+*/
+
+.dateContainer {
+  display: flex;
+  align-items: baseline;
+}
+
+.timePicker {
+  margin-left: @PADDING_BASE;
 }

@@ -8,7 +8,7 @@ export class Else extends React.Component {
 
 export class If extends React.Component {
   render() {
-    const {condition, children} = this.props;
+    const { condition, children } = this.props;
     let thenBranch = children;
     let elseBranch = this.props.else ? this.props.else : null;
     if (Array.isArray(children)) {

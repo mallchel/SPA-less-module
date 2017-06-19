@@ -16,7 +16,7 @@ const LinkedCatalog = React.createClass({
 
   getInitialState() {
     let records = this.props.catalog.get('records');
-    let recordsCount = records && records.size || 0;
+    let recordsCount = records && (records.size || 0);
 
     return {
       open: recordsCount > 0
@@ -54,16 +54,14 @@ const LinkedCatalog = React.createClass({
   render() {
     let isOpen = this.state.open;
     let records = this.props.catalog.get('records');
+    console.log(records)
     let recordsCount = records && records.size || 0;
     let recordsRows = null;
 
     if (isOpen && recordsCount) {
-      recordsRows =
-        <tbody>
-          {records.valueSeq().map((record) =>
-            (<LinkedRecord key={record.get('id')} record={record} onClickRecord={this.onClickRecord} />)
-          )}
-        </tbody>
+      recordsRows = records.valueSeq().map((record) =>
+        (<LinkedRecord key={record.get('id')} record={record} onClickRecord={this.onClickRecord} />)
+      );
     }
 
     let tableClassName = classNames('unit-list unit-list--padding_default unit-list--header-accent_on unit-list--borders_on linked-catalog', {
@@ -76,15 +74,13 @@ const LinkedCatalog = React.createClass({
 
     return (
       <div className={wrapperClassName}>
-        <table className={tableClassName}>
-          <LinkedCatalogHeader
-            catalog={this.props.catalog}
-            open={isOpen}
-            onClickHeader={this.onClickHeader}
-            onClickCreate={this.onClickCreate}
-          />
-          {recordsRows}
-        </table>
+        <LinkedCatalogHeader
+          catalog={this.props.catalog}
+          open={isOpen}
+          onClickHeader={this.onClickHeader}
+          onClickCreate={this.onClickCreate}
+        />
+        {recordsRows}
       </div>
     );
   }

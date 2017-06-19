@@ -4,14 +4,15 @@
 @TEXT_SUB: rgb(102, 107, 112);
 @TEXT_EXTRA: rgb(125, 127, 128);
 @TEXT_DISABLED: rgb(182, 184, 186);
-@TEXT_MUTED: rgb(206, 209, 214);
+@TEXT_MUTED: @TEXT_DISABLED;
+@TEXT_PLACEHOLDER: rgb(206, 209, 214);
 @TEXT_ACCENT: rgb(92, 161, 153);//rgb(109, 173, 157);
 @TEXT_LINK: rgb(92, 167, 202);
 @TEXT_MENU_HOVER: @TEXT;
 @TEXT_SUB_HOVER: @TEXT_MENU;
 @TEXT_EXTRA_HOVER: @TEXT_SUB;
 @TEXT_DISABLED_HOVER: @TEXT_EXTRA;
-@TEXT_MUTED_HOVER: @TEXT_DISABLED;
+@TEXT_PLACEHOLDER_HOVER: @TEXT_DISABLED;
 
 /* Background colors */
 @BG_WORKPALCE: rgb(233, 235, 239);
@@ -42,5 +43,11 @@
 /* ant menu item dropdwon */
 @DROPDOWN_ITEM: 32px;
 
+/* Standart record data header */
+@RECORD_DATA_HEADER: 39px;
+
 /* Danger colors */
 @DANGER_BUTTON: rgb(200, 45, 45);
+
+/* Required field is empty */
+@COLOR_ERROR: rgb(200, 45, 45);

@@ -1,11 +1,14 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { Row } from 'antd'
 import LoadingSpinner from '../../../../../../../../common/LoadingSpinner'
 import HistoryUserFilter from '../../../../../../../../History/HistoryUserFilter'
 import History from './History'
 import apiActions from '../../../../../../../../../actions/apiActions'
 import historyActions from '../../../../../../../../../actions/historyActions'
 import trs from '../../../../../../../../../getTranslations'
+
+import styles from './history.less'
 
 const TabHistory = React.createClass({
   mixins: [PureRenderMixin],
@@ -25,13 +28,13 @@ const TabHistory = React.createClass({
 
   render() {
     const { catalogId, recordId, history, fields } = this.props;
-    if (!history) {
-      return null;
-    }
+    // if (!history) {
+    //   return null;
+    // }
 
     return (
       <div className="history">
-        <div className="history-section__header">
+        <Row type="flex" justify="space-between" align="middle" className={styles.sectionHeader}>
           <span className="history-section__header-text">
             {trs('record.history.title')}
             {history.get('loading') ? <LoadingSpinner /> : null}
@@ -39,7 +42,7 @@ const TabHistory = React.createClass({
           <span className="history-section__header-filter">
             <HistoryUserFilter catalogId={catalogId} recordId={recordId} />
           </span>
-        </div>
+        </Row>
         <History {...{ catalogId, recordId, history, fields }} />
       </div>
     );

@@ -4,6 +4,7 @@ import trs from '../../../../../../../../../../getTranslations'
 import apiActions from '../../../../../../../../../../actions/apiActions'
 import Immutable from 'immutable'
 import _ from 'lodash'
+import { Upload, Button, Icon } from 'antd'
 
 import recordActions from '../../../../../../../../../../actions/recordActions'
 
@@ -42,13 +43,9 @@ const FileField = React.createClass({
     };
   },
   async handleFile(e) {
-    let files = e.target.files;
-    if (!files) return;
-    for (let i in files) {
-      if (!files.hasOwnProperty(i)) {
-        continue;
-      }
-      await this.uploadFile(files[i])
+    const file = e.file;
+    if (file) {
+      await this.uploadFile(file);
     }
   },
 
@@ -266,23 +263,16 @@ const FileField = React.createClass({
 
         {!readOnly && (this.props.config.get('multiselect') || values.length === 0)
           ?
-          <form action="javascript:void(0)" ref="fileUpload" className="record-file__upload-form">
+          <Upload
+            customRequest={this.handleFile}
+            showUploadList={false}
+            multiple={this.props.config.get('multiselect')}
+          >
             <AddBtn
               className="record-file__upload-link"
-              caption={(
-                <span>
-                  {trs('record.fields.file.upload')}
-                  <input
-                    ref="input"
-                    className="btn record-file__upload-link__input"
-                    type="file"
-                    multiple={this.props.config.get('multiselect')}
-                    onChange={this.handleFile}
-                  />
-                </span>
-              )}
+              caption={trs('record.fields.file.upload')}
             />
-          </form>
+          </Upload>
           : null
         }
       </div>

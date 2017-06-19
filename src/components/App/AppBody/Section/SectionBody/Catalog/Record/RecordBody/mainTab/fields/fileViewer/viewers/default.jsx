@@ -1,6 +1,12 @@
 import React from 'react'
+import { Icon } from 'antd'
+import cn from 'classnames'
 import trs from '../../../../../../../../../../../../getTranslations'
 import { If, Else } from '../../../../../.././../../../../../common/ifc'
+// import ButtonClose from '../../../../../.././../../../../../common/elements/ButtonClose'
+import LinkedItem from '../../../../../.././../../../../../common/LinkedItem'
+
+import styles from '../../fields.less'
 
 // in kbytes
 function toMb(value) {
@@ -25,35 +31,30 @@ const FileRow = React.createClass({
 
   render() {
     let file = this.props.file;
+    let item = {};
+    if (file.loading && !file.error) {
+      item.icon = <img className={styles.gifLoader} src="/modules/crm/images/loader.gif" />
+    } else {
+      item.icon = 'icon ' + (file.error ? 'interface-54' : 'files-13');
+    }
+    item.text = file.title;
+    item.subText = file.size && <span className={styles.viewerSize}>{file.loading ? toProgress(file) : toMb(file.size)}</span>;
 
     return (
-      <span className={'file-viewer-default' + (file.error ? ' m-text_danger' : '')}
+      <div className={cn({ [styles.uploadError]: file.error })}
         title={file.title}>
 
-        {(() => {
-          if (file.loading && !file.error) {
-            return <img src="/modules/crm/images/loader.gif" />
-          } else {
-            return <span className={'icon icon--' + (file.error ? 'interface-54' : 'files-13')} />
-          }
-        })()}
+        <LinkedItem
+          key={item.key}
+          removable={!this.props.readOnly}
+          item={item}
+          onClickRemoveUser={this.onClickRemoveUser}
+          titleOnRemove={trs('record.fields.file.remove')}
+          href={!(file.loading || file.error) ? file.url : null}
+          onClickRemove={this.onRemove}
+        />
 
-
-        <If condition={file.loading || file.error}>
-          <span className="file-viewer-default__title--error">{file.title}</span>
-          <Else>
-            <a href={file.url} target="_blank">{file.title}</a>
-          </Else>
-        </If>
-
-        <If condition={file.size}>
-          <span className="file-viewer-default__size">{file.loading ? toProgress(file) : toMb(file.size)}</span>
-        </If>
-
-        <If condition={!this.props.readOnly}>
-          <span title={trs('record.fields.file.remove')} className="m-close" onClick={this.onRemove} />
-        </If>
-      </span>
+      </div>
     );
   }
 });

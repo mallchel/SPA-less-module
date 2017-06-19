@@ -105,7 +105,7 @@ const RecordBody = React.createClass({
           transitionLeaveTimeout={200}
         >
           {record.get('saving') ?
-            <img className="record-data__saving" src="/modules/crm/images/loader.gif" /> : null}
+            <img className="" src="/modules/crm/images/loader.gif" /> : null}
         </ReactCSSTransitionGroup>
 
         {

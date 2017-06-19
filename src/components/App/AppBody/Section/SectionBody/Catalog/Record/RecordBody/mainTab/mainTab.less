@@ -1,8 +1,7 @@
 @import (reference) '../../../../../../../../../styles/helpers/index.less';
 .sectionHeader {
-  cursor: pointer;
+  .record-data-header;
   padding: @PADDING_BASE @PADDING_BASE * 2;
-  background-color: @BG_WORKPALCE;
 }
 
 .headerText {
@@ -28,6 +27,7 @@
   color: @TEXT_EXTRA;
   text-align: right;
   word-wrap: break-word;
+  position: relative;
 }
 
 .fieldBody {
@@ -36,6 +36,20 @@
   padding-bottom: @PADDING_BASE;
   width: 75%;
   flex-basis: 75%;
+}
+
+.fieldHeaderError {
+  .required-field-empty;
+}
+
+.fieldRequiredAsterisk {
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background-color: @COLOR_ERROR;
+  float: right;
+  margin-right: -@PADDING_BASE;
+  margin-top: 8px;
 }
 
 

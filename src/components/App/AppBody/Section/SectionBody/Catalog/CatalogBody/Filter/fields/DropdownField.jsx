@@ -4,6 +4,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
 import { Tag } from 'antd'
+import tinycolor from 'tinycolor2'
 
 import styles from './controls.less'
 
@@ -76,15 +77,17 @@ const DropdownField = React.createClass({
     }
 
     return (
-      <div className={styles.dropdownContainer}>
+      <div className={styles.tagsContainer}>
         {this.props.config.get('items').map((item) => {
           const id = item.get('id');
           const selected = this.state.values.get(id);
+          const backgroundColor = '#' + item.get('color');
+          const color = tinycolor(backgroundColor).darken(65).toString();
           return (
             <Tag
               key={id}
               onClick={_.bind(this.onClickItem, this, id)}
-              style={selected ? { backgroundColor: '#' + item.get('color') } : { backgroundColor: 'transparent' }}
+              style={selected ? { backgroundColor: backgroundColor, border: '1px solid rgba(0,0,0,0.1)', color: color } : { backgroundColor: 'transparent' }}
               className={styles.tags}
             >
               {item.get('name')}

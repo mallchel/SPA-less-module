@@ -2,15 +2,16 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
-import { Select } from 'antd'
+// import { Select } from 'antd'
 
 import dropdownActions from '../../actions/dropdownActions'
 import trs from '../../getTranslations'
 import { connect } from '../StateProvider'
+import SelectWithFilter from '../common/elements/SelectWithFilter'
 
 import styles from './catalogEditor.less'
 
-const Option = Select.Option;
+// const Option = Select.Option;
 
 const SelectRemote = React.createClass({
   mixins: [PureRenderMixin],
@@ -132,21 +133,34 @@ const SelectRemote = React.createClass({
       items = _.sortBy(items, sortBy);
     }
 
-    return <Select
-      mode="multiple"
-      className={styles.selectRemote}
-      defaultValue={this.props.value.map(item => item.key)}
-      onFocus={() => this.onOpenChange(true)}
-      onBlur={() => this.onOpenChange(false)}
-      onChange={this.onChange}
-      filterOption={this.filterOption}
-      placeholder={this.props.placeholder}
-      notFoundContent={trs('dropdown.noitems')}
-    >
-      {
-        items.map((item, i) => <Option key={item.key}>{item.text}</Option>)
-      }
-    </Select>
+    return (
+      <SelectWithFilter
+        mode="multiple"
+        className={styles.selectRemote}
+        defaultValue={this.props.value}
+        onChange={this.onChange}
+        filterOption={this.filterOption}
+        placeholder={this.props.placeholder}
+        notFoundContent={trs('dropdown.noitems')}
+        onFocus={() => this.onOpenChange(true)}
+        onBlur={() => this.onOpenChange(false)}
+        items={items}
+      />
+    )
+
+    // return <Select
+    //   mode="multiple"
+    //   className={styles.selectRemote}
+    //   defaultValue={this.props.value.map(item => item.key)}
+    //   onChange={this.onChange}
+    //   filterOption={this.filterOption}
+    //   placeholder={this.props.placeholder}
+    //   notFoundContent={trs('dropdown.noitems')}
+    // >
+    //   {
+    //     items.map((item, i) => <Option key={item.key}>{item.text}</Option>)
+    //   }
+    // </Select>
 
   }
 });

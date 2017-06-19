@@ -30,53 +30,6 @@
   Number Field
 */
 
-
-/*
-  Record Dropdown
-*/
-
-.baseSpan {
-  cursor: pointer;
-  color: @TEXT_EXTRA;
-  &:hover {
-    color: @TEXT_EXTRA_HOVER;
-  }
-}
-
-.spanIcon {
-  margin-right: 4px;
-}
-
-.spanClose {
-  .baseSpan;
-  margin-left: @PADDING_BASE;
-  margin-right: @PADDING_BASE;
-  font-size: 1.2em;
-}
-
-.spanChoose {
-  .baseSpan;
-  .paddingsLikeInput;
-  display: block;
-}
-
-.spanChooseText {
-  border-bottom: 1px solid fade(@TEXT_SUB, 20%);
-}
-
-.selectedItems {
-  display: flex;
-  align-items: center;
-}
-
-.selectedItemsText {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-height: 1em;
-  line-height: 1em;
-}
-
-
 /*
   Date Field
 */
@@ -91,7 +44,7 @@
   DropdownField
 */
 
-.dropdownContainer {
+.tagsContainer {
   .paddingsLikeInput;
 }
 
@@ -119,7 +72,7 @@
 
 .starsField {
   font-size: 18px;
-  color: @TEXT_MUTED;
+  color: @TEXT_PLACEHOLDER;
   margin-right: @PADDING_BASE / 2;
 }
 

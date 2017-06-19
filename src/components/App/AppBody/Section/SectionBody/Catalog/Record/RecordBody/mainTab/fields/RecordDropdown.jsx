@@ -5,17 +5,14 @@ import Reflux from 'reflux'
 import Immutable from 'immutable'
 import cn from 'classnames'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import DropdownRemote from '../../../../../../../../../common/DropdownRemote'
 import { If } from '../../../../../../../../../common/ifc'
-import ButtonClose from '../../../../../../../../../common/elements/ButtonClose'
 import trs from '../../../../../../../../../../getTranslations'
 import modalsActions from '../../../../../../../../../../actions/modalsActions'
 import AddBtn from '../addBtn'
 import recordActions from '../../../../../../../../../../actions/recordActions'
 import FieldErrorsStore from '../../../../../../../../../../stores/FieldErrorsStore'
-
-import styles from './fields.less'
+import LinkedItem from '../../../../../../../../../common/LinkedItem'
 
 const log = require('debug')('CRM:Component:Record:RemoteDropdown');
 
@@ -127,11 +124,11 @@ const RecordDropdown = React.createClass({
     });
   },
 
-  openObjectInModal(item) {
+  openObjectInModal(e, item) {
+    console.log(item)
     if (!item.item.sectionId) {
       return;
     }
-    console.log(item)
     let { recordId, catalogId, recordTitle } = item.item;
     modalsActions.openRecordModal(catalogId, recordId, recordTitle);
   },
@@ -192,27 +189,20 @@ const RecordDropdown = React.createClass({
                 );
               }
               return (
-                <div key={item.key} className={cn(disabled ? styles.dropdownItemRowDisabled : '')}>
-                  {
-                    <Link to="/123" className={styles.dropdownLink} onClick={this.props.clickable && !disabled && this.openObjectInModal.bind(this, item)}>
-                      <span className={cn('anticon-icon ' + item.icon, styles.dropdownItemIcon)} />
-                      <span className={styles.dropdownItemText}>{item.text}</span>
-                    </Link>
-                  }
-                  {
-                    !disabled && <ButtonClose
-                      onClick={() => this.onClickRemoveUser(item.key)}
-                      small
-                    />
-                  }
-                </div>
+                <LinkedItem
+                  key={item.key}
+                  disabled={disabled}
+                  removable={!this.props.readOnly}
+                  item={item}
+                  onClickRemove={this.onClickRemoveUser}
+                  onClick={this.props.clickable && this.openObjectInModal}
+                />
               );
             })
           }
           <If condition={!this.props.readOnly && (multiselect || !firstValue)}>
             <AddBtn
               style={this.state.dropdownVisible ? { display: 'none' } : null}
-              //className="record-user__item record-user__item--add"
               icon="edition-25"
               caption={trs('record.fields.user.addUser')}
               onClick={this.onClickAdd} />

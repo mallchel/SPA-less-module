@@ -1,0 +1,27 @@
+@import (reference) '../../../../../../../../../styles/helpers/index.less';
+.sectionHeader {
+  .record-data-header;
+  padding: @PADDING_BASE / 2 @PADDING_BASE * 2;
+}
+
+.headerIcon {
+  font-size: 18px;
+  margin-right: @PADDING_BASE;
+}
+
+.headerText {
+  font-weight: 700;
+}
+
+.linkedRecordContainer {
+  cursor: pointer;
+  padding: @PADDING_BASE / 2 @PADDING_BASE * 2;
+  height: @RECORD_DATA_HEADER;
+  &:hover {
+    background-color: @BG_HOVERED;
+  }
+}
+
+.linkedRecordId {
+  margin-right: @PADDING_BASE;
+}

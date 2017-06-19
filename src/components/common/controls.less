@@ -45,6 +45,53 @@
 }
 
 .select {
-  width: 100%;
-  margin-bottom: @PADDING_BASE;
+  width: 250px;
+  // margin-bottom: @PADDING_BASE;
+}
+
+
+/*
+  Linked Item
+*/
+
+.linkItemRow {
+  display: flex;
+  align-items: center;
+}
+
+.linkItemRowDisabled {
+  color: @TEXT_DISABLED;
+}
+
+.linkItemIcon {
+  margin-right: 4px;
+  opacity: 0.8;
+  display: flex;
+}
+
+.linkWrapper {
+  .paddingsLikeInput;
+  display: flex;
+  align-items: center;
+  margin-right: @PADDING_BASE;
+}
+
+.linkItemText {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 1.3em;
+  line-height: 1.2em;
+  word-break: break-all;
+}
+
+.linkChooseWrapper {
+  cursor: pointer;
+  color: @TEXT_EXTRA;
+  &:hover {
+    color: @TEXT_EXTRA_HOVER;
+  }
+}
+
+.linkChooseText {
+  border-bottom: 1px solid fade(@TEXT_SUB, 20%);
 }

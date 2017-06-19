@@ -6,6 +6,8 @@ import DebouncedInput from '../../../../../../../../../../common/DebouncedInput'
 
 import trs from '../../../../../../../../../../../getTranslations.js'
 
+import styles from '../fields.less'
+
 class TextInputWithActions extends Component {
   state = { actionsWidth: 0 };
 
@@ -29,9 +31,9 @@ class TextInputWithActions extends Component {
 
   render() {
     const { wrapperClassName, className, style, actionsClassName, inputWrapperClassName, actions, ...props } = this.props;
-    const containerCN = cn(wrapperClassName, 'record-text-input');
-    const inputCN = cn(className, 'record-text-input__input');
-    const actionsCN = cn(actionsClassName, 'record-text-input__actions');
+    const containerCN = cn(wrapperClassName, styles.textInputContainer);
+    const inputCN = cn(className);
+    const actionsCN = cn(actionsClassName, styles.textInputActions);
 
     const { actionsWidth } = this.state;
     const inputStyle = _.assign({}, style);

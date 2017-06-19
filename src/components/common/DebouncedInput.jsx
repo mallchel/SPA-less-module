@@ -147,16 +147,18 @@ const DebouncedInput = React.createClass({
     if (textareaDomNode.scrollHeight > 500 && textareaDomNode.style.height == 500) {
       return;
     }
-    let rows = textareaDomNode.rows || 1;
-    textareaDomNode.style.height = '1px';
-    let height = textareaDomNode.scrollHeight;
-    height = Math.min(500, height);
-    height = Math.max((rows * 20 + 6), height);
-    textAreaWrapperDomNode.style.height = height + 'px';
-    textareaDomNode.style.height = height + 'px';
-    if (textareaDomNode.scrollHeight <= 500) {
-      this.setOverfow('hidden');
-    }
+    // let rows = textareaDomNode.rows || 1;
+    // console.log(textareaDomNode.rows)
+    // textareaDomNode.style.height = '1px';
+    // let height = textareaDomNode.scrollHeight;
+    // height = Math.min(500, height);
+    // height = Math.max((rows * 20 + 6), height);
+    // textAreaWrapperDomNode.style.height = height + 'px';
+    // textareaDomNode.style.height = height + 'px';
+    // console.log(height, 'px')
+    // if (textareaDomNode.scrollHeight <= 500) {
+    //   this.setOverfow('hidden');
+    // }
   },
   setOverfow(overflow) {
     //Задание overflow с насильным redraw для Chrome/Safari
@@ -182,6 +184,9 @@ const DebouncedInput = React.createClass({
     };
 
     let wrapperClassName = 'textarea--wrapper ' + (this.props.wrapperClassName || '');
+    if (props.style) {
+      props.style.resize = 'none'
+    }
 
     return this.props.multiline ?
       (
@@ -190,7 +195,7 @@ const DebouncedInput = React.createClass({
             ref="textArea"
             type="textarea"
             {...props}
-            style={{ resize: 'none' }}
+            autosize
           />
         </div>
       )

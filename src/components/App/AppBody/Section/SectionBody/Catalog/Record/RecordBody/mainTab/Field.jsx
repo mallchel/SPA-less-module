@@ -19,15 +19,14 @@ const Field = React.createClass({
   },
 
   render() {
-    let requiredAsterisk = this.props.required ? (<span className="record-field__required-asterisk">*</span>) : null;
     let labelClass = cn(styles.fieldHeader, {
-      'record-field__header-error': this.props.error
+      [styles.fieldHeaderError]: this.props.error
     });
     return (
-      <Row type="flex" justify="start" className={cn({ 'record-field__error': this.props.error })}>
+      <Row type="flex" justify="start">
         <div className={labelClass} title={this.props.name}>
           {this.props.name}
-          {requiredAsterisk}
+          {this.props.required ? (<div className={styles.fieldRequiredAsterisk} />) : null}
         </div>
 
         {(() => {

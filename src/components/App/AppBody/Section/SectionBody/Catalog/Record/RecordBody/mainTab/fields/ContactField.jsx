@@ -15,6 +15,7 @@ import AddBtn from '../addBtn'
 import Hint from '../hint'
 
 import { EMAIL, SITE, PHONE } from '../../../../../../../../../../configs/contactFieldSubTypes'
+import styles from './fields.less'
 
 const log = require('debug')('CRM:Component:Record:ContactField');
 
@@ -48,7 +49,8 @@ const ContactWithComment = React.createClass({
     return {
       contactInFocus: false,
       commentInFocus: false,
-      index: _.uniqueId()
+      index: _.uniqueId(),
+      wasFocused: false
     };
   },
 
@@ -133,7 +135,7 @@ const ContactWithComment = React.createClass({
     let containerClasses = classNames(this.props.className, 'contact-data', containerClassesArr);
 
     let contactFocusMixin = {
-      onFocus: () => this.setState({ contactInFocus: true }),
+      onFocus: () => this.setState({ contactInFocus: true, wasFocused: true }),
       onBlur: (e) => {
         setTimeout(() => this.isMounted() && this.setState({ contactInFocus: false }), 0);
         this.props.onBlur && this.props.onBlur(e);
@@ -151,7 +153,7 @@ const ContactWithComment = React.createClass({
     let actions = [];
 
     if (action) {
-      actions.push(<span className="contact-data__action">{action}</span>);
+      actions.push(<span className={styles.contactDataAction}>{action}</span>);
     }
 
     if (phoneBtn) {
@@ -178,22 +180,29 @@ const ContactWithComment = React.createClass({
           actions={actions}
           {...contactFocusMixin}
         />
-        <TextInput
-          wrapperClassName={'contact-data__contact-wrapper' + (withComment ? '' : ' contact-data__comment-wrapper--hidden')}
-          className="contact-data__comment"
-          disableDebounce={true}
-          value={comment}
-          onSave={this.props.commentChangeFn}
-          multiline={true}
-          rows="1"
-          readOnly={this.props.readOnly}
-          placeholder={trs('record.fields.contact.commentPlaceHolder')}
-          tabIndex={this.state.index + 2}
-          field={this.props.field}
-          onUpdate={this.props.onUpdate}
-          updateProcess={commentUpdateProcess}
-          {...commentFocusMixin}
-        />
+        {
+          this.state.wasFocused || comment
+            ?
+            <TextInput
+              wrapperClassName={'contact-data__contact-wrapper'}
+              style={!withComment && { display: 'none' }}
+              className={styles.contactComment}
+              disableDebounce={true}
+              value={comment}
+              onSave={this.props.commentChangeFn}
+              multiline={true}
+              //rows="1"
+              readOnly={this.props.readOnly}
+              placeholder={trs('record.fields.contact.commentPlaceHolder')}
+              tabIndex={this.state.index + 2}
+              field={this.props.field}
+              onUpdate={this.props.onUpdate}
+              updateProcess={commentUpdateProcess}
+              {...commentFocusMixin}
+            />
+            :
+            null
+        }
       </div>
     );
   }
@@ -359,7 +368,7 @@ const ContactField = React.createClass({
 
     let exists = value.map((item, index) => {
       return (
-        <li className="record-contact" key={index}>
+        <li className={styles.contactItem} key={index}>
           <div>
             <ContactWithComment
               autoFocus={this.state.autoFocus}

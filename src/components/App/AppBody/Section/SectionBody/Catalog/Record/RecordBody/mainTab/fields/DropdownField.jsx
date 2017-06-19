@@ -1,9 +1,12 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Immutable from 'immutable'
-import classNames from 'classnames'
+import tinycolor from 'tinycolor2'
 import _ from 'lodash'
+import { Tag } from 'antd'
 import recordActions from '../../../../../../../../../../actions/recordActions'
+
+import styles from './fields.less'
 
 function getValuesMap(values) {
   let map = {};
@@ -62,23 +65,22 @@ const DropdownField = React.createClass({
   },
 
   render() {
-    let classes = classNames({
-      'record-dropdown': true,
-      'record-dropdown--readonly': this.props.readOnly
-    });
     return (
-      <div className={classes}>
+      <div>
         {this.props.config.get('items').map((item) => {
-          let id = item.get('id');
-          let selected = this.state.values.get(id);
+          const id = item.get('id');
+          const selected = this.state.values.get(id);
+          const backgroundColor = '#' + item.get('color');
+          const color = tinycolor(backgroundColor).darken(65).toString();
           return (
-            <span
+            <Tag
               key={id}
               onClick={_.bind(this.onClickItem, this, id)}
-              className={'record-dropdown__item' + (selected ? ' record-dropdown__item--selected' : '')}
-              style={{ backgroundColor: '#' + item.get('color') }}>
+              style={selected && !this.props.readOnly ? { backgroundColor: backgroundColor, border: '1px solid rgba(0,0,0,0.1)', color: color } : { backgroundColor: 'transparent' }}
+              className={styles.tags}
+            >
               {item.get('name')}
-            </span>
+            </Tag>
           );
         })}
       </div>

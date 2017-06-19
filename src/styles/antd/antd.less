@@ -113,7 +113,16 @@
 }
 
 .ant-tag {
+  line-height: 26px;
+  height: 28px;
+  margin-right: @PADDING_BASE / 2;
   transition: none;
+  border: 1px solid transparent;
+  opacity: 0.85;
+  &:hover {
+    opacity: 1;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
 }
 
 .ant-checkbox-wrapper {

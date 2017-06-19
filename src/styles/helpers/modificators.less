@@ -1,5 +1,4 @@
 @import './variables.less';
-
 .shift-left {
   margin-left: -@PADDING_BASE;
 }
@@ -24,4 +23,22 @@
 .paddingsLikeInput {
   padding-top: @PADDING_INPUT;
   padding-bottom: @PADDING_INPUT - 1;
+}
+
+.required-field-empty {
+  color: @COLOR_ERROR;
+}
+
+.gif-loader {
+  width: 13px; // font size
+  height: 13px;
+}
+
+.record-data-header {
+  cursor: pointer;
+  background-color: @BG_WORKPALCE;
+  height: @RECORD_DATA_HEADER;
+  border-top: 1px solid @BORDER_BLOCK;
+  border-bottom: 1px solid @BORDER_BLOCK;
+  margin-top: -1px;
 }

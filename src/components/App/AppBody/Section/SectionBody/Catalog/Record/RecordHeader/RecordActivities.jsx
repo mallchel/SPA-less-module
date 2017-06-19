@@ -119,9 +119,6 @@ class RecordActivities extends Component {
         }} />
         : null
     )
-    {/*<Dropdown.Button disabled={createButton.disabled} type={createButton.type} onClick={createButton.onClick} overlay={dropdownMenu}>
-          {createButton.text}
-        </Dropdown.Button>*/}
   }
 }
 

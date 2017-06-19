@@ -4,16 +4,17 @@ import ReactDOM from 'react-dom'
 import cn from 'classnames'
 import $ from "jquery"
 import PropTypes from 'prop-types'
-import { Input, Select } from 'antd'
+import { Input } from 'antd'
 
 import trs from '../../getTranslations'
 import _ from 'lodash'
 import KEYS from '../../configs/keys'
 import LoadingSpinner from '../common/LoadingSpinner'
+import SelectWithFilter from '../common/elements/SelectWithFilter'
 
-import styles from './dropdown.less'
+import styles from './controls.less'
 
-const Option = Select.Option;
+// const Option = Select.Option;
 
 const log = require('debug')('CRM:Component:Dropdown');
 
@@ -361,13 +362,24 @@ const Dropdown = React.createClass({
   },
 
   onChange(e) {
-    let val = e.target.value;
+    let val = (e.target && e.target.value) || e;
     this.setState({
       inputText: val
     });
     if (typeof this.props.onTextChange === 'function') {
       this.props.onTextChange(val);
     }
+  },
+
+  onChangeSelect(itemKey) {
+    this.props.onSelectItems(itemKey);
+    // let val = e.target.value;
+    // this.setState({
+    //   inputText: val
+    // });
+    // if (typeof this.props.onTextChange === 'function') {
+    //   this.props.onTextChange(val);
+    // }
   },
 
   onClickButton(e) {
@@ -506,18 +518,6 @@ const Dropdown = React.createClass({
     $('body').off('mousedown', this.onOutsideClick);
   },
 
-  MyChange(e) {
-    console.log('MyChange', e)
-  },
-
-  onSelect(e) {
-    console.log('onSelect', e)
-  },
-
-  onSearch(e) {
-    console.log('onSearch', e)
-  },
-
   render() {
     let items = (this.props.additionalClickItems || []).map((item, i) =>
       <DropdownItemClick
@@ -566,26 +566,22 @@ const Dropdown = React.createClass({
     // if (!this.state.inputText && this.state.selectedItems.length > 0) {
     //   css['width'] = Math.max(5) + 'px';
     // }
-
+    // console.log(this.state.filteredItems)
     return (
       <div ref="node" className={cn(classes, styles.dropdown)}>
         {
-          this.props.type === 'catalogs' ?
-            <Select
-              mode="multiple"
+          this.props.type === 'users' ?
+            <SelectWithFilter
+              mode="single"
               className={styles.select}
               placeholder={this.props.placeholder}
-              defaultValue={this.state.selectedItems.map(item => item.text)}
+              defaultValue={this.state.selectedItems[0]}
+              items={this.state.filteredItems}
               onFocus={() => this.props.onOpenChange(true)}
               onBlur={() => this.props.onOpenChange(false)}
-              onChange={this.MyChange}
-              onSelect={this.onSelect}
-              onSearch={this.onSearch}
-            >
-              {
-                this.state.filteredItems.map((item, i) => <Option key={item.key}>{item.text}</Option>)
-              }
-            </Select>
+              onChange={this.onChangeSelect}
+              onSearch={this.onChange}
+            />
 
             :
 
