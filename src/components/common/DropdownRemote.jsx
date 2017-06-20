@@ -96,9 +96,9 @@ const DropdownRemote = React.createClass({
   },
 
   onSelectItems(items) {
-    // if (typeof this.props.outMapper === 'function') {
-    //   items = items.map(this.props.outMapper);
-    // }
+    if (typeof this.props.outMapper === 'function') {
+      items = items.map(this.props.outMapper);
+    }
     this.props.onSelectItems(items);
   },
 

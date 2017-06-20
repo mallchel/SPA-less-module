@@ -33,13 +33,13 @@ const TabHistory = React.createClass({
     // }
 
     return (
-      <div className="history">
+      <div>
         <Row type="flex" justify="space-between" align="middle" className={styles.sectionHeader}>
-          <span className="history-section__header-text">
+          <span>
             {trs('record.history.title')}
             {history.get('loading') ? <LoadingSpinner /> : null}
           </span>
-          <span className="history-section__header-filter">
+          <span>
             <HistoryUserFilter catalogId={catalogId} recordId={recordId} />
           </span>
         </Row>

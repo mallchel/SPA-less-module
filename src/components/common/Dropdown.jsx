@@ -372,14 +372,9 @@ const Dropdown = React.createClass({
   },
 
   onChangeSelect(itemKey) {
-    this.props.onSelectItems(itemKey);
-    // let val = e.target.value;
-    // this.setState({
-    //   inputText: val
-    // });
-    // if (typeof this.props.onTextChange === 'function') {
-    //   this.props.onTextChange(val);
-    // }
+    this.setState({
+      selectedItems: this.props.items.filter(i => i.key === itemKey)
+    });
   },
 
   onClickButton(e) {
@@ -566,16 +561,17 @@ const Dropdown = React.createClass({
     // if (!this.state.inputText && this.state.selectedItems.length > 0) {
     //   css['width'] = Math.max(5) + 'px';
     // }
-    // console.log(this.state.filteredItems)
+    // console.log(this.state.selectedItems)
     return (
       <div ref="node" className={cn(classes, styles.dropdown)}>
         {
           this.props.type === 'users' ?
             <SelectWithFilter
               mode="single"
+              showSearch={this.props.searchable}
               className={styles.select}
               placeholder={this.props.placeholder}
-              defaultValue={this.state.selectedItems[0]}
+              value={this.state.selectedItems[0]}
               items={this.state.filteredItems}
               onFocus={() => this.props.onOpenChange(true)}
               onBlur={() => this.props.onOpenChange(false)}

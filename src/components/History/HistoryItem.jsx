@@ -59,7 +59,7 @@ const HistoryItem = React.createClass({
     let showTime = date.getFullYear() === (new Date()).getFullYear();
 
     return (
-      <tr key={item.get('id')}>
+      <div key={item.get('id')}>
         {this.props.withRecordTitle
           ? (<td className={classname + ' history__item-record-cell'}>
               <Items inContainers={true} onClick={this.onClickItem} values={
@@ -80,7 +80,7 @@ const HistoryItem = React.createClass({
           {showTime?<span className="history__item-time">{formatTime(date)}</span>:null}
           <span className="history__item-user">{item.getIn(['user', 'title'])}</span>
         </td>
-      </tr>
+      </div>
     );
 
   }

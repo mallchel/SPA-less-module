@@ -85,20 +85,16 @@ const History = React.createClass({
     let items = this.props.history.get('items');
 
     return (
-      <div ref="node" className="history__wrapper">
-        <table className="history__item-table">
-          <tbody>
-            {items && items.reverse().map((h) =>
-              <HistoryItem
-                key={h.get('id')}
-                item={h}
-                fields={this.props.fields}
-                catalogId={this.props.catalogId}
-                recordId={h.get('recordId')}
-              />)}
-            <NewComment catalogId={this.props.catalogId} recordId={this.props.recordId} />
-          </tbody>
-        </table>
+      <div ref="node">
+        {items && items.reverse().map((h) =>
+          <HistoryItem
+            key={h.get('id')}
+            item={h}
+            fields={this.props.fields}
+            catalogId={this.props.catalogId}
+            recordId={h.get('recordId')}
+          />)}
+        <NewComment catalogId={this.props.catalogId} recordId={this.props.recordId} />
       </div>
     );
   }
