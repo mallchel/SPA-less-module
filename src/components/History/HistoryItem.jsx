@@ -1,12 +1,15 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import classNames from 'classnames'
+import { Row } from 'antd'
 import trs from '../../getTranslations'
 import HistoryItemChange from './HistoryItemChange'
 import modalsActions from '../../actions/modalsActions'
 import { formatDate, formatTime } from '../../utils/formatDate'
 import Items from '../common/dataTypes/Items'
 import nl2br from '../../utils/nl2br'
+
+import styles from './historyItem.less'
 
 const HistoryItem = React.createClass({
   mixins: [PureRenderMixin],
@@ -18,15 +21,15 @@ const HistoryItem = React.createClass({
   onClickItem(item, e) {
     e.preventDefault();
     e.stopPropagation();
-    let {recordId, catalogId, recordTitle} = item.obj.toJS();
+    let { recordId, catalogId, recordTitle } = item.obj.toJS();
     modalsActions.openRecordModal(catalogId, recordId, recordTitle);
   },
 
   render() {
     let item = this.props.item;
     let classname = classNames('history__item-content', {
-      'history__item-content-change' : item.get('actionType') != 'COMMENT',
-      'history__item-content-comment' : item.get('actionType') == 'COMMENT'
+      'history__item-content-change': item.get('actionType') != 'COMMENT',
+      'history__item-content-comment': item.get('actionType') == 'COMMENT'
     });
     let content = null;
     let contentChanges = null;
@@ -44,43 +47,53 @@ const HistoryItem = React.createClass({
         if (!fields) {
           break;
         }
-        contentChanges = fields.map( (field) => {
+        contentChanges = fields.map((field) => {
           const change = item.getIn(['payload', field.get('id')]);
           if (!change) {
             return null;
           }
           return <HistoryItemChange key={field.get('id')} field={field} change={change} isNewRecord={item.get('actionType') == 'CREATE'} />;
-        } );
+        });
 
         break;
     }
 
     let date = new Date(item.get('date'));
     let showTime = date.getFullYear() === (new Date()).getFullYear();
-
+    console.log(this.props.withRecordTitle)
     return (
-      <div key={item.get('id')}>
-        {this.props.withRecordTitle
-          ? (<td className={classname + ' history__item-record-cell'}>
-              <Items inContainers={true} onClick={this.onClickItem} values={
-              [{
-                obj: item,
-                name: item.get('recordTitle'),
-                color: 'd9d3df',
-                onClick: this.onClick
-              }]} />
-            </td>)
-          : null}
-        <td className={classname + ' history__item-action-cell'}>
+      <Row type="flex" justify="space-between" key={item.get('id')} className={styles.itemContainer}>
+        {
+          this.props.withRecordTitle
+            ?
+            (
+              <div className={classname + ' history__item-record-cell'}>
+                <Items inContainers={true} onClick={this.onClickItem} values={
+                  [{
+                    obj: item,
+                    name: item.get('recordTitle'),
+                    color: 'd9d3df',
+                    onClick: this.onClick
+                  }]} />
+              </div>
+            )
+            : null
+        }
+        <Row type="flex" className={styles.userfield}>
+          <div className={styles.fieldHeader} />
+          <div className={styles.fieldBody}>
+            <div title={formatDate(date, true)} className={styles.userfieldDate}>
+              {formatDate(date)}
+              {showTime && formatTime(date)}
+            </div>
+            <span>{item.getIn(['user', 'title'])}</span>
+          </div>
+        </Row>
+        <div className={styles.actionCell}>
           {content}
           {contentChanges}
-        </td>
-        <td className="history__item-user-cell">
-          <span className="history__item-date" title={formatDate(date, true)}>{formatDate(date)}</span>
-          {showTime?<span className="history__item-time">{formatTime(date)}</span>:null}
-          <span className="history__item-user">{item.getIn(['user', 'title'])}</span>
-        </td>
-      </div>
+        </div>
+      </Row>
     );
 
   }

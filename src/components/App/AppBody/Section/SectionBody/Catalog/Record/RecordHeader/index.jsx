@@ -109,10 +109,11 @@ const RecordHeader = React.createClass({
         <NavRoute route={routes.record} exact render={props => {
           return <NavRedirect route={tabs.getIn([0, 'route'])} />
         }} />
-
-        <h1 title={headerText}>
-          <span>{headerText}</span>
-        </h1>
+        <div className={styles.headerText}>
+          <h1 title={headerText}>
+            <span>{headerText}</span>
+          </h1>
+        </div>
 
         <TabsMenu
           items={tabs}

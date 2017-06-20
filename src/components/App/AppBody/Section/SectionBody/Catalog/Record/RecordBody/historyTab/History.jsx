@@ -7,6 +7,8 @@ import historyActions from '../../../../../../../../../actions/historyActions'
 import HistoryItem from '../../../../../../../../History/HistoryItem'
 import NewComment from './NewComment'
 
+import styles from './history.less'
+
 const History = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
@@ -85,7 +87,7 @@ const History = React.createClass({
     let items = this.props.history.get('items');
 
     return (
-      <div ref="node">
+      <div ref="node" className={styles.sectionFields}>
         {items && items.reverse().map((h) =>
           <HistoryItem
             key={h.get('id')}
