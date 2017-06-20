@@ -1,0 +1,195 @@
+@import (reference) '../../../../styles/helpers/index.less';
+
+/*
+  Common
+*/
+
+.fieldInfo {
+  color: @TEXT_MUTED;
+  margin-left: @PADDING_BASE;
+}
+
+
+/*
+  Stars Field
+*/
+
+.starsContainer {
+  .paddingsLikeInput;
+}
+
+.starsField {
+  font-size: 18px;
+  color: @TEXT_PLACEHOLDER;
+  margin-right: @PADDING_BASE / 2;
+}
+
+.nonReadOnly {
+  cursor: pointer;
+}
+
+.starsFieldSelected {
+  color: rgb(228, 164, 64);
+}
+
+
+/*
+  Checkbox
+*/
+
+.checkboxReadOnly {
+  color: @TEXT_DISABLED;
+}
+
+
+/*
+  Radio Button
+*/
+
+.radioItem {
+  .paddingsLikeInput;
+  display: block;
+  min-height: @HEIGHT_INPUT;
+}
+
+
+/*
+  Progress bar
+*/
+
+.progressContainer {
+  .paddingsLikeInput;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progressText {
+  min-width: 50px;
+}
+
+.progressBar {
+  width: 100%;
+  background-color: #f7f7f8;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressSlider {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #dbe8ed;
+  z-index: 1;
+}
+
+.progressDivider {
+  width: 10%;
+  border-right: 1px solid #a2c9d6;
+  height: 10px;
+  margin-top: 5px;
+  float: left;
+  position: relative;
+  z-index: 2;
+}
+
+
+/*
+  Record Dropdown
+*/
+
+.dropdownItemRow {
+  display: flex;
+}
+
+.dropdownItemRowDisabled {
+  color: @TEXT_DISABLED;
+}
+
+.dropdownItemIcon {
+  margin-right: 4px;
+}
+
+.dropdownLink {
+  .paddingsLikeInput;
+  display: flex;
+  align-items: baseline;
+}
+
+.dropdownItemText {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 1em;
+  line-height: 1em;
+  margin-right: 4px;
+  word-break: break-all;
+}
+
+
+/*
+  Dropdown field
+*/
+
+.tags {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/*
+  Contact field
+*/
+
+.contactComment {
+  .input-transparent;
+  color: @TEXT_EXTRA;
+}
+
+.contactDataAction {
+  padding: 0px @PADDING_BASE;
+}
+
+.contactItem:not(:last-child) {
+  margin-bottom: @PADDING_BASE;
+}
+
+
+/* Text Input */
+
+.textInputContainer {
+  position: relative;
+}
+
+.textInputActions {
+  .paddingsLikeInput;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+/* File viewer/ viewers/ default */
+
+.uploadError {
+  color: @COLOR_ERROR;
+}
+
+.gifLoader {
+  .gif-loader;
+}
+
+
+/*
+  Date Field
+*/
+
+.dateContainer {
+  display: flex;
+  align-items: baseline;
+}
+
+.timePicker {
+  margin-left: @PADDING_BASE;
+}

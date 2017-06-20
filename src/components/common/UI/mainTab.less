@@ -1,0 +1,71 @@
+@import (reference) '../../../styles/helpers/index.less';
+.sectionHeader {
+  .record-data-header;
+  padding: @PADDING_BASE @PADDING_BASE * 2;
+}
+
+.headerText {
+  font-weight: 700;
+}
+
+.headerCount {
+  color: @TEXT_DISABLED;
+}
+
+.sectionFields {
+  margin-top: @PADDING_BASE * 1.5;
+  margin-bottom: @PADDING_BASE * 1.5;
+}
+
+.fieldHeader {
+  .container--padding-horizontal;
+  padding-top: @PADDING_BASE + @PADDING_INPUT;
+  padding-bottom: @PADDING_BASE;
+  border-right: 1px solid @BORDER_BLOCK;
+  width: 25%;
+  min-width: 25%;
+  color: @TEXT_EXTRA;
+  text-align: right;
+  word-wrap: break-word;
+  position: relative;
+}
+
+.fieldBody {
+  .container--padding-horizontal;
+  padding-top: @PADDING_BASE;
+  padding-bottom: @PADDING_BASE;
+  width: 75%;
+  flex-basis: 75%;
+}
+
+.fieldHeaderError {
+  .required-field-empty;
+}
+
+.fieldRequiredAsterisk {
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background-color: @COLOR_ERROR;
+  float: right;
+  margin-right: -@PADDING_BASE;
+  margin-top: 8px;
+}
+
+
+/*
+  addBtn
+*/
+
+.addButton {
+  .paddingsLikeInput;
+  color: @TEXT_EXTRA;
+  cursor: pointer;
+  &:hover {
+    color: @TEXT_EXTRA_HOVER;
+  }
+}
+
+.addButtonText {
+  border-bottom: 1px solid fade(@TEXT_SUB, 20%);
+}

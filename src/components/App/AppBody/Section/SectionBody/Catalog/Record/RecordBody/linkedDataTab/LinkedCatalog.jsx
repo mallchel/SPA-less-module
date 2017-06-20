@@ -54,7 +54,6 @@ const LinkedCatalog = React.createClass({
   render() {
     let isOpen = this.state.open;
     let records = this.props.catalog.get('records');
-    console.log(records)
     let recordsCount = records && records.size || 0;
     let recordsRows = null;
 
