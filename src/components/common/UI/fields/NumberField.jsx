@@ -2,9 +2,9 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import TextInput from './common/TextInput'
 
-import recordActions from '../../../../../../../../../../actions/recordActions'
+// import recordActions from '../../../../../../../../../../actions/recordActions'
 
-import Hint from '../hint';
+import Hint from '../hint'
 
 const NumberField = React.createClass({
   mixins: [PureRenderMixin],
@@ -31,47 +31,27 @@ const NumberField = React.createClass({
     };
   },
 
-  onSave(value) {
-    this.props.onSave(value || null);
-    this.setState({ value });
-  },
-
-  onBlur(e) {
-    let val = e.target.value;
-    if (val) {
-      recordActions.clearErrorField(this.props.catalogId, this.props.recordId, this.props.fieldId);
-    }
-  },
-
   render() {
-    const { updateProcess } = this.props;
+    const { updateProcess, value, readOnly, onUpdate, hint, htmlId } = this.props;
     const unit = this.props.config.get('unit');
 
     return (
       <span className="record-number">
         <TextInput
+          id={htmlId}
           type="number"
-          disableDebounce={true}
-          value={this.props.value}
-          onSave={this.onSave}
-          onBlur={this.onBlur}
-          readOnly={this.props.readOnly}
-          error={this.props.error}
-          focus={this.props.focus || false}
-          catalogId={this.props.catalogId}
-          recordId={this.props.recordId}
-          fieldId={this.props.fieldId}
-          field={this.props.field}
-          onUpdate={this.props.onUpdate}
+          value={value}
+          onSave={this.props.onSave}
+          onUpdate={onUpdate}
+          readOnly={readOnly}
           updateProcess={updateProcess}
         />
         {
-          unit && (
-            <span className="record-number__unit">{this.props.config.get('unit')}</span>
-          )
+          unit && <span>{unit}</span>
         }
-
-        <Hint className={this.state.value ? 'hide' : ''} text={this.props.hint} readOnly={this.props.readOnly} />
+        {
+          hint && <Hint text={hint} readOnly={readOnly} />
+        }
       </span>
     );
   }

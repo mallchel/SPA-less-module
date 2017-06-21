@@ -5,11 +5,9 @@ import classnames from 'classnames'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import DropdownRemote from '../../../../../../../../common/DropdownRemote'
-import ButtonClose from '../../../../../../../../common/elements/ButtonClose'
+// import ButtonClose from '../../../../../../../../common/elements/ButtonClose'
 import trs from '../../../../../../../../../getTranslations'
 import LinkedItem from '../../../../../../../../common/LinkedItem'
-
-import styles from './controls.less'
 
 const log = require('debug')('CRM:Component:Record:RemoteDropdown');
 

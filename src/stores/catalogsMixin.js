@@ -4,7 +4,7 @@ import guid from 'guid';
 // import router from '../router';
 import CatalogFactory from '../models/CatalogFactory';
 import FieldFactory from '../models/FieldFactory';
-import RecordFactory from '../models/RecordFactory';
+// import RecordFactory from '../models/RecordFactory';
 import apiActions from '../actions/apiActions';
 import Immutable from 'immutable';
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import classNames from 'classnames'
-// import Immutable from 'immutable'
+import Immutable from 'immutable'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 
 import FIELD_TYPES from '../../../../../../../../../configs/fieldTypes'
@@ -10,6 +11,7 @@ import FIELD_TYPES from '../../../../../../../../../configs/fieldTypes'
 import ControlList from '../../../../../../../../common/UI/ControlList'
 import recordActions from '../../../../../../../../../actions/recordActions'
 import { connect } from '../../../../../../../../StateProvider'
+import apiActions from '../../../../../../../../../actions/apiActions'
 
 import TabLinkedData from '../linkedDataTab/TabLinkedData'
 
@@ -27,23 +29,60 @@ const TabMain = React.createClass({
     readOnly: PropTypes.bool
   },
 
-  onSaveField(fieldId, data) {
-    log('Change %s', fieldId, data)
+  onSaveField(controlId, data) {
+    log('Change %s', controlId, data);
+    const catalogId = this.props.catalog.get('id');
+    const recordId = this.props.record.get('id');
+    const field = this.props.catalog.get('fields').find(f => f.get('id') === controlId);
+
+    if (field.get('eventable')) {
+      recordActions.shouldUpdateProcess(catalogId, recordId, controlId);
+    }
+
     this.props.onSaveField({
-      catalogId: this.props.catalogId,
-      recordId: this.props.record.get('id'),
-      fieldId,
+      catalogId: catalogId,
+      recordId: recordId,
+      fieldId: controlId,
       data
     });
+  },
+
+  onUpdateField(controlId, data) {
+    const catalogId = this.props.catalog.get('id');
+    const record = this.props.record;
+    const recordId = record.get('id');
+    const field = this.props.catalog.get('fields').find(f => f.get('id') === controlId);
+    const updateProcess = record.getIn(['updateProcesses', 'fields']).get(controlId);
+
+    if (field.get('eventable') && updateProcess && updateProcess.get('shouldProcess')) {
+      const realRecordId = record.get('isNew') ? null : recordId;
+      const values = { [controlId]: data };
+      const allValues = Object.assign(record.get('values').toJS(), values);
+
+      apiActions.createChange({
+        catalogId,
+        recordId: realRecordId || '$new'
+      }, {
+          values,
+          allValues
+        }, {
+          recordId,
+          fieldId: controlId
+        });
+    }
+
+    recordActions.clearErrorField(catalogId, recordId || this.props.newRecordId.get(catalogId));
   },
 
   mapFields(fields) {
     if (fields) {
       const catalogId = this.props.catalogId;
       const recordId = this.props.record.get('id');
+      const errors = this.props.record.get('errors');
+
       return fields.map((field) => {
         const fieldId = field.get('id');
-        let readonly = this.props.readOnly;
+        let readOnly = this.props.readOnly;
         // Переопределние на основе индивидуальных прав на поле
         let specialPrivilege = this.props.records.getIn([
           catalogId,
@@ -59,10 +98,10 @@ const TabMain = React.createClass({
         if (specialPrivilege) {
           switch (specialPrivilege) {
             case 'edit':
-              readonly = false;
+              readOnly = false;
               break;
             case 'view':
-              readonly = true;
+              readOnly = true;
               break;
             default:
               break;
@@ -70,68 +109,36 @@ const TabMain = React.createClass({
         }
 
         if (field.get('apiOnly')) {
-          readonly = true;
+          readOnly = true;
         }
-        switch (field.get('type')) {
-          case FIELD_TYPES.TEXT:
-            return {
-              readOnly: readonly,
-              config: field.get('config'),
-              hint: field.get('hint'),
-              id: field.get('id'),
-              name: field.get('name'),
-              onBlur: () => {
-                recordActions.clearErrorField(this.props.catalog.get('id'), recordId || this.props.newRecordId.get(catalogId), field.get('id'))
-              },
-              required: field.get('required'),
-              type: field.get('type'),
-              visible: field.get('visible')
-            }
-          default:
-            break;
-        }
+
+        // let controlError = null;
+        // _.forEach(this.state.errors, (error) => {
+        //   if (error.fieldId === fieldId) {
+        //     controlError = error.error;
+        //   }
+        // });
+
+        field = field.set('readOnly', readOnly);
+        return field.set('error', errors[fieldId]);
+
+        // switch (field.get('type')) {
+        //   case FIELD_TYPES.TEXT:
+        //     //return //field.set('readOnly', readOnly);
+        //     return {
+
+        //     }
+        //   default:
+        //     return field.set('readOnly', readOnly);
+        // }
       });
     }
   },
 
   render() {
-    // let sections = [];
-    // let _curGroup;
     const values = this.props.record.get('values');
     const fields = this.props.catalog.get('fields');
-    const recordId = this.props.record.get('id') || this.props.newRecordId.get(this.props.catalogId);
     const catalogId = this.props.catalog.get('id');
-
-    // let sectionsComponents = sections.map((sec) => {
-    //   return <Section
-    //     key={sec.id}
-    //     disableAutoSave={this.props.disableAutoSave}
-    //     recordId={recordId}
-    //     record={this.props.record}
-    //     catalogId={catalogId}
-    //     section={sec.section}
-    //     fields={sec.fields}
-    //     values={sec.values}
-    //     unsavedFields={this.props.unsavedFields}
-    //     onSaveField={this.onSaveField}
-    //     readOnly={this.props.readOnly} />
-    // });
-
-    // const sectionsComponents = sections.map((sec) => {
-    //   return <Controls
-    //     key={sec.id}
-    //     disableAutoSave={this.props.disableAutoSave}
-    //     recordId={recordId}
-    //     record={this.props.record}
-    //     catalogId={catalogId}
-    //     section={sec.section}
-    //     fields={sec.fields}
-    //     values={sec.values}
-    //     unsavedFields={this.props.unsavedFields}
-    //     onSaveField={this.onSaveField}
-    //     readOnly={this.props.readOnly}
-    //   />
-    // });
 
     let tabLinkedData = !this.props.isNewRecord && <TabLinkedData {...this.props} catalogId={catalogId} />;
 
@@ -143,10 +150,12 @@ const TabMain = React.createClass({
 
     return (
       <div className={containerClasses}>
-        <ControlList data={values} meta={this.mapFields(fields)} />
-        {/*<div>
-          {sectionsComponents}
-        </div>*/}
+        <ControlList
+          values={values}
+          configs={this.mapFields(fields)}
+          onSaveField={this.onSaveField}
+          onUpdateField={this.onUpdateField}
+        />
         {tabLinkedData}
       </div>
     );

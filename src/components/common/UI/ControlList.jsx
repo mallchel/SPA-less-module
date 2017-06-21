@@ -3,19 +3,18 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { Row } from 'antd'
 import Immutable from 'immutable'
-import { connect } from '../../StateProvider'
 import FIELD_TYPES from '../../../configs/fieldTypes'
-// import trs from '../../../getTranslations'
+import trs from '../../../getTranslations'
 import ControlItem from './ControlItem'
-import apiActions from '../../../actions/apiActions'
-import recordActions from '../../../actions/recordActions'
+// import apiActions from '../../../actions/apiActions'
+// import recordActions from '../../../actions/recordActions'
 
 import styles from './mainTab.less'
 
 const fieldComponentsByType = {
   [FIELD_TYPES.TEXT]: require('./fields/TextField').default,
-  // [FIELD_TYPES.CONTACT]: require('./fields/ContactField').default,
-  // [FIELD_TYPES.NUMBER]: require('./fields/NumberField').default,
+  [FIELD_TYPES.CONTACT]: require('./fields/ContactField').default,
+  [FIELD_TYPES.NUMBER]: require('./fields/NumberField').default,
   // [FIELD_TYPES.DATE]: require('./fields/DateField').default,
 
   // [FIELD_TYPES.DROPDOWN]: require('./fields/DropdownField').default,
@@ -30,15 +29,14 @@ const fieldComponentsByType = {
   // [FIELD_TYPES.FILE]: require('./fields/FileField').default,
 };
 
+let idPrefix = 0;
+
 class ControlList extends Component {
   static propTypes = {
-    record: PropTypes.object,
-    recordId: PropTypes.string,
-    catalogId: PropTypes.string,
-    // section: PropTypes.object.isRequired,
-    // fields: PropTypes.array.isRequired,
-    // values: PropTypes.object.isRequired,
-    // onSaveField: PropTypes.func.isRequired
+    values: PropTypes.object.isRequired,
+    configs: PropTypes.object.isRequired,
+    onSaveField: PropTypes.func.isRequired,
+    onUpdateField: PropTypes.func.isRequired
   }
 
   state = {
@@ -46,81 +44,59 @@ class ControlList extends Component {
     errors: []
   }
 
-  updateErrorFields(event) {
-    if (event.event == 'onErrors') {
-      if (event.errors[this.props.catalogId]) {
-        this.setState({ errors: event.errors[this.props.catalogId][this.props.recordId] });
-      }
-      let sectionHasErrors = false;
-      this.props.fields.forEach((field) => {
-        _.forEach(this.state.errors, (error) => {
-          if (error.fieldId == field.get('id')) {
-            sectionHasErrors = true;
-          }
-        });
-      });
-      if (sectionHasErrors) {
-        this.setState({ open: true });
-      }
-    }
-  }
+  idPrefix = idPrefix++;
 
-  toggleList() {
+  // updateErrorFields(event) {
+  //   if (event.event == 'onErrors') {
+  //     if (event.errors[this.props.catalogId]) {
+  //       this.setState({ errors: event.errors[this.props.catalogId][this.props.recordId] });
+  //     }
+  //     let sectionHasErrors = false;
+  //     this.props.fields.forEach((field) => {
+  //       _.forEach(this.state.errors, (error) => {
+  //         if (error.fieldId == field.get('id')) {
+  //           sectionHasErrors = true;
+  //         }
+  //       });
+  //     });
+  //     if (sectionHasErrors) {
+  //       this.setState({ open: true });
+  //     }
+  //   }
+  // }
+
+  toggleList = () => {
     this.setState({
       open: !this.state.open
     });
   }
 
-  onSaveField(fieldId, data) {
-    this.props.onSaveField(fieldId, data);
-
-    const field = this.props.fields.find(f => f.get('id') === fieldId);
-
-    if (field.get('eventable')) {
-      const { recordId, catalogId } = this.props;
-      recordActions.shouldUpdateProcess(catalogId, recordId, fieldId);
-    }
+  onSaveField(configId, data) {
+    this.props.onSaveField(configId, data);
   }
 
-  onUpdateField(field, data) {
-    if (!field.get('eventable')) {
-      return;
+  componentDidUpdate() {
+    console.log(this.errorControl)
+    if (this.errorControl) {
+      this.errorControl.focus();
     }
-
-    const { recordId, catalogId, record } = this.props;
-    const realRecordId = record.get('isNew') ? null : recordId;
-    const fieldId = field.get('id');
-
-    const values = { [fieldId]: data };
-    const allValues = Object.assign(record.get('values').toJS(), values);
-
-    apiActions.createChange({
-      catalogId,
-      recordId: realRecordId || 'new'
-    }, {
-        values,
-        allValues
-      }, {
-        recordId,
-        fieldId
-      });
   }
 
   render() {
-    console.log(this.props.meta)
     let sections = [];
     let _curGroup;
-    const { record } = this.props;
-    const meta = this.props.meta;
+    const configs = this.props.configs;
     const values = this.props.data;
 
-    if (meta.size !== 0) {
-      meta.forEach((field) => {
-        if (field.get('type') === FIELD_TYPES.GROUP) {
+    const firstError = configs.find(f => f.get('error'));
+
+    if (configs.size !== 0) {
+      configs.forEach((config) => {
+        if (config.get('type') === FIELD_TYPES.GROUP) {
           _curGroup = {
-            id: field.get('id'),
-            section: field,
-            fields: [],
+            id: config.get('id'),
+            section: config,
+            configs: [],
             values: {}
           };
           sections.push(_curGroup);
@@ -129,59 +105,63 @@ class ControlList extends Component {
             _curGroup = {
               id: '',
               section: Immutable.fromJS({ name: '', type: FIELD_TYPES.GROUP }),
-              fields: [],
+              configs: [],
               values: {}
             };
             sections.push(_curGroup);
           }
-          _curGroup.fields.push(field);
-          _curGroup.values[field.get('id')] = values && values.get(field.get('id'));
+          _curGroup.configs.push(config);
+          _curGroup.values[config.get('id')] = values && values.get(config.get('id'));
         }
       });
     }
-
     return (
       <div>
         {
           sections.map((sec) => {
             return <div key={sec.id}>
-
               <Row type="flex" justify="space-between" className={styles.sectionHeader} onClick={this.toggleList}>
-                <span className={styles.headerText}>{this.props.section.get('name')}</span>
+                <span className={styles.headerText}>{sec.section.get('name')}</span>
                 {
-                  /*!this.state.open ?
-                    <span className={styles.headerCount}>{trs('record.groupFieldsCount', this.props.fields.length)}</span>
-                    : null*/
+                  !this.state.open ?
+                    <span className={styles.headerCount}>{trs('record.groupFieldsCount', this.props.configs.length)}</span>
+                    : null
                 }
               </Row>
-              {/*<div style={!this.state.open ? { display: 'none' } : null} className={styles.sectionFields}>*/}
-              <div className={styles.sectionFields}>
+              <div style={!this.state.open ? { display: 'none' } : null} className={styles.sectionFields}>
                 {
-                  meta.map((controlConfig) => {
-                    let Control = fieldComponentsByType[controlConfig.get('type')];
-                    let fieldError = null;
-                    let fieldId = controlConfig.get('id');
-                    _.forEach(this.state.errors, (error) => {
-                      if (error.fieldId === fieldId) {
-                        fieldError = error.error;
-                      }
-                    });
+                  sec.configs.map((controlConfig) => {
+                    const Control = fieldComponentsByType[controlConfig.get('type')];
+
+                    const htmlId = this.idPrefix + controlConfig.get('id');
 
                     return (
-                      <ControlItem key={this.props.catalogId + '_' + this.props.recordId + '_' + controlConfig.get('id')}
-                        value={this.props.values[controlConfig.get('id')]}
+                      <ControlItem
+                        labelRef={firstError && firstError.get('id') === controlConfig.get('id') && (node => {
+                         this.errorControl = node
+                         console.log(node)
+                        })}
+                        htmlId={htmlId}
+                        key={controlConfig.get('id')}
                         controlConfig={controlConfig}
-                        error={fieldError}
+                        error={controlConfig.get('error')}
+                        name={controlConfig.get('name')}
+                        required={controlConfig.get('required')}
+                        type={controlConfig.get('type')}
+                        readOnly={controlConfig.get('readOnly')}
+                        hint={controlConfig.get('hint')}
                       >
                         <Control
-                          value={this.props.values[controlConfig.get('id')]}
-                          field={controlConfig}
-                          recordId={this.props.recordId}
-                          catalogId={this.props.catalogId}
+                          htmlId={htmlId}
+                          value={this.props.values.get(controlConfig.get('id'))}
+                          controlConfig={controlConfig}
+                          hint={controlConfig.get('hint')}
+                          readOnly={controlConfig.get('readOnly')}
+                          config={controlConfig.get('config')}
                           onSave={(val) => this.onSaveField(controlConfig.get('id'), val)}
-                          onUpdate={(val) => this.onUpdateField(controlConfig, val)}
-                          updateProcess={record.getIn(['updateProcesses', 'fields', controlConfig.get('id')])}
-                          error={fieldError}
+                          onUpdate={(val) => this.props.onUpdateField(controlConfig.get('id'), val)}
+                          updateProcess={controlConfig.get('updateProcesses')}
+                          error={controlConfig.get('error')}
                         />
                       </ControlItem>
                     );
@@ -196,4 +176,4 @@ class ControlList extends Component {
   }
 }
 
-export default connect(ControlList, ['catalogs', 'records']);
+export default ControlList;

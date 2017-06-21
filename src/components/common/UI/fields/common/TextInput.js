@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import cn from 'classnames'
-
-import DebouncedInput from '../../../DebouncedInput'
+import ReactDOM from 'react-dom'
+// import DebouncedInput from '../../../DebouncedInput'
+import { Input, InputNumber } from 'antd'
 
 import trs from '../../../../../getTranslations'
 
@@ -30,7 +31,7 @@ class TextInputWithActions extends Component {
   }
 
   render() {
-    const { wrapperClassName, className, style, actionsClassName, inputWrapperClassName, actions, ...props } = this.props;
+    const { wrapperClassName, className, style, actionsClassName, inputWrapperClassName, actions, type, multiline, ...props } = this.props;
     const containerCN = cn(wrapperClassName, styles.textInputContainer);
     const inputCN = cn(className);
     const actionsCN = cn(actionsClassName, styles.textInputActions);
@@ -47,12 +48,37 @@ class TextInputWithActions extends Component {
 
     return (
       <div className={containerCN}>
-        <DebouncedInput
-          {...props}
-          style={inputStyle}
-          wrapperClassName={inputWrapperClassName}
-          className={inputCN}
-        />
+        {
+          type === 'number' ?
+            <InputNumber
+              ref="inputNumber"
+              className={inputCN}
+              {...props}
+            />
+            :
+            multiline ?
+              <Input
+                ref="textArea"
+                type="textarea"
+                {...props}
+                autosize={{
+                  minRows: this.props.minRows
+                }}
+                style={{
+                  resize: 'none'
+                }}
+                className={inputCN}
+                onChange={(e) => { this.props.onChange(e.target.value) }}
+              />
+              :
+              <Input
+                ref="inputText"
+                {...props}
+                style={inputStyle}
+                className={inputCN}
+                onChange={(e) => { this.props.onChange(e.target.value) }}
+              />
+        }
 
         {actions && actions.length && (
           <ul className={actionsCN} ref={node => this.actionsNode = node} style={actionsStyle}>
@@ -66,14 +92,12 @@ class TextInputWithActions extends Component {
 
 export default class TextInput extends Component {
   onSave = value => {
+    console.log(value)
     this.props.onSave && this.props.onSave(value);
   };
 
   onBlur = e => {
-    if (this.props.updateProcess && this.props.updateProcess.get('shouldProcess')) {
-      this.props.onUpdate(e.target.value);
-    }
-    this.props.onBlur && this.props.onBlur(e);
+    this.props.onUpdate(e.target.value);
   };
 
   render() {
@@ -98,7 +122,7 @@ export default class TextInput extends Component {
       <TextInputWithActions
         {...props}
         onBlur={this.onBlur}
-        onSave={this.onSave}
+        onChange={this.onSave}
         actions={newActions}
       />
     );

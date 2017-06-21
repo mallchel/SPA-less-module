@@ -99,7 +99,7 @@ class Record extends Component {
       appState.setIn(['records', catalogId, newRecordId], RecordFactory.create({
         id: newRecordId,
         values: record.get('values'),
-        fields: record.get('fields'),
+        // fields: record.get('fields'),
         privilegeCode: PRIVILEGE_CODES.EDIT
       }));
 

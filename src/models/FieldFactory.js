@@ -28,14 +28,15 @@ export default {
     data = data || {};
 
     let Field = {
-      __name: 'Field',
+      // __name: 'Field',
       uuid: Math.random(),
       hint: data.hint || '',
-      required: data.required,
+      required: data.required || false,
       id: data.id,
       visible: true, // !!data.visible,
       type: data.type || '',
-      apiOnly: data.apiOnly || ''
+      apiOnly: data.apiOnly || false,
+      eventable: data.eventable || false
     };
     if (data.name) {
       Field.name = data.name;

@@ -15,9 +15,10 @@ export default {
     record.values = data.values || this.getEmptyValues(data.fields);
     record.originValues = record.values;
     record.privilegeCode = data.privilegeCode;
-    record.fields = data.fields;
+    // record.fields = data.fields;
     record.fieldPrivilegeCodes = data.fieldPrivilegeCodes;
     record.history = {};
+    record.errors = {};
 
     record.updateProcesses = {
       should: false,
@@ -34,7 +35,7 @@ export default {
       _.forEach(fields, function (field) {
         let fieldId = field.id;
         if (field.config && field.config.defaultValue && !values[fieldId]) {
-          values = _.merge(values, {[fieldId]: field.config.defaultEmptyValue});
+          values = _.merge(values, { [fieldId]: field.config.defaultEmptyValue });
         }
       });
     }

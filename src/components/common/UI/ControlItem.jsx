@@ -1,6 +1,7 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import cn from 'classnames'
+import PropTypes from 'prop-types'
 import { Row } from 'antd'
 import FIELD_TYPES from '../../../configs/fieldTypes'
 
@@ -11,30 +12,33 @@ import Hint from './hint'
 const Control = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
-    hint: React.PropTypes.string,
-    error: React.PropTypes.string,
-    required: React.PropTypes.bool
+    controlConfig: PropTypes.object.isRequired,
+    hint: PropTypes.string,
+    error: PropTypes.string,
+    required: PropTypes.bool,
+    labelRef: PropTypes.func
   },
 
   render() {
-    let labelClass = cn(styles.fieldHeader, {
+    const headerClass = cn(styles.fieldHeader, {
       [styles.fieldHeaderError]: this.props.error
     });
+    const { name, required, type, readOnly, hint, htmlId, labelRef } = this.props;
+
     return (
       <Row type="flex" justify="start">
-        <div className={labelClass} title={this.props.name}>
-          {this.props.name}
-          {this.props.required ? (<div className={styles.fieldRequiredAsterisk} />) : null}
+        <div className={headerClass} title={name}>
+          <label ref={labelRef} className={styles.headerLabel} htmlFor={htmlId}>
+            {name}
+          </label>
+          {required ? (<div className={styles.fieldRequiredAsterisk} />) : null}
         </div>
 
         {(() => {
-          switch (this.props.type) {
+          switch (type) {
             case FIELD_TYPES.CONTACT:
             case FIELD_TYPES.TEXT:
             case FIELD_TYPES.NUMBER:
-              // hide span-hint, if have value.
               return <div className={styles.fieldBody}>{this.props.children}</div>;
 
             case FIELD_TYPES.DATE:
@@ -42,7 +46,7 @@ const Control = React.createClass({
             case FIELD_TYPES.STARS:
               return <div className={styles.fieldBody}>
                 {this.props.children}
-                <Hint className="record-field__body__hint--in-top" text={this.props.hint} readOnly={this.props.readOnly} />
+                <Hint className="record-field__body__hint--in-top" text={hint} readOnly={readOnly} />
               </div>;
 
             case FIELD_TYPES.DROPDOWN:
@@ -52,7 +56,7 @@ const Control = React.createClass({
             case FIELD_TYPES.OBJECT:
             case FIELD_TYPES.FILE:
               return <div className={styles.fieldBody}>
-                <Hint className="record-field__body__hint--in-top" text={this.props.hint} readOnly={this.props.readOnly} />
+                <Hint className="record-field__body__hint--in-top" text={hint} readOnly={readOnly} />
                 {this.props.children}
               </div>;
             default:

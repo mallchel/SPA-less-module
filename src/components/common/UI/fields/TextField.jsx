@@ -2,103 +2,49 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import PropTypes from 'prop-types'
 import TextInput from './common/TextInput'
-import { Input } from 'antd'
+// import { Input } from 'antd'
 
 import Hint from '../hint'
 
-import recordActions from '../../../../actions/recordActions'
+// import recordActions from '../../../../actions/recordActions'
 
 const TextField = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     value: PropTypes.string,
+    controlConfig: PropTypes.object,
+    hint: PropTypes.string,
+    readOnly: PropTypes.bool,
     config: PropTypes.object,
     onSave: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    disableDebounce: PropTypes.bool,
-    readOnly: PropTypes.bool,
-    required: PropTypes.bool,
+    updateProcess: PropTypes.object,
     error: PropTypes.string,
-    catalogId: PropTypes.string,
-    recordId: PropTypes.string,
-    fieldId: PropTypes.string,
-    field: PropTypes.object,
-  },
-
-  getInitialState() {
-    return {
-      value: this.props.value
-    };
   },
 
   onSave(value) {
     this.props.onSave(value);
-    this.setState({ value });
-  },
-
-  onBlur(e) {
-    let val = e.target.value;
-    if (val) {
-      this.props.onBlur();
-      //   recordActions.clearErrorField(this.props.catalogId, this.props.recordId, this.props.fieldId);
-    }
   },
 
   render() {
-    const { config, field, onUpdate, updateProcess } = this.props;
+    const { onUpdate, updateProcess, hint, readOnly, config, value, htmlId } = this.props;
     const isMultiLine = config.get('type') === 'multiline';
-
-    let props = {
-      value: this.state.value,
-      onBlur: this.onBlur,
-      onChange: this.onSave,
-      readOnly: this.props.readOnly
-    };
-
-    let wrapperClassName = 'textarea--wrapper ' + (this.props.wrapperClassName || '');
-    if (props.style) {
-      props.style.resize = 'none'
-    }
 
     return (
       <div className="record-text">
-        {/*<TextInput
-          disableDebounce={true}
-          value={this.props.value}
+        <TextInput
+          id={htmlId}
+          value={value}
           onSave={this.onSave}
-          onBlur={this.onBlur}
-          multiline={isMultiLine}
-          maxLength={isMultiLine ? null : 255}
-          isRequired={this.props.required}
-          readOnly={this.props.readOnly}
-          error={this.props.error || null}
-          field={field}
           onUpdate={onUpdate}
+          readOnly={readOnly}
+          multiline={isMultiLine}
           updateProcess={updateProcess}
-
-          catalogId={this.props.catalogId}
-          recordId={this.props.recordId}
-          fieldId={this.props.fieldId}
-        />*/}
-
+          minRows={isMultiLine && 2}
+        />
         {
-
-          this.props.multiline ?
-            (
-              <div ref="textAreaWrapper" className={wrapperClassName}>
-                <Input
-                  ref="textArea"
-                  type="textarea"
-                  {...props}
-                  autosize
-                />
-              </div>
-            )
-            :
-            <Input ref="input" {...props} />
+          hint && <Hint text={hint} readOnly={readOnly} />
         }
-
-        <Hint className={this.state.value ? 'hide' : ''} text={this.props.hint} readOnly={this.props.readOnly} />
       </div>
     );
   }

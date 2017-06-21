@@ -6,15 +6,15 @@ import ReactDOM from 'react-dom'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Immutable from 'immutable'
 import $ from 'jquery'
-
-import recordActions from '../../../../../../../../../../actions/recordActions'
-import trs from '../../../../../../../../../../getTranslations'
-
+// import recordActions from '../../../../actions/recordActions'
+import trs from '../../../../getTranslations'
 import TextInput from './common/TextInput'
-import AddBtn from '../addBtn'
+import LinkedItem from '../../../common/LinkedItem'
+import ButtonClose from '../../../common/elements/ButtonClose'
+// import AddBtn from '../addBtn'
 import Hint from '../hint'
 
-import { EMAIL, SITE, PHONE } from '../../../../../../../../../../configs/contactFieldSubTypes'
+import { EMAIL, SITE, PHONE } from '../../../../configs/contactFieldSubTypes'
 import styles from './fields.less'
 
 const log = require('debug')('CRM:Component:Record:ContactField');
@@ -72,12 +72,12 @@ const ContactWithComment = React.createClass({
   },
 
   render() {
-    let { contactUpdateProcess, commentUpdateProcess } = this.props;
+    let { contactUpdateProcess, commentUpdateProcess, readOnly } = this.props;
     let contact = this.props.contactValue;
     let comment = this.props.commentValue;
 
     let action = null;
-    let withComment = true; // comment || ((this.state.contactInFocus || this.state.commentInFocus) && !this.props.readOnly);
+    let withComment = true; // comment || ((this.state.contactInFocus || this.state.commentInFocus) && !readOnly);
 
     let multiLine = true;
     let containerClassesArr = [];
@@ -163,18 +163,13 @@ const ContactWithComment = React.createClass({
     return (
       <div className={containerClasses}>
         <TextInput
-          autoFocus={this.props.autoFocus}
-          disableDebounce={true}
-          wrapperClassName="contact-data__contact-wrapper"
           className={contactClasses}
           value={contact}
           onSave={this.props.contactChangeFn}
           multiline={multiLine}
-          rows="1"
-          readOnly={this.props.readOnly}
+          readOnly={readOnly}
           tabIndex={this.state.index + 1}
           error={this.props.error || null}
-          field={this.props.field}
           onUpdate={this.props.onUpdate}
           updateProcess={contactUpdateProcess}
           actions={actions}
@@ -184,18 +179,15 @@ const ContactWithComment = React.createClass({
           this.state.wasFocused || comment
             ?
             <TextInput
-              wrapperClassName={'contact-data__contact-wrapper'}
               style={!withComment && { display: 'none' }}
               className={styles.contactComment}
               disableDebounce={true}
               value={comment}
               onSave={this.props.commentChangeFn}
               multiline={true}
-              //rows="1"
-              readOnly={this.props.readOnly}
+              readOnly={readOnly}
               placeholder={trs('record.fields.contact.commentPlaceHolder')}
               tabIndex={this.state.index + 2}
-              field={this.props.field}
               onUpdate={this.props.onUpdate}
               updateProcess={commentUpdateProcess}
               {...commentFocusMixin}
@@ -217,12 +209,8 @@ const ContactField = React.createClass({
       type: React.PropTypes.string
     }).isRequired,
     onSave: React.PropTypes.func.isRequired,
-    disableDebounce: React.PropTypes.bool,
     readOnly: React.PropTypes.bool,
     error: React.PropTypes.string,
-    catalogId: React.PropTypes.string,
-    recordId: React.PropTypes.string,
-    fieldId: React.PropTypes.string,
   },
 
   getInitialState() {
@@ -247,22 +235,23 @@ const ContactField = React.createClass({
     this.props.onUpdate(this.lastChangedValue);
   },
 
-  onChangeItem(itemIndex, itemProperty, itemValue) {
+  onChangeItem(itemIndex, itemProperty, value) {
     let newValue = this.props.value;
     let newState = {};
+    // const controlValue = value;
 
     if (!newValue || !newValue.get(itemIndex)) {
       if (!newValue) {
         newValue = Immutable.List();
       }
-      newValue = newValue.push(emptyContact.set(itemProperty, itemValue));
+      newValue = newValue.push(emptyContact.set(itemProperty, value));
 
       _.assign(newState, {
         newItem: null,
         autoFocus: false
       });
     } else {
-      newValue = newValue.setIn([itemIndex, itemProperty], itemValue);
+      newValue = newValue.setIn([itemIndex, itemProperty], value);
     }
 
     this.setState(_.assign(newState, {
@@ -337,20 +326,12 @@ const ContactField = React.createClass({
     });
   },
 
-  onBlur(e) {
-    let val = e.target.value;
-    if (val) {
-      recordActions.clearErrorField(this.props.catalogId, this.props.recordId, this.props.fieldId);
-    }
-  },
-
   render() {
-    let { updateProcess } = this.props;
+    const { updateProcess, readOnly } = this.props;
     let type = this.props.config.get('type');
 
-    let _value = this.props.value;
-    let size = _value && _value.size || 0;
-    let value = size ? _value : emptyList;
+    const size = this.props.value.size;
+    let value = size !== 0 ? this.props.value : emptyList;
 
     let { newItem, lastChanged } = this.state;
 
@@ -376,23 +357,26 @@ const ContactField = React.createClass({
               type={type}
               contactValue={item.get('contact') || ''}
               commentValue={item.get('comment') || ''}
-              contactChangeFn={subValue => this.onChangeItem(index, 'contact', subValue)}
-              commentChangeFn={subValue => this.onChangeItem(index, 'comment', subValue)}
-              readOnly={this.props.readOnly}
-              onBlur={this.onBlur}
-              field={this.props.field}
+              contactChangeFn={value => this.onChangeItem(index, 'contact', value)}
+              commentChangeFn={value => this.onChangeItem(index, 'comment', value)}
+              readOnly={readOnly}
               onUpdate={this.onUpdate}
               contactUpdateProcess={changedIndex === index && changedProperty === 'contact' && updateProcess}
               commentUpdateProcess={changedIndex === index && changedProperty === 'comment' && updateProcess}
               error={this.props.error || null}
             />
             {
-              !this.props.readOnly && !!size &&
-              <span
+              !readOnly && !!size &&
+              <ButtonClose
+                title={trs('record.fields.contact.removeBtnTitle')}
+                onClick={() => this.onRemoveItem(index)}
+                small
+              />
+              /*<span
                 title={trs('record.fields.contact.removeBtnTitle')}
                 className="m-close record-contact__remove-btn"
                 onClick={() => this.onRemoveItem(index)}
-              />
+              />*/
             }
           </div>
         </li>
@@ -419,9 +403,8 @@ const ContactField = React.createClass({
     return (
       <div>
         <Hint
-          className="record-field__body__hint--in-top record__hint--before-contacts"
           text={this.props.hint}
-          readOnly={this.props.readOnly}
+          readOnly={readOnly}
         />
 
         <ul className="record__contacts">
@@ -430,8 +413,14 @@ const ContactField = React.createClass({
         </ul>
 
         {
-          !this.props.readOnly && !newItem &&
-          <AddBtn readOnly={this.props.readOnly} onClick={e => this.onItemAdd()} />
+          !readOnly && !newItem &&
+          <LinkedItem
+            onClick={() => this.onItemAdd()}
+            item={{
+              icon: 'interface-69',
+              text: trs('record.addBtn')
+            }}
+          />
         }
       </div>
     );

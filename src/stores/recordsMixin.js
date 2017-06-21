@@ -346,7 +346,7 @@ const recordsMixin = {
     // catalog = CatalogFactory.setCatalogFields(catalog, records.fields);
     catalog = CatalogFactory.setRecords(catalog, records, query.offset > 0);
     catalog = catalog.merge({
-      _fieldsCreateTime: Date.now(),
+      // _fieldsCreateTime: Date.now(),
       allRecordsLoaded: records.length < query.limit,
       recordsCount: response.headers['x-total-count'],
       loading: false,
@@ -430,7 +430,7 @@ const recordsMixin = {
     let record = this.getIn(['records', catalogId, recordId]);
     let fields = record.get('fields');
     let isNew = record.get('isNew') || false;
-    let errors = [];
+    let errors = {};
     let hasErrors = false;
     let allValues = appState.getIn(['records', catalogId, recordId, 'values']).toJS();
     _.forEach(values, (value, key) => {
@@ -444,13 +444,15 @@ const recordsMixin = {
       let type = field.get('type');
       let empty = !validateField(type, value);
       if (field.get('required') && empty) {
-        errors.push({ fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY });
+        // errors.push({ fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY });
+        errors[field.get('id')] = VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY;
         hasErrors = true;
       }
       switch (field.get('type')) {
         case FIELD_TYPES.NUMBER:
           if (value && (!_.inRange(parseFloat(value), Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER))) {
-            errors.push({ fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY });
+            // errors.push({ fieldId: field.get('id'), error: VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY });
+            errors[field.get('id')] = VALIDATION_ERRORS.REQUIRED_FIELD_EMPTY;
             hasErrors = true;
           }
           break;
@@ -474,14 +476,14 @@ const recordsMixin = {
             values: values
           }).then(success, fail);
       }
-    }
-    else {
+    } else {
       //Ошибка есть - возвращем не сохраняя
       this.setIn(['records', catalogId, recordId, 'saving'], false);
       this.setIn(['records', catalogId, recordId, 'creating'], false);
+      this.setIn(['records', catalogId, recordId, 'errors'], errors);
       this.changed();
     }
-    recordActions.updateErrorFields(catalogId, recordId, errors);
+    // recordActions.updateErrorFields(catalogId, recordId, errors);
   },
 
   uploadFileRecordCompleted(...data) {

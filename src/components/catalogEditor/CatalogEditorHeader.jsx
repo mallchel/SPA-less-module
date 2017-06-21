@@ -9,10 +9,10 @@ import IconsModal from '../common/IconsModal'
 import editorActions from '../../actions/editorActions'
 import apiActions from '../../actions/apiActions'
 import { connect } from '../StateProvider'
-import ButtonTransparent from '../common/elements/ButtonTransparent'
+// import ButtonTransparent from '../common/elements/ButtonTransparent'
 import ButtonClose from '../common/elements/ButtonClose'
 import { renderModaltoBody } from '../common/Modal'
-import catalogActions from '../../actions/catalogActions'
+// import catalogActions from '../../actions/catalogActions'
 
 import styles from './catalogEditor.less'
 
