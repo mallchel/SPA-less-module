@@ -110,14 +110,6 @@ const SelectRemote = React.createClass({
     this.props.onSelectItems(selectedItems);
   },
 
-  filterOption(inputValue, option) {
-    const searchText = inputValue.toLowerCase();
-    const res = option.props.children.toLowerCase().indexOf(searchText);
-    if (res !== -1) {
-      return option;
-    }
-  },
-
   render() {
     let items = this.state.items.concat(this.props.value);
 
@@ -137,9 +129,8 @@ const SelectRemote = React.createClass({
       <SelectWithFilter
         mode="multiple"
         className={styles.selectRemote}
-        defaultValue={this.props.value}
+        value={this.props.value}
         onChange={this.onChange}
-        filterOption={this.filterOption}
         placeholder={this.props.placeholder}
         notFoundContent={trs('dropdown.noitems')}
         onFocus={() => this.onOpenChange(true)}

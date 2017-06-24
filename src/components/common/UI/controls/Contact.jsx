@@ -1,21 +1,19 @@
 import _ from 'lodash'
-import classNames from 'classnames'
+import cn from 'classnames'
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Immutable from 'immutable'
 import $ from 'jquery'
-// import recordActions from '../../../../actions/recordActions'
+import { Row } from 'antd'
 import trs from '../../../../getTranslations'
 import TextInput from './common/TextInput'
 import LinkedItem from '../../../common/LinkedItem'
 import ButtonClose from '../../../common/elements/ButtonClose'
-// import AddBtn from '../addBtn'
-import Hint from '../hint'
 
 import { EMAIL, SITE, PHONE } from '../../../../configs/contactFieldSubTypes'
-import styles from './fields.less'
+import styles from './controls.less'
 
 const log = require('debug')('CRM:Component:Record:ContactField');
 
@@ -127,12 +125,12 @@ const ContactWithComment = React.createClass({
       }
     }
 
-    let contactClasses = classNames('contact-data__contact', contactClassesArr, {
+    let contactClasses = cn(contactClassesArr, {
       'contact-data__contact--with-comment': withComment,
       'contact-data__contact--with-action': action
     });
 
-    let containerClasses = classNames(this.props.className, 'contact-data', containerClassesArr);
+    let containerClasses = cn(this.props.className, containerClassesArr, styles.contactWithCommentRow);
 
     let contactFocusMixin = {
       onFocus: () => this.setState({ contactInFocus: true, wasFocused: true }),
@@ -161,46 +159,81 @@ const ContactWithComment = React.createClass({
     }
 
     return (
-      <div className={containerClasses}>
-        <TextInput
-          className={contactClasses}
-          value={contact}
-          onSave={this.props.contactChangeFn}
-          multiline={multiLine}
-          readOnly={readOnly}
-          tabIndex={this.state.index + 1}
-          error={this.props.error || null}
-          onUpdate={this.props.onUpdate}
-          updateProcess={contactUpdateProcess}
-          actions={actions}
-          {...contactFocusMixin}
-        />
-        {
-          this.state.wasFocused || comment
-            ?
-            <TextInput
-              style={!withComment && { display: 'none' }}
-              className={styles.contactComment}
-              disableDebounce={true}
-              value={comment}
-              onSave={this.props.commentChangeFn}
-              multiline={true}
-              readOnly={readOnly}
-              placeholder={trs('record.fields.contact.commentPlaceHolder')}
-              tabIndex={this.state.index + 2}
-              onUpdate={this.props.onUpdate}
-              updateProcess={commentUpdateProcess}
-              {...commentFocusMixin}
-            />
-            :
-            null
-        }
-      </div>
+      !'scenario' ?
+        <div className={cn(containerClasses)}>
+          <TextInput
+            id={this.props.id}
+            autoFocus={this.props.autoFocus}
+            className={contactClasses}
+            value={contact}
+            onSave={this.props.contactChangeFn}
+            multiline={multiLine}
+            readOnly={readOnly}
+            tabIndex={this.state.index + 1}
+            error={this.props.error || null}
+            onUpdate={this.props.onUpdate}
+            updateProcess={contactUpdateProcess}
+            actions={actions}
+            {...contactFocusMixin}
+          />
+          {
+            this.state.wasFocused || comment
+              ?
+              <TextInput
+                style={!withComment && { display: 'none' }}
+                className={styles.contactComment}
+                disableDebounce={true}
+                value={comment}
+                onSave={this.props.commentChangeFn}
+                multiline={true}
+                readOnly={readOnly}
+                placeholder={trs('record.fields.contact.commentPlaceHolder')}
+                tabIndex={this.state.index + 2}
+                onUpdate={this.props.onUpdate}
+                updateProcess={commentUpdateProcess}
+                {...commentFocusMixin}
+              />
+              :
+              null
+          }
+        </div>
+        :
+        <div>
+          <TextInput
+            id={this.props.id}
+            autoFocus={this.props.autoFocus}
+            className={contactClasses}
+            value={contact}
+            onSave={this.props.contactChangeFn}
+            multiline={multiLine}
+            readOnly={readOnly}
+            tabIndex={this.state.index + 1}
+            error={this.props.error || null}
+            onUpdate={this.props.onUpdate}
+            updateProcess={contactUpdateProcess}
+            actions={actions}
+            {...contactFocusMixin}
+          />
+          <TextInput
+            style={!withComment && { display: 'none' }}
+            className={styles.contactComment}
+            disableDebounce={true}
+            value={comment}
+            onSave={this.props.commentChangeFn}
+            multiline={true}
+            readOnly={readOnly}
+            placeholder={trs('record.fields.contact.commentPlaceHolder')}
+            tabIndex={this.state.index + 2}
+            onUpdate={this.props.onUpdate}
+            updateProcess={commentUpdateProcess}
+            {...commentFocusMixin}
+          />
+        </div>
     );
   }
 });
 
-const ContactField = React.createClass({
+const Contact = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     hint: React.PropTypes.string,
@@ -328,7 +361,7 @@ const ContactField = React.createClass({
 
   render() {
     const { updateProcess, readOnly } = this.props;
-    let type = this.props.config.get('type');
+    const type = this.props.config.get('type');
 
     const size = this.props.value.size;
     let value = size !== 0 ? this.props.value : emptyList;
@@ -347,13 +380,14 @@ const ContactField = React.createClass({
       changedProperty = 'contact';
     }
 
-    let exists = value.map((item, index) => {
+    const exists = value.map((item, index) => {
       return (
         <li className={styles.contactItem} key={index}>
-          <div>
+          <Row type="flex">
             <ContactWithComment
+              scenario
+              id={this.props.htmlId}
               autoFocus={this.state.autoFocus}
-              className="record-contact__data"
               type={type}
               contactValue={item.get('contact') || ''}
               commentValue={item.get('comment') || ''}
@@ -372,29 +406,27 @@ const ContactField = React.createClass({
                 onClick={() => this.onRemoveItem(index)}
                 small
               />
-              /*<span
-                title={trs('record.fields.contact.removeBtnTitle')}
-                className="m-close record-contact__remove-btn"
-                onClick={() => this.onRemoveItem(index)}
-              />*/
             }
-          </div>
+          </Row>
         </li>
       );
     });
 
-    let removed = this.state.removed.map((item, index) => {
+    const removed = this.state.removed.map((item, index) => {
       return (
-        <li className="record-contact" key={index}>
-          <div className="m-text_muted record-contact-restore">
+        <li className={styles.contactRestoreItem} key={index}>
+          <div className={styles.contactRestore}>
             <span
-              className="record-contact-restore__contact"
+              className={styles.contactRestoreText}
               title={item.get('comment') || item.get('contact')}>
               {item.get('contact') || item.get('comment')}
             </span>&nbsp;
-            <a href="javascript:void(0)" className="m-text_muted" onClick={() => this.onRestoreItem(index)}>
-              {trs('record.fields.contact.restore')}
-            </a>
+            <LinkedItem
+              onClick={() => this.onRestoreItem(index)}
+              item={{
+                text: trs('record.fields.contact.restore')
+              }}
+            />
           </div>
         </li>
       );
@@ -402,11 +434,6 @@ const ContactField = React.createClass({
 
     return (
       <div>
-        <Hint
-          text={this.props.hint}
-          readOnly={readOnly}
-        />
-
         <ul className="record__contacts">
           {exists}
           {removed}
@@ -427,4 +454,4 @@ const ContactField = React.createClass({
   }
 });
 
-export default ContactField;
+export default Contact;

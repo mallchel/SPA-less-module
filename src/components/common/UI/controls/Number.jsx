@@ -2,11 +2,9 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import TextInput from './common/TextInput'
 
-// import recordActions from '../../../../../../../../../../actions/recordActions'
+import styles from './controls.less'
 
-import Hint from '../hint'
-
-const NumberField = React.createClass({
+const Number = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     value: React.PropTypes.oneOfType([
@@ -19,10 +17,6 @@ const NumberField = React.createClass({
     disableDebounce: React.PropTypes.bool,
     readOnly: React.PropTypes.bool,
     error: React.PropTypes.string,
-    catalogId: React.PropTypes.string,
-    recordId: React.PropTypes.string,
-    fieldId: React.PropTypes.string,
-    field: React.PropTypes.object,
   },
 
   getInitialState() {
@@ -32,11 +26,11 @@ const NumberField = React.createClass({
   },
 
   render() {
-    const { updateProcess, value, readOnly, onUpdate, hint, htmlId } = this.props;
+    const { updateProcess, value, readOnly, onUpdate, htmlId } = this.props;
     const unit = this.props.config.get('unit');
 
     return (
-      <span className="record-number">
+      <div>
         <TextInput
           id={htmlId}
           type="number"
@@ -45,16 +39,15 @@ const NumberField = React.createClass({
           onUpdate={onUpdate}
           readOnly={readOnly}
           updateProcess={updateProcess}
+          wrapperClassName={styles.numberWrapper}
+          className={styles.numberInput}
         />
         {
-          unit && <span>{unit}</span>
+          unit && <span className={styles.numberUnit}>{unit}</span>
         }
-        {
-          hint && <Hint text={hint} readOnly={readOnly} />
-        }
-      </span>
+      </div>
     );
   }
 });
 
-export default NumberField;
+export default Number;

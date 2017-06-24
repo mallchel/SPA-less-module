@@ -5,18 +5,21 @@ import PropTypes from 'prop-types'
 import { Row } from 'antd'
 import FIELD_TYPES from '../../../configs/fieldTypes'
 
-import styles from './mainTab.less'
+import styles from './controlList.less'
 
-import Hint from './hint'
+import Hint from './controls/common/Hint'
 
-const Control = React.createClass({
+const ControlItem = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     controlConfig: PropTypes.object.isRequired,
     hint: PropTypes.string,
     error: PropTypes.string,
     required: PropTypes.bool,
-    labelRef: PropTypes.func
+    labelRef: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.func
+    ])
   },
 
   render() {
@@ -36,19 +39,17 @@ const Control = React.createClass({
 
         {(() => {
           switch (type) {
-            case FIELD_TYPES.CONTACT:
             case FIELD_TYPES.TEXT:
             case FIELD_TYPES.NUMBER:
-              return <div className={styles.fieldBody}>{this.props.children}</div>;
-
             case FIELD_TYPES.DATE:
             case FIELD_TYPES.PROGRESS:
             case FIELD_TYPES.STARS:
               return <div className={styles.fieldBody}>
                 {this.props.children}
-                <Hint className="record-field__body__hint--in-top" text={hint} readOnly={readOnly} />
+                <Hint text={hint} readOnly={readOnly} />
               </div>;
 
+            case FIELD_TYPES.CONTACT:
             case FIELD_TYPES.DROPDOWN:
             case FIELD_TYPES.CHECKBOXES:
             case FIELD_TYPES.RADIOBUTTON:
@@ -56,7 +57,7 @@ const Control = React.createClass({
             case FIELD_TYPES.OBJECT:
             case FIELD_TYPES.FILE:
               return <div className={styles.fieldBody}>
-                <Hint className="record-field__body__hint--in-top" text={hint} readOnly={readOnly} />
+                <Hint text={hint} readOnly={readOnly} />
                 {this.props.children}
               </div>;
             default:
@@ -69,4 +70,4 @@ const Control = React.createClass({
 
 });
 
-export default Control;
+export default ControlItem;

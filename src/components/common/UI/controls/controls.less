@@ -4,11 +4,16 @@
   Common
 */
 
-.fieldInfo {
+.textOverflow {
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.subInfo {
+  .textOverflow;
   color: @TEXT_MUTED;
   margin-left: @PADDING_BASE;
 }
-
 
 /*
   Stars Field
@@ -50,6 +55,10 @@
   .paddingsLikeInput;
   display: block;
   min-height: @HEIGHT_INPUT;
+}
+
+.radioSelect {
+  width: 210px;
 }
 
 
@@ -142,6 +151,10 @@
   Contact field
 */
 
+.contactWithCommentRow {
+  width: 100%;
+}
+
 .contactComment {
   .input-transparent;
   color: @TEXT_EXTRA;
@@ -153,6 +166,25 @@
 
 .contactItem:not(:last-child) {
   margin-bottom: @PADDING_BASE;
+}
+
+.contactRestoreItem {
+  margin-bottom: @PADDING_BASE;
+}
+
+.contactRestore {
+  color: @TEXT_MUTED;
+  display: flex;
+  align-items: baseline;
+}
+
+.contactRestoreText {
+  overflow: hidden;
+  text-decoration: line-through;
+  word-break: break-all;
+  max-height: 1.3em;
+  line-height: 1.2em;
+  flex-basis: 70%;
 }
 
 
@@ -192,4 +224,33 @@
 
 .timePicker {
   margin-left: @PADDING_BASE;
+}
+
+
+/*
+  Number control
+*/
+
+.numberWrapper {
+  display: inline-block;
+}
+
+.numberInput {
+  width: 100px;
+}
+
+.numberUnit {
+  .subInfo;
+}
+
+
+/*
+  Hint
+*/
+
+.hint {
+  .textOverflow;
+  padding: 4px; // like input horizontal padding
+  color: @TEXT_EXTRA;
+  font-size: 0.85em;
 }

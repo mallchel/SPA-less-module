@@ -2,14 +2,12 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import moment from 'moment'
 import _ from 'lodash'
-import $ from 'jquery'
-import cn from 'classnames'
 import { DatePicker, TimePicker, Input } from 'antd'
 
-import recordActions from '../../../../../../../../../../actions/recordActions'
-// import trs from '../../../../../../../../../../getTranslations'
+// import recordActions from '../../../../actions/recordActions'
+import trs from '../../../../getTranslations'
 
-import styles from './fields.less'
+import styles from './controls.less'
 
 const log = require('debug')('CRM:Component:Record:DateField');
 const API_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
@@ -36,7 +34,7 @@ const MOMENT_TIME_FORMAT = 'HH:mm';
 //   }
 // };
 
-const DateField = React.createClass({
+const DateControl = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     value: React.PropTypes.string,
@@ -45,19 +43,13 @@ const DateField = React.createClass({
     onSave: React.PropTypes.func.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
     readOnly: React.PropTypes.bool,
-    catalogId: React.PropTypes.string,
-    recordId: React.PropTypes.string,
-    fieldId: React.PropTypes.string,
   },
 
   onChange(picker, val) {
     log('Changed field %s value', this.props.fieldId, val);
 
-    console.log(picker, val)
     val = val !== null ? moment(val).format(API_FORMAT) : val;
-    if (val) {
-      recordActions.clearErrorField(this.props.catalogId, this.props.recordId, this.props.fieldId);
-    }
+
     this.props.onSave(val);
     this.props.onUpdate(val);
   },
@@ -74,8 +66,9 @@ const DateField = React.createClass({
       <DatePicker
         defaultValue={value ? moment(value) : null}
         format={MOMENT_DATE_FORMAT}
-        style={{ width: '125px' }}
+        style={{ width: '100px' }}
         onChange={(val) => this.onChange('date', val)}
+        placeholder={trs("fieldTypes.date.name")}
       />
 
     let timeComponent;
@@ -86,18 +79,19 @@ const DateField = React.createClass({
         :
         <TimePicker
           defaultValue={value ? moment(value) : null}
-          style={{ width: '135px' }}
           className={styles.timePicker}
           format={MOMENT_TIME_FORMAT}
+          style={{ width: '100px' }}
           onChange={(val) => this.onChange('time', val)}
           allowEmpty={false}
+          placeholder={trs("fieldTypes.time.name")}
         />
     }
     return (
-      <div className={cn(styles.dateContainer, !value ? ' record-date--empty' : '')}>
+      <div className={styles.dateContainer}>
         {dateComponent}
         {timeComponent}
-        <span className={styles.fieldInfo}>{
+        <span className={styles.subInfo}>{
           value
             ? moment(value, API_FORMAT).fromNow()
             : null
@@ -107,4 +101,4 @@ const DateField = React.createClass({
   }
 });
 
-export default DateField;
+export default DateControl;

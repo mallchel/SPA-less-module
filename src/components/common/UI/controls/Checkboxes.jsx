@@ -6,10 +6,9 @@ import classNames from 'classnames'
 import _ from 'lodash'
 import { Checkbox } from 'antd'
 
-import InputFocusMixin from '../../../../../../../../../mixins/InputFocusMixin'
-import recordActions from '../../../../../../../../../../actions/recordActions'
+import InputFocusMixin from '../../../mixins/InputFocusMixin'
 
-import styles from './fields.less'
+import styles from './controls.less'
 
 function getValuesMap(values) {
   var map = {};
@@ -19,7 +18,7 @@ function getValuesMap(values) {
   return Immutable.fromJS(map);
 }
 
-const CheckboxesField = React.createClass({
+const Checkboxes = React.createClass({
   mixins: [
     PureRenderMixin,
     InputFocusMixin(function () {
@@ -55,7 +54,6 @@ const CheckboxesField = React.createClass({
 
     this.props.onSave(values);
     this.props.onUpdate(values);
-    recordActions.clearErrorField(this.props.catalogId, this.props.recordId, this.props.fieldId);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -65,34 +63,36 @@ const CheckboxesField = React.createClass({
       });
     }
   },
-
   render() {
+    const items = this.props.config.get('items');
     return (
-      <div className="record-radio">
-        {this.props.config.get('items').map((item, key) => {
-          var id = item.get('id');
-          var ref = (key) ? 'input' : 'inputFirst';
-          var selected = this.state.values.get(id);
-          let itemClasses = classNames({
-            [styles.checkboxReadOnly]: this.props.readOnly
-          });
+      <div>
+        {
+          items.map((item, key) => {
+            const id = item.get('id');
+            const ref = (key) ? 'input' : 'inputFirst';
+            const selected = this.state.values.get(id);
+            let itemClasses = classNames({
+              [styles.checkboxReadOnly]: this.props.readOnly
+            });
 
-          return (
-            <Checkbox
-              key={id}
-              disabled={this.props.readOnly}
-              ref={ref}
-              checked={selected}
-              onChange={_.bind(this.onChangeItem, this, id)}
-              className={itemClasses}
-            >
-              {item.get('name')}
-            </Checkbox>
-          );
-        })}
+            return (
+              <Checkbox
+                key={id}
+                disabled={this.props.readOnly}
+                ref={ref}
+                checked={selected}
+                onChange={_.bind(this.onChangeItem, this, id)}
+                className={itemClasses}
+              >
+                {item.get('name')}
+              </Checkbox>
+            );
+          })
+        }
       </div>
     );
   }
 });
 
-export default CheckboxesField;
+export default Checkboxes;

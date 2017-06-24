@@ -2,18 +2,19 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import cn from 'classnames'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
 import { Icon } from 'antd'
 
-import styles from './fields.less'
+import styles from './controls.less'
 
-const StarsField = React.createClass({
+const Stars = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    value: React.PropTypes.number,
-    config: React.PropTypes.object,
-    onSave: React.PropTypes.func.isRequired,
-    onUpdate: React.PropTypes.func.isRequired,
-    readOnly: React.PropTypes.bool
+    value: PropTypes.number,
+    config: PropTypes.object,
+    onSave: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    readOnly: PropTypes.bool
   },
 
   getInitialState() {
@@ -39,7 +40,7 @@ const StarsField = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.value != nextProps.value) {
+    if (this.props.value !== nextProps.value) {
       this.setState({
         value: nextProps.value
       });
@@ -71,4 +72,4 @@ const StarsField = React.createClass({
   }
 });
 
-export default StarsField;
+export default Stars;

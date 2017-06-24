@@ -2,7 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import ReactDOM from 'react-dom'
 import $ from 'jquery'
-import styles from './fields.less'
+import styles from './controls.less'
 
 const ProgressField = React.createClass({
   mixins: [PureRenderMixin],
@@ -36,7 +36,7 @@ const ProgressField = React.createClass({
     this.setState({
       isActive: true
     });
-    $('body').addClass('crm-user-select-none');
+    // $('body').addClass('crm-user-select-none');
     $('body').on('mousemove', this.onMouseMove);
     $('body').on('mouseup', this.onMouseUp);
     this.onMouseMove(e);
@@ -55,7 +55,7 @@ const ProgressField = React.createClass({
   },
 
   onMouseUp(e) {
-    $('body').removeClass('crm-user-select-none');
+    // $('body').removeClass('crm-user-select-none');
     $('body').off('mousemove', this.onMouseMove);
     $('body').off('mouseup', this.onMouseUp);
     this.setState({
@@ -69,7 +69,7 @@ const ProgressField = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (this.props.value !== nextProps.value) {
-      let val = this.getPercents(parseInt(nextProps.value)) || 0;
+      let val = this.getPercents(parseInt(nextProps.value, 10)) || 0;
       this.setState({
         value: val,
         savedValue: val

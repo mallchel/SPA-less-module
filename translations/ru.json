@@ -101,6 +101,9 @@
       "toRelativeText": "± X дней",
       "default": "По умолчанию: текущая дата"
     },
+    "time": {
+      "name": "Время"
+    },
     "dropdown": {
       "name": "Категория",
       "namePlaceholder": "Введите название категории",

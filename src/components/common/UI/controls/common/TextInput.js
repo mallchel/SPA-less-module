@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import cn from 'classnames'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 // import DebouncedInput from '../../../DebouncedInput'
 import { Input, InputNumber } from 'antd'
 
 import trs from '../../../../../getTranslations'
 
-import styles from '../fields.less'
+import styles from '../controls.less'
 
 class TextInputWithActions extends Component {
   state = { actionsWidth: 0 };
@@ -37,7 +37,7 @@ class TextInputWithActions extends Component {
     const actionsCN = cn(actionsClassName, styles.textInputActions);
 
     const { actionsWidth } = this.state;
-    const inputStyle = _.assign({}, style);
+    let inputStyle = _.assign({}, style);
     const actionsStyle = {};
 
     if (actionsWidth) {
@@ -54,6 +54,7 @@ class TextInputWithActions extends Component {
               ref="inputNumber"
               className={inputCN}
               {...props}
+              style={style}
             />
             :
             multiline ?
@@ -64,9 +65,9 @@ class TextInputWithActions extends Component {
                 autosize={{
                   minRows: this.props.minRows
                 }}
-                style={{
+                style={_.assign(inputStyle, {
                   resize: 'none'
-                }}
+                })}
                 className={inputCN}
                 onChange={(e) => { this.props.onChange(e.target.value) }}
               />
@@ -92,7 +93,6 @@ class TextInputWithActions extends Component {
 
 export default class TextInput extends Component {
   onSave = value => {
-    console.log(value)
     this.props.onSave && this.props.onSave(value);
   };
 

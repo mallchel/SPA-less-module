@@ -5,19 +5,19 @@ import Reflux from 'reflux'
 import Immutable from 'immutable'
 import cn from 'classnames'
 import PropTypes from 'prop-types'
-import DropdownRemote from '../../../../../../../../../common/DropdownRemote'
-import { If } from '../../../../../../../../../common/ifc'
-import trs from '../../../../../../../../../../getTranslations'
-import modalsActions from '../../../../../../../../../../actions/modalsActions'
+import DropdownRemote from '../../../common/DropdownRemote'
+import { If } from '../../../common/ifc'
+import trs from '../../../../getTranslations'
+import modalsActions from '../../../../actions/modalsActions'
 import AddBtn from '../addBtn'
-import recordActions from '../../../../../../../../../../actions/recordActions'
-import FieldErrorsStore from '../../../../../../../../../../stores/FieldErrorsStore'
-import LinkedItem from '../../../../../../../../../common/LinkedItem'
+import recordActions from '../../../../actions/recordActions'
+// import FieldErrorsStore from '../../../../../../../../../../stores/FieldErrorsStore'
+import LinkedItem from '../../../common/LinkedItem'
 
 const log = require('debug')('CRM:Component:Record:RemoteDropdown');
 
 const RecordDropdown = React.createClass({
-  mixins: [PureRenderMixin, Reflux.listenTo(FieldErrorsStore, "onFocusEvent")],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     value: PropTypes.object,

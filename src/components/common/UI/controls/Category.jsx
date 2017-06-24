@@ -4,9 +4,8 @@ import Immutable from 'immutable'
 import tinycolor from 'tinycolor2'
 import _ from 'lodash'
 import { Tag } from 'antd'
-import recordActions from '../../../../../../../../../../actions/recordActions'
 
-import styles from './fields.less'
+import styles from './controls.less'
 
 function getValuesMap(values) {
   let map = {};
@@ -16,7 +15,7 @@ function getValuesMap(values) {
   return Immutable.fromJS(map);
 }
 
-const DropdownField = React.createClass({
+const Category = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     value: React.PropTypes.object,
@@ -53,7 +52,6 @@ const DropdownField = React.createClass({
 
     this.props.onSave(values);
     this.props.onUpdate(values);
-    recordActions.clearErrorField(this.props.catalogId, this.props.recordId, this.props.fieldId);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -67,25 +65,27 @@ const DropdownField = React.createClass({
   render() {
     return (
       <div>
-        {this.props.config.get('items').map((item) => {
-          const id = item.get('id');
-          const selected = this.state.values.get(id);
-          const backgroundColor = '#' + item.get('color');
-          const color = tinycolor(backgroundColor).darken(65).toString();
-          return (
-            <Tag
-              key={id}
-              onClick={_.bind(this.onClickItem, this, id)}
-              style={selected && !this.props.readOnly ? { backgroundColor: backgroundColor, border: '1px solid rgba(0,0,0,0.1)', color: color } : { backgroundColor: 'transparent' }}
-              className={styles.tags}
-            >
-              {item.get('name')}
-            </Tag>
-          );
-        })}
+        {
+          this.props.config.get('items').map((item) => {
+            const id = item.get('id');
+            const selected = this.state.values.get(id);
+            const backgroundColor = '#' + item.get('color');
+            const color = tinycolor(backgroundColor).darken(65).toString();
+            return (
+              <Tag
+                key={id}
+                onClick={_.bind(this.onClickItem, this, id)}
+                style={selected && !this.props.readOnly ? { backgroundColor: backgroundColor, border: '1px solid rgba(0,0,0,0.1)', color: color } : { backgroundColor: 'transparent' }}
+                className={styles.tags}
+              >
+                {item.get('name')}
+              </Tag>
+            );
+          })
+        }
       </div>
     );
   }
 });
 
-export default DropdownField;
+export default Category;

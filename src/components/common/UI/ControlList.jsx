@@ -6,27 +6,25 @@ import Immutable from 'immutable'
 import FIELD_TYPES from '../../../configs/fieldTypes'
 import trs from '../../../getTranslations'
 import ControlItem from './ControlItem'
-// import apiActions from '../../../actions/apiActions'
-// import recordActions from '../../../actions/recordActions'
 
-import styles from './mainTab.less'
+import styles from './controlList.less'
 
 const fieldComponentsByType = {
-  [FIELD_TYPES.TEXT]: require('./fields/TextField').default,
-  [FIELD_TYPES.CONTACT]: require('./fields/ContactField').default,
-  [FIELD_TYPES.NUMBER]: require('./fields/NumberField').default,
-  // [FIELD_TYPES.DATE]: require('./fields/DateField').default,
+  [FIELD_TYPES.TEXT]: require('./controls/Text').default,
+  [FIELD_TYPES.CONTACT]: require('./controls/Contact').default,
+  [FIELD_TYPES.NUMBER]: require('./controls/Number').default,
+  [FIELD_TYPES.DATE]: require('./controls/Date').default,
 
-  // [FIELD_TYPES.DROPDOWN]: require('./fields/DropdownField').default,
-  // [FIELD_TYPES.CHECKBOXES]: require('./fields/CheckboxesField').default,
-  // [FIELD_TYPES.RADIOBUTTON]: require('./fields/RadiobuttonField').default,
+  [FIELD_TYPES.DROPDOWN]: require('./controls/Category').default,
+  [FIELD_TYPES.CHECKBOXES]: require('./controls/Checkboxes').default,
+  [FIELD_TYPES.RADIOBUTTON]: require('./controls/Radiobutton').default,
 
-  // [FIELD_TYPES.PROGRESS]: require('./fields/ProgressField').default,
-  // [FIELD_TYPES.STARS]: require('./fields/StarsField').default,
+  [FIELD_TYPES.PROGRESS]: require('./controls/Progress').default,
+  [FIELD_TYPES.STARS]: require('./controls/Stars').default,
 
-  // [FIELD_TYPES.OBJECT]: require('./fields/ObjectField').default,
-  // [FIELD_TYPES.USER]: require('./fields/UserField').default,
-  // [FIELD_TYPES.FILE]: require('./fields/FileField').default,
+  // [FIELD_TYPES.OBJECT]: require('./controls/ObjectField').default,
+  [FIELD_TYPES.USER]: require('./controls/User').default,
+  // [FIELD_TYPES.FILE]: require('./controls/FileField').default,
 };
 
 let idPrefix = 0;
@@ -40,8 +38,7 @@ class ControlList extends Component {
   }
 
   state = {
-    open: true,
-    errors: []
+    open: true
   }
 
   idPrefix = idPrefix++;
@@ -76,7 +73,6 @@ class ControlList extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.errorControl)
     if (this.errorControl) {
       this.errorControl.focus();
     }
@@ -134,13 +130,9 @@ class ControlList extends Component {
                     const Control = fieldComponentsByType[controlConfig.get('type')];
 
                     const htmlId = this.idPrefix + controlConfig.get('id');
-
                     return (
                       <ControlItem
-                        labelRef={firstError && firstError.get('id') === controlConfig.get('id') && (node => {
-                         this.errorControl = node
-                         console.log(node)
-                        })}
+                        labelRef={firstError && firstError.get('id') === controlConfig.get('id') && (node => this.errorControl = node)}
                         htmlId={htmlId}
                         key={controlConfig.get('id')}
                         controlConfig={controlConfig}

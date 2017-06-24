@@ -428,7 +428,7 @@ const recordsMixin = {
 
   validateAndSaveRecord(catalogId, recordId, values, success, fail) {
     let record = this.getIn(['records', catalogId, recordId]);
-    let fields = record.get('fields');
+    let fields = this.getIn(['catalogs', catalogId, 'fields']);
     let isNew = record.get('isNew') || false;
     let errors = {};
     let hasErrors = false;
@@ -462,8 +462,11 @@ const recordsMixin = {
       return null;
     });
 
-    //Если ошибки нет, то создаем или сохраняем запись
+    // Если ошибки нет, то создаем или сохраняем запись
     if (!hasErrors) {
+      this.setIn(['records', catalogId, recordId, 'errors'], errors);
+      this.changed();
+
       if (isNew) {
         apiActions.createRecord({
           catalogId: catalogId,
@@ -477,13 +480,13 @@ const recordsMixin = {
           }).then(success, fail);
       }
     } else {
-      //Ошибка есть - возвращем не сохраняя
+      // Ошибка есть - возвращем не сохраняя
       this.setIn(['records', catalogId, recordId, 'saving'], false);
       this.setIn(['records', catalogId, recordId, 'creating'], false);
       this.setIn(['records', catalogId, recordId, 'errors'], errors);
       this.changed();
     }
-    // recordActions.updateErrorFields(catalogId, recordId, errors);
+    recordActions.updateErrorFields(catalogId, recordId, errors);
   },
 
   uploadFileRecordCompleted(...data) {
@@ -496,8 +499,7 @@ const recordsMixin = {
     this.setIn(['records', catalogId, newRecordId], RecordFactory.create({
       id: newRecordId,
       isNew: true,
-      values: {},
-      fields
+      values: {}
     }));
     // remove files and id from contacts
     fields.forEach(field => {

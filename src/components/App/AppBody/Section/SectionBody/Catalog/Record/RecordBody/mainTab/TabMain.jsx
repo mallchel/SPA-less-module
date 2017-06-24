@@ -1,13 +1,9 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import classNames from 'classnames'
-import Immutable from 'immutable'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 
-import FIELD_TYPES from '../../../../../../../../../configs/fieldTypes'
-// import appState from '../../../../../../../../../appState'
-// import Section from './Section'
 import ControlList from '../../../../../../../../common/UI/ControlList'
 import recordActions from '../../../../../../../../../actions/recordActions'
 import { connect } from '../../../../../../../../StateProvider'
@@ -47,6 +43,31 @@ const TabMain = React.createClass({
     });
   },
 
+  // updateErrorFields(event) {
+  //   if (event.event === 'onErrors') {
+  //     console.log(event)
+  //     const catalogId =  this.props.catalog.get('id');
+  //     const recordId = this.props.record.get('id');
+
+  //     if (event.errors[catalogId]) {
+  //       this.setState({ errors: event.errors[catalogId][recordId] });
+  //     }
+
+  //     const fields = this.props.catalog.get('fields');
+  //     let sectionHasErrors = false;
+  //     fields.forEach((field) => {
+  //       _.forEach(this.state.errors, (error) => {
+  //         if (error.fieldId === field.get('id')) {
+  //           sectionHasErrors = true;
+  //         }
+  //       });
+  //     });
+  //     if (sectionHasErrors) {
+  //       this.setState({ open: true });
+  //     }
+  //   }
+  // },
+
   onUpdateField(controlId, data) {
     const catalogId = this.props.catalog.get('id');
     const record = this.props.record;
@@ -70,8 +91,7 @@ const TabMain = React.createClass({
           fieldId: controlId
         });
     }
-
-    recordActions.clearErrorField(catalogId, recordId || this.props.newRecordId.get(catalogId));
+    recordActions.clearErrorField(catalogId, recordId || this.props.newRecordId.get(catalogId), controlId);
   },
 
   mapFields(fields) {

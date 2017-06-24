@@ -10,18 +10,19 @@ const RecordController = React.createClass({
     const recordId = this.props.recordId;
     const catalogId = this.props.catalogId;
 
-    if (recordId == '$new') {
+    if (recordId === '$new') {
       recordActions.createNewRecord({ catalogId });
     } else if (recordId && catalogId) {
-      apiActions.getRecord({ recordId, catalogId: this.props.catalogId });
+      apiActions.getRecord({ recordId, catalogId: catalogId });
     }
-    catalogId && apiActions.getCatalog({ catalogId: this.props.catalogId });
+    catalogId && apiActions.getCatalog({ catalogId: catalogId });
   },
 
   componentWillReceiveProps(nextProps) {
-    let recordId = this.props.recordId;
-    let newRecordId = nextProps.recordId;
-    if (newRecordId == '$new' && newRecordId !== recordId) {
+    const recordId = this.props.recordId;
+    const newRecordId = nextProps.recordId;
+
+    if (newRecordId === '$new' && newRecordId !== recordId) {
       recordActions.createNewRecord({ catalogId: this.props.catalogId });
       apiActions.getCatalog({ catalogId: this.props.catalogId });
     } else if (newRecordId && newRecordId !== recordId) {

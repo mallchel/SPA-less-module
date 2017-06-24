@@ -1,5 +1,7 @@
 import React from 'react'
-import classNames from 'classnames'
+import cn from 'classnames'
+
+import styles from '../controls.less'
 
 const RecordFiledHint = React.createClass({
   propTypes: {
@@ -12,9 +14,7 @@ const RecordFiledHint = React.createClass({
       return null;
     }
 
-    let classes = classNames(this.props.className, 'record-field__body__hint', {
-      'record-field__body__hint--read-only': this.props.readOnly
-    });
+    let classes = cn(this.props.className, styles.hint);
 
     return (
       <div className={classes}>{this.props.text}</div>

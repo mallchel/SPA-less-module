@@ -2,18 +2,16 @@ import Reflux from 'reflux';
 import _ from 'lodash';
 
 import recordActions from '../actions/recordActions'
-import AppState from '../appState';
-
-const log = require('debug')('CRM:Store:focusStore');
 
 export default Reflux.createStore({
   listenables: [recordActions],
-  errors : [],
-  updateErrorFields (catalogId, recordId, errors) {
+  errors: {},
+  updateErrorFields(catalogId, recordId, errors) {
     if (this.errors[catalogId] === undefined) {
-      this.errors[catalogId] = [];
+      this.errors[catalogId] = {};
     }
     this.errors[catalogId][recordId] = errors;
+    console.log(this.errors, errors)
     let event = {
       event: 'onErrors', errors: this.errors
     };
@@ -22,22 +20,23 @@ export default Reflux.createStore({
   },
   clearErrorField(catalogId, recordId, fieldId) {
     if (this.errors && this.errors[catalogId] && this.errors[catalogId][recordId]) {
-      let errors = [];
-      _.forEach(this.errors[catalogId][recordId], (error) => {
-        if (error.fieldId != fieldId) {
-          errors.push(error);
-        }
-      });
-      this.errors[catalogId][recordId] = errors;
+      delete this.errors[catalogId][recordId][fieldId]
+
+      // // for (let id in this.errors[catalogId][recordId]) {
+      // //   if (id !== fieldId) {
+      // //     errors[id] = this.errors[catalogId][recordId][id];
+      // //   }
+      // // }
+      // this.errors[catalogId][recordId] = errors;
       let event = {
         event: 'onErrors', errors: this.errors
       };
       this.trigger(event);
     }
   },
-  clearErrors({catalogId}) {
+  clearErrors({ catalogId }) {
     //if (!this.errors[catalogId]) {
-      this.errors[catalogId] = [];
+    this.errors[catalogId] = [];
     //}
   },
   moveFocusToError(catalogId, recordId) {
